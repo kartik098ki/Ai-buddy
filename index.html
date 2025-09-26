@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TravelAI - Your Intelligent Travel Companion</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         :root {
             --primary-color: #6366f1;
@@ -14,6 +15,9 @@
             --text-primary: #f1f5f9;
             --text-secondary: #94a3b8;
             --accent: #f43f5e;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
         }
 
         * {
@@ -69,230 +73,99 @@
             color: var(--primary-color);
         }
 
-        .auth-buttons {
+        .weather-widget {
             display: flex;
-            gap: 1rem;
-        }
-
-        .btn {
+            align-items: center;
+            gap: 0.75rem;
+            background-color: rgba(99, 102, 241, 0.1);
             padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            border: none;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
+            border-radius: 2rem;
+            border: 1px solid rgba(99, 102, 241, 0.3);
         }
 
-        .btn-outline {
-            background-color: transparent;
-            color: var(--primary-color);
-            border: 1px solid var(--primary-color);
+        .weather-temp {
+            font-size: 1.2rem;
+            font-weight: 600;
         }
 
-        .btn-outline:hover {
-            background-color: var(--primary-color);
-            color: white;
+        .weather-icon {
+            color: #fbbf24;
+            font-size: 1.2rem;
         }
 
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
+        .weather-location {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
         }
 
-        .btn-primary:hover {
-            background-color: var(--secondary-color);
-        }
-
-        /* Main Content */
-        main {
-            margin-top: 80px;
-            padding: 2rem;
-            max-width: 1400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Hero Section with Chat Interface */
+        /* Hero Section - Exact Match to Screenshot */
         .hero {
+            height: 100vh;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-            margin-bottom: 4rem;
-        }
-
-        .hero-title {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            text-align: center;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .hero-subtitle {
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            text-align: center;
-            font-size: 1.1rem;
+            padding: 2rem;
+            position: relative;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a2332 100%);
         }
 
         .chat-container {
-            background-color: var(--card-bg);
-            border-radius: 1rem;
-            padding: 2rem;
             width: 100%;
-            max-width: 800px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            text-align: center;
         }
 
         .chat-header {
-            text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 3rem;
         }
 
-        .chat-header h2 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
+        .chat-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
         }
 
         .chat-header p {
             color: var(--text-secondary);
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
 
-        .language-selector {
+        .popular-searches {
             display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
             flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
 
-        .lang-btn {
+        .search-chip {
             background-color: rgba(99, 102, 241, 0.1);
             border: 1px solid rgba(99, 102, 241, 0.3);
             color: var(--text-secondary);
-            padding: 0.4rem 0.8rem;
-            border-radius: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
             font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .lang-btn.active {
-            background-color: var(--primary-color);
-            color: white;
+        .search-chip:hover {
+            background-color: rgba(99, 102, 241, 0.2);
             border-color: var(--primary-color);
-        }
-
-        .chat-messages {
-            height: 300px;
-            overflow-y: auto;
-            padding: 1rem;
-            background-color: rgba(30, 41, 59, 0.5);
-            border-radius: 0.75rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .message {
-            margin-bottom: 1rem;
-            display: flex;
-            gap: 0.75rem;
-        }
-
-        .message.user {
-            justify-content: flex-end;
-        }
-
-        .message-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .message.user .message-avatar {
-            background-color: var(--secondary-color);
-            order: 2;
-        }
-
-        .message.ai .message-avatar {
-            background-color: var(--primary-color);
-        }
-
-        .message-content {
-            max-width: 80%;
-            padding: 0.75rem 1rem;
-            border-radius: 0.75rem;
-            line-height: 1.5;
-        }
-
-        .message.user .message-content {
-            background-color: rgba(139, 92, 246, 0.2);
-            order: 1;
-        }
-
-        .message.ai .message-content {
-            background-color: rgba(99, 102, 241, 0.2);
-        }
-
-        .message-time {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin-top: 0.25rem;
-            text-align: right;
-        }
-
-        .message.user .message-time {
-            text-align: left;
-        }
-
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            padding: 0.75rem 1rem;
-            background-color: rgba(99, 102, 241, 0.2);
-            border-radius: 0.75rem;
-            width: fit-content;
-        }
-
-        .typing-indicator span {
-            width: 8px;
-            height: 8px;
-            background-color: var(--text-secondary);
-            border-radius: 50%;
-            animation: typing 1.4s infinite;
-        }
-
-        .typing-indicator span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-indicator span:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes typing {
-            0%, 60%, 100% {
-                transform: translateY(0);
-            }
-            30% {
-                transform: translateY(-10px);
-            }
+            color: var(--text-primary);
         }
 
         .chat-input-container {
             display: flex;
             align-items: center;
-            background-color: rgba(30, 41, 59, 0.5);
+            background-color: var(--card-bg);
             border-radius: 2rem;
-            padding: 0.75rem 1.5rem;
-            margin-bottom: 1rem;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .chat-input {
@@ -302,8 +175,6 @@
             color: var(--text-primary);
             outline: none;
             font-size: 1rem;
-            resize: none;
-            max-height: 100px;
         }
 
         .chat-input::placeholder {
@@ -326,32 +197,17 @@
             background-color: rgba(99, 102, 241, 0.2);
         }
 
-        .upgrade-banner {
-            background-color: rgba(244, 63, 94, 0.1);
-            border: 1px solid rgba(244, 63, 94, 0.3);
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
-        }
-
-        .upgrade-banner a {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        /* Features Section */
-        .features {
-            margin-bottom: 4rem;
+        /* Hidden Gems Section */
+        .hidden-gems {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .section-title {
-            font-size: 2rem;
-            margin-bottom: 2rem;
             text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
             position: relative;
         }
 
@@ -367,131 +223,73 @@
             border-radius: 3px;
         }
 
-        .features-grid {
+        .gems-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .feature-card {
-            background-color: var(--card-bg);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s, box-shadow 0.3s;
-            text-align: center;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .feature-card h3 {
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-
-        .feature-card p {
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        /* Places Section */
-        .places {
-            margin-bottom: 4rem;
-        }
-
-        .places-tabs {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .tab-btn {
-            background-color: var(--card-bg);
-            border: none;
-            color: var(--text-secondary);
-            padding: 0.75rem 1.5rem;
-            border-radius: 2rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-
-        .tab-btn.active {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .places-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
         }
 
-        .place-card {
+        .gem-card {
             background-color: var(--card-bg);
             border-radius: 1rem;
             overflow: hidden;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s;
+            position: relative;
         }
 
-        .place-card:hover {
+        .gem-card:hover {
             transform: translateY(-10px);
         }
 
-        .place-img {
+        .gem-img {
             width: 100%;
             height: 200px;
             object-fit: cover;
         }
 
-        .place-content {
+        .gem-content {
             padding: 1.5rem;
         }
 
-        .place-title {
+        .gem-title {
             font-size: 1.2rem;
             margin-bottom: 0.5rem;
-        }
-
-        .place-rating {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            margin-bottom: 1rem;
-            color: #fbbf24;
         }
 
-        .place-description {
+        .gem-badge {
+            background-color: var(--accent);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 1rem;
+        }
+
+        .gem-description {
             color: var(--text-secondary);
             font-size: 0.9rem;
             margin-bottom: 1rem;
             line-height: 1.5;
         }
 
-        .place-footer {
+        .gem-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .place-distance {
+        .gem-location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             color: var(--text-secondary);
             font-size: 0.9rem;
         }
 
-        .place-btn {
+        .gem-btn {
             background-color: var(--primary-color);
             color: white;
             border: none;
@@ -502,279 +300,293 @@
             transition: background-color 0.3s;
         }
 
-        .place-btn:hover {
+        .gem-btn:hover {
             background-color: var(--secondary-color);
         }
 
-        /* Live Features Section */
-        .live-features {
-            margin-bottom: 4rem;
+        /* Book Your Activity Section */
+        .book-activity {
+            padding: 5rem 2rem;
+            background-color: #0a0f1c;
         }
 
-        .live-features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+        .activity-container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .live-feature-card {
-            background-color: var(--card-bg);
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .live-feature-header {
+        .activity-tabs {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .live-feature-title {
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .live-indicator {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background-color: #10b981;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
-            }
-        }
-
-        .weather-display {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .weather-temp {
-            font-size: 3rem;
-            font-weight: bold;
-        }
-
-        .weather-icon {
-            font-size: 3rem;
-            color: #fbbf24;
-        }
-
-        .weather-details {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
             gap: 1rem;
         }
 
-        .weather-detail {
+        .activity-tab {
+            background-color: var(--card-bg);
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .activity-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .activity-card {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .activity-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .activity-content {
+            padding: 1.5rem;
+        }
+
+        .activity-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .activity-price {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-current {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .price-original {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-decoration: line-through;
+        }
+
+        .activity-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: #fbbf24;
+        }
+
+        .activity-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .activity-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .activity-duration {
             display: flex;
             align-items: center;
             gap: 0.5rem;
             color: var(--text-secondary);
+            font-size: 0.9rem;
         }
 
-        .crowd-levels {
+        .activity-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+
+        .activity-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* AI Response Section */
+        .ai-response {
+            display: none;
+            padding: 2rem;
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            margin-top: 2rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .ai-response.active {
+            display: block;
+        }
+
+        .ai-response-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .ai-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .ai-response-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        .ai-response-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .ai-map {
+            height: 400px;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        .ai-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .ai-detail-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+        }
+
+        .ai-detail-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ai-detail-title i {
+            color: var(--primary-color);
+        }
+
+        .ai-crowd-levels {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .ai-crowd-location {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 0.5rem;
+        }
+
+        .ai-crowd-bar {
+            width: 100px;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .ai-crowd-fill {
+            height: 100%;
+            border-radius: 3px;
+        }
+
+        .ai-activities {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .ai-activity {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 0.5rem;
+        }
+
+        .ai-activity-icon {
+            color: var(--secondary-color);
+            margin-top: 0.2rem;
+        }
+
+        .ai-activity-details {
+            flex: 1;
+        }
+
+        .ai-activity-title {
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .ai-activity-time {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .ai-plan {
             display: flex;
             flex-direction: column;
             gap: 1rem;
         }
 
-        .crowd-location {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem;
-            background-color: rgba(30, 41, 59, 0.5);
-            border-radius: 0.5rem;
-        }
-
-        .crowd-bar {
-            width: 100px;
-            height: 8px;
-            background-color: rgba(30, 41, 59, 0.5);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .crowd-fill {
-            height: 100%;
-            border-radius: 4px;
-        }
-
-        .crowd-low {
-            background-color: #10b981;
-            width: 30%;
-        }
-
-        .crowd-medium {
-            background-color: #f59e0b;
-            width: 60%;
-        }
-
-        .crowd-high {
-            background-color: #ef4444;
-            width: 90%;
-        }
-
-        /* Travel Planning Section */
-        .travel-planning {
-            margin-bottom: 4rem;
-        }
-
-        .planning-form {
-            background-color: var(--card-bg);
-            border-radius: 1rem;
-            padding: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 0.5rem;
-            color: var(--text-primary);
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .form-control:focus {
-            border-color: var(--primary-color);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .plan-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: background-color 0.3s;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .plan-btn:hover {
-            background-color: var(--secondary-color);
-        }
-
-        .travel-plan-result {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background-color: rgba(99, 102, 241, 0.1);
+        .ai-plan-day {
+            background-color: rgba(255, 255, 255, 0.05);
             border-radius: 0.75rem;
-            display: none;
-        }
-
-        .plan-day {
-            margin-bottom: 1.5rem;
-        }
-
-        .plan-day-title {
-            font-size: 1.2rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-
-        .plan-activity {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
-            padding-left: 1rem;
-        }
-
-        .plan-activity-icon {
-            color: var(--secondary-color);
-            margin-top: 0.2rem;
-        }
-
-        /* Gallery Section */
-        .gallery {
-            margin-bottom: 4rem;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
-        }
-
-        .gallery-item {
-            position: relative;
-            border-radius: 0.75rem;
-            overflow: hidden;
-            height: 200px;
-            cursor: pointer;
-        }
-
-        .gallery-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s;
-        }
-
-        .gallery-item:hover .gallery-img {
-            transform: scale(1.05);
-        }
-
-        .gallery-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
             padding: 1rem;
-            color: white;
         }
 
-        .gallery-title {
+        .ai-plan-day-title {
             font-weight: 500;
-            margin-bottom: 0.25rem;
-        }
-
-        .gallery-location {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.75rem;
+            color: var(--primary-color);
         }
 
         /* Footer */
@@ -862,7 +674,7 @@
         }
 
         @media (max-width: 768px) {
-            .nav-links, .auth-buttons {
+            .nav-links {
                 display: none;
             }
 
@@ -870,35 +682,26 @@
                 display: flex;
             }
 
-            .hero-title {
+            .chat-header h1 {
                 font-size: 2rem;
             }
 
-            .hero-subtitle {
-                font-size: 1rem;
-            }
-
-            .features-grid, .places-grid, .live-features-grid, .gallery-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .places-tabs {
+            .popular-searches {
                 justify-content: flex-start;
                 overflow-x: auto;
                 padding-bottom: 0.5rem;
             }
 
-            .weather-display {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .weather-details {
+            .gems-grid, .activity-grid {
                 grid-template-columns: 1fr;
             }
 
-            .form-row {
+            .ai-response-content {
                 grid-template-columns: 1fr;
+            }
+
+            .ai-map {
+                height: 300px;
             }
         }
     </style>
@@ -912,15 +715,13 @@
         </div>
         <ul class="nav-links">
             <li><a href="#home">Home</a></li>
-            <li><a href="#features">Features</a></li>
-            <li><a href="#places">Places</a></li>
-            <li><a href="#live">Live Updates</a></li>
-            <li><a href="#planning">Plan Trip</a></li>
-            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#gems">Hidden Gems</a></li>
+            <li><a href="#activities">Activities</a></li>
         </ul>
-        <div class="auth-buttons">
-            <button class="btn btn-outline">Log In</button>
-            <button class="btn btn-primary">Sign Up</button>
+        <div class="weather-widget">
+            <i class="fas fa-sun weather-icon"></i>
+            <span class="weather-temp">28°C</span>
+            <span class="weather-location">Mumbai</span>
         </div>
         <div class="hamburger">
             <span></span>
@@ -929,389 +730,432 @@
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section with Chat Interface -->
-        <section class="hero" id="home">
-            <h1 class="hero-title">Your AI Travel Companion</h1>
-            <p class="hero-subtitle">Discover amazing places, plan your trips, and explore the world with the power of AI</p>
-            
-            <div class="chat-container">
-                <div class="chat-header">
-                    <h2>What's on the agenda today?</h2>
-                    <p>Ask anything about your travel plans</p>
-                </div>
-                
-                <div class="language-selector">
-                    <button class="lang-btn active">English</button>
-                    <button class="lang-btn">हिंदी</button>
-                    <button class="lang-btn">मराठी</button>
-                    <button class="lang-btn">বাংলা</button>
-                    <button class="lang-btn">தமிழ்</button>
-                    <button class="lang-btn">తెలుగు</button>
-                </div>
-                
-                <div class="chat-messages" id="chatMessages">
-                    <div class="message ai">
-                        <div class="message-avatar">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <div>
-                            <div class="message-content">
-                                Hello! I'm your AI travel assistant. How can I help you plan your trip today?
-                            </div>
-                            <div class="message-time">10:30 AM</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="chat-input-container">
-                    <textarea class="chat-input" id="chatInput" placeholder="Ask anything..." rows="1"></textarea>
-                    <button class="voice-btn"><i class="fas fa-microphone"></i></button>
-                    <button class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
-                </div>
-                
-                <div class="upgrade-banner">
-                    <span>Unlock extra messages, images & more</span>
-                    <a href="#">Upgrade plan</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Features Section -->
-        <section class="features" id="features">
-            <h2 class="section-title">Amazing Features</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-language"></i>
-                    </div>
-                    <h3>Multi-language Support</h3>
-                    <p>Chat with our AI in any Indian language. Break down language barriers and communicate naturally.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-map-marked-alt"></i>
-                    </div>
-                    <h3>Smart Trip Planning</h3>
-                    <p>Tell us your budget and preferences, and our AI will create the perfect itinerary for your journey.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-comments"></i>
-                    </div>
-                    <h3>Interactive Chat</h3>
-                    <p>Have a conversation with our AI travel assistant. Get recommendations, ask questions, and plan your trip.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-microphone-alt"></i>
-                    </div>
-                    <h3>Voice Commands</h3>
-                    <p>Use your voice to interact with our AI. Perfect for when you're on the go or need hands-free assistance.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Places Section -->
-        <section class="places" id="places">
-            <h2 class="section-title">Explore Places</h2>
-            
-            <div class="places-tabs">
-                <button class="tab-btn active">Cafes</button>
-                <button class="tab-btn">Hotels</button>
-                <button class="tab-btn">Restaurants</button>
-                <button class="tab-btn">Attractions</button>
-                <button class="tab-btn">Hidden Gems</button>
+    <!-- Hero Section - Exact Match to Screenshot -->
+    <section class="hero" id="home">
+        <div class="chat-container">
+            <div class="chat-header">
+                <h1>What's on the agenda today?</h1>
+                <p>Ask anything about your travel plans</p>
             </div>
             
-            <div class="places-grid">
-                <div class="place-card">
-                    <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Cafe" class="place-img">
-                    <div class="place-content">
-                        <h3 class="place-title">The Artisan Cafe</h3>
-                        <div class="place-rating">
-                            <i class="fas fa-star"></i>
-                            <span>4.7 (128 reviews)</span>
-                        </div>
-                        <p class="place-description">Cozy cafe with artisanal coffee and fresh pastries. Perfect for remote work or catching up with friends.</p>
-                        <div class="place-footer">
-                            <span class="place-distance">0.8 km away</span>
-                            <button class="place-btn">Visit</button>
-                        </div>
-                    </div>
+            <div class="popular-searches">
+                <div class="search-chip">
+                    <i class="fas fa-search"></i>
+                    <span>Weekend trip to Goa</span>
                 </div>
-                
-                <div class="place-card">
-                    <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Hotel" class="place-img">
-                    <div class="place-content">
-                        <h3 class="place-title">Grand Heritage Hotel</h3>
-                        <div class="place-rating">
-                            <i class="fas fa-star"></i>
-                            <span>4.9 (324 reviews)</span>
-                        </div>
-                        <p class="place-description">Luxury hotel with stunning views and world-class amenities. Experience comfort like never before.</p>
-                        <div class="place-footer">
-                            <span class="place-distance">2.3 km away</span>
-                            <button class="place-btn">Book</button>
-                        </div>
-                    </div>
+                <div class="search-chip">
+                    <i class="fas fa-search"></i>
+                    <span>Hidden gems in Rajasthan</span>
                 </div>
-                
-                <div class="place-card">
-                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Restaurant" class="place-img">
-                    <div class="place-content">
-                        <h3 class="place-title">Spice Garden</h3>
-                        <div class="place-rating">
-                            <i class="fas fa-star"></i>
-                            <span>4.8 (215 reviews)</span>
-                        </div>
-                        <p class="place-description">Authentic local cuisine with a modern twist. A culinary journey through traditional flavors.</p>
-                        <div class="place-footer">
-                            <span class="place-distance">1.2 km away</span>
-                            <button class="place-btn">Reserve</button>
-                        </div>
-                    </div>
+                <div class="search-chip">
+                    <i class="fas fa-search"></i>
+                    <span>Best cafes in Mumbai</span>
                 </div>
-                
-                <div class="place-card">
-                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Attraction" class="place-img">
-                    <div class="place-content">
-                        <h3 class="place-title">Sunset Point</h3>
-                        <div class="place-rating">
-                            <i class="fas fa-star"></i>
-                            <span>4.9 (512 reviews)</span>
-                        </div>
-                        <p class="place-description">Breathtaking viewpoint offering panoramic sunset views. A must-visit spot for photographers.</p>
-                        <div class="place-footer">
-                            <span class="place-distance">5.7 km away</span>
-                            <button class="place-btn">Directions</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="place-card">
-                    <img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Hidden Gem" class="place-img">
-                    <div class="place-content">
-                        <h3 class="place-title">Secret Waterfall</h3>
-                        <div class="place-rating">
-                            <i class="fas fa-star"></i>
-                            <span>4.7 (89 reviews)</span>
-                        </div>
-                        <p class="place-description">Hidden gem known only to locals. A serene waterfall away from the tourist crowds.</p>
-                        <div class="place-footer">
-                            <span class="place-distance">12.4 km away</span>
-                            <button class="place-btn">Explore</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="place-card">
-                    <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Cafe" class="place-img">
-                    <div class="place-content">
-                        <h3 class="place-title">Riverside Cafe</h3>
-                        <div class="place-rating">
-                            <i class="fas fa-star"></i>
-                            <span>4.6 (176 reviews)</span>
-                        </div>
-                        <p class="place-description">Scenic cafe by the river offering delicious food and refreshing drinks. Ideal for a relaxing afternoon.</p>
-                        <div class="place-footer">
-                            <span class="place-distance">3.1 km away</span>
-                            <button class="place-btn">Visit</button>
-                        </div>
-                    </div>
+                <div class="search-chip">
+                    <i class="fas fa-search"></i>
+                    <span>Historical places in Delhi</span>
                 </div>
             </div>
-        </section>
+            
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Ask anything...">
+                <button class="voice-btn"><i class="fas fa-microphone"></i></button>
+                <button class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
 
-        <!-- Live Features Section -->
-        <section class="live-features" id="live">
-            <h2 class="section-title">Live Updates</h2>
-            <div class="live-features-grid">
-                <div class="live-feature-card">
-                    <div class="live-feature-header">
-                        <h3 class="live-feature-title">
-                            <span class="live-indicator"></span>
-                            Live Weather
-                        </h3>
-                        <span>Mumbai, India</span>
-                    </div>
-                    
-                    <div class="weather-display">
-                        <div class="weather-temp">28°C</div>
-                        <div class="weather-icon">
-                            <i class="fas fa-sun"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="weather-details">
-                        <div class="weather-detail">
-                            <i class="fas fa-eye"></i>
-                            <span>Visibility: 10 km</span>
-                        </div>
-                        <div class="weather-detail">
-                            <i class="fas fa-tint"></i>
-                            <span>Humidity: 65%</span>
-                        </div>
-                        <div class="weather-detail">
-                            <i class="fas fa-wind"></i>
-                            <span>Wind: 12 km/h</span>
-                        </div>
-                        <div class="weather-detail">
-                            <i class="fas fa-compress-arrows-alt"></i>
-                            <span>Pressure: 1013 hPa</span>
-                        </div>
-                    </div>
+        <!-- AI Response Section (Hidden by default) -->
+        <div class="ai-response" id="aiResponse">
+            <div class="ai-response-header">
+                <div class="ai-avatar">
+                    <i class="fas fa-robot"></i>
                 </div>
+                <div class="ai-response-title">Here's your personalized travel plan</div>
+            </div>
+            
+            <div class="ai-response-content">
+                <div class="ai-map" id="map"></div>
                 
-                <div class="live-feature-card">
-                    <div class="live-feature-header">
-                        <h3 class="live-feature-title">
-                            <span class="live-indicator"></span>
+                <div class="ai-details">
+                    <div class="ai-detail-card">
+                        <div class="ai-detail-title">
+                            <i class="fas fa-users"></i>
                             Live Crowd Levels
-                        </h3>
-                        <span>Popular Locations</span>
+                        </div>
+                        <div class="ai-crowd-levels">
+                            <div class="ai-crowd-location">
+                                <span>Gateway of India</span>
+                                <div class="ai-crowd-bar">
+                                    <div class="ai-crowd-fill" style="background-color: var(--danger); width: 90%;"></div>
+                                </div>
+                            </div>
+                            <div class="ai-crowd-location">
+                                <span>Marine Drive</span>
+                                <div class="ai-crowd-bar">
+                                    <div class="ai-crowd-fill" style="background-color: var(--warning); width: 60%;"></div>
+                                </div>
+                            </div>
+                            <div class="ai-crowd-location">
+                                <span>Juhu Beach</span>
+                                <div class="ai-crowd-bar">
+                                    <div class="ai-crowd-fill" style="background-color: var(--success); width: 30%;"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="crowd-levels">
-                        <div class="crowd-location">
-                            <span>Gateway of India</span>
-                            <div class="crowd-bar">
-                                <div class="crowd-fill crowd-high"></div>
+                    <div class="ai-detail-card">
+                        <div class="ai-detail-title">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Nearby Activities
+                        </div>
+                        <div class="ai-activities">
+                            <div class="ai-activity">
+                                <div class="ai-activity-icon"><i class="fas fa-landmark"></i></div>
+                                <div class="ai-activity-details">
+                                    <div class="ai-activity-title">Gateway of India</div>
+                                    <div class="ai-activity-time">Historical Monument • 1.2 km</div>
+                                </div>
+                            </div>
+                            <div class="ai-activity">
+                                <div class="ai-activity-icon"><i class="fas fa-utensils"></i></div>
+                                <div class="ai-activity-details">
+                                    <div class="ai-activity-title">Seafood Restaurant</div>
+                                    <div class="ai-activity-time">Dining • 0.8 km</div>
+                                </div>
+                            </div>
+                            <div class="ai-activity">
+                                <div class="ai-activity-icon"><i class="fas fa-shopping-bag"></i></div>
+                                <div class="ai-activity-details">
+                                    <div class="ai-activity-title">Colaba Market</div>
+                                    <div class="ai-activity-time">Shopping • 1.5 km</div>
+                                </div>
                             </div>
                         </div>
-                        
-                        <div class="crowd-location">
-                            <span>Marine Drive</span>
-                            <div class="crowd-bar">
-                                <div class="crowd-fill crowd-medium"></div>
-                            </div>
+                    </div>
+                    
+                    <div class="ai-detail-card">
+                        <div class="ai-detail-title">
+                            <i class="fas fa-calendar-alt"></i>
+                            Your Travel Plan
                         </div>
-                        
-                        <div class="crowd-location">
-                            <span>Siddhivinayak Temple</span>
-                            <div class="crowd-bar">
-                                <div class="crowd-fill crowd-high"></div>
+                        <div class="ai-plan">
+                            <div class="ai-plan-day">
+                                <div class="ai-plan-day-title">Day 1: Arrival & Exploration</div>
+                                <div class="ai-activity">
+                                    <div class="ai-activity-icon"><i class="fas fa-plane-arrival"></i></div>
+                                    <div class="ai-activity-details">
+                                        <div class="ai-activity-title">Arrive at Mumbai Airport</div>
+                                        <div class="ai-activity-time">10:00 AM</div>
+                                    </div>
+                                </div>
+                                <div class="ai-activity">
+                                    <div class="ai-activity-icon"><i class="fas fa-hotel"></i></div>
+                                    <div class="ai-activity-details">
+                                        <div class="ai-activity-title">Check-in at Hotel</div>
+                                        <div class="ai-activity-time">12:00 PM</div>
+                                    </div>
+                                </div>
+                                <div class="ai-activity">
+                                    <div class="ai-activity-icon"><i class="fas fa-landmark"></i></div>
+                                    <div class="ai-activity-details">
+                                        <div class="ai-activity-title">Visit Gateway of India</div>
+                                        <div class="ai-activity-time">3:00 PM</div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="crowd-location">
-                            <span>Juhu Beach</span>
-                            <div class="crowd-bar">
-                                <div class="crowd-fill crowd-low"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="crowd-location">
-                            <span>Colaba Causeway</span>
-                            <div class="crowd-bar">
-                                <div class="crowd-fill crowd-medium"></div>
+                            <div class="ai-plan-day">
+                                <div class="ai-plan-day-title">Day 2: Sightseeing</div>
+                                <div class="ai-activity">
+                                    <div class="ai-activity-icon"><i class="fas fa-route"></i></div>
+                                    <div class="ai-activity-details">
+                                        <div class="ai-activity-title">Marine Drive Walk</div>
+                                        <div class="ai-activity-time">9:00 AM</div>
+                                    </div>
+                                </div>
+                                <div class="ai-activity">
+                                    <div class="ai-activity-icon"><i class="fas fa-umbrella-beach"></i></div>
+                                    <div class="ai-activity-details">
+                                        <div class="ai-activity-title">Juhu Beach</div>
+                                        <div class="ai-activity-time">2:00 PM</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Travel Planning Section -->
-        <section class="travel-planning" id="planning">
-            <h2 class="section-title">Plan Your Trip</h2>
-            <div class="planning-form">
-                <form id="travelForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="destination">Destination</label>
-                            <input type="text" id="destination" class="form-control" placeholder="Where do you want to go?">
+    <!-- Hidden Gems Section -->
+    <section class="hidden-gems" id="gems">
+        <h2 class="section-title">Hidden Gems</h2>
+        <div class="gems-grid">
+            <div class="gem-card">
+                <img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Hidden Waterfall" class="gem-img">
+                <div class="gem-content">
+                    <h3 class="gem-title">
+                        Secret Waterfall
+                        <span class="gem-badge">Hidden</span>
+                    </h3>
+                    <p class="gem-description">A breathtaking waterfall hidden away from the tourist crowds. Perfect for a peaceful day in nature.</p>
+                    <div class="gem-footer">
+                        <div class="gem-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Western Ghats</span>
                         </div>
-                        <div class="form-group">
-                            <label for="days">Number of Days</label>
-                            <input type="number" id="days" class="form-control" placeholder="How many days?">
-                        </div>
+                        <button class="gem-btn">Explore</button>
                     </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="budget">Budget (₹)</label>
-                            <input type="number" id="budget" class="form-control" placeholder="Your budget">
-                        </div>
-                        <div class="form-group">
-                            <label for="travelers">Number of Travelers</label>
-                            <input type="number" id="travelers" class="form-control" placeholder="How many people?">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="interests">Interests</label>
-                        <input type="text" id="interests" class="form-control" placeholder="What are you interested in? (e.g., beaches, historical sites, food)">
-                    </div>
-                    
-                    <button type="submit" class="plan-btn">Create Travel Plan</button>
-                </form>
-                
-                <div class="travel-plan-result" id="travelPlanResult">
-                    <h3>Your Personalized Travel Plan</h3>
-                    <div id="planDetails"></div>
                 </div>
             </div>
-        </section>
+            
+            <div class="gem-card">
+                <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Mountain Village" class="gem-img">
+                <div class="gem-content">
+                    <h3 class="gem-title">
+                        Mountain Village
+                        <span class="gem-badge">Offbeat</span>
+                    </h3>
+                    <p class="gem-description">A quaint village nestled in the mountains with traditional architecture and stunning views.</p>
+                    <div class="gem-footer">
+                        <div class="gem-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Himachal Pradesh</span>
+                        </div>
+                        <button class="gem-btn">Visit</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="gem-card">
+                <img src="https://images.unsplash.com/photo-1596394616838-073a3528f5a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Ancient Temple" class="gem-img">
+                <div class="gem-content">
+                    <h3 class="gem-title">
+                        Ancient Temple
+                        <span class="gem-badge">Historical</span>
+                    </h3>
+                    <p class="gem-description">A centuries-old temple with intricate carvings and a rich history waiting to be discovered.</p>
+                    <div class="gem-footer">
+                        <div class="gem-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Tamil Nadu</span>
+                        </div>
+                        <button class="gem-btn">Discover</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="gem-card">
+                <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Forest Trail" class="gem-img">
+                <div class="gem-content">
+                    <h3 class="gem-title">
+                        Enchanted Forest
+                        <span class="gem-badge">Nature</span>
+                    </h3>
+                    <p class="gem-description">A mystical forest trail with diverse flora and fauna, perfect for nature enthusiasts.</p>
+                    <div class="gem-footer">
+                        <div class="gem-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Kerala</span>
+                        </div>
+                        <button class="gem-btn">Trek</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="gem-card">
+                <img src="https://images.unsplash.com/photo-1589481633157-cd991b615e8e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Desert Oasis" class="gem-img">
+                <div class="gem-content">
+                    <h3 class="gem-title">
+                        Desert Oasis
+                        <span class="gem-badge">Unique</span>
+                    </h3>
+                    <p class="gem-description">A hidden oasis in the middle of the desert, offering a refreshing escape from the heat.</p>
+                    <div class="gem-footer">
+                        <div class="gem-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Rajasthan</span>
+                        </div>
+                        <button class="gem-btn">Experience</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="gem-card">
+                <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Island Paradise" class="gem-img">
+                <div class="gem-content">
+                    <h3 class="gem-title">
+                        Island Paradise
+                        <span class="gem-badge">Secluded</span>
+                    </h3>
+                    <p class="gem-description">A pristine island with crystal-clear waters and white sandy beaches, far from the crowds.</p>
+                    <div class="gem-footer">
+                        <div class="gem-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Andaman & Nicobar</span>
+                        </div>
+                        <button class="gem-btn">Relax</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <!-- Gallery Section -->
-        <section class="gallery" id="gallery">
-            <h2 class="section-title">Travel Gallery</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Sunset" class="gallery-img">
-                    <div class="gallery-overlay">
-                        <div class="gallery-title">Magical Sunset</div>
-                        <div class="gallery-location">Goa, India</div>
+    <!-- Book Your Activity Section -->
+    <section class="book-activity" id="activities">
+        <div class="activity-container">
+            <h2 class="section-title">Book Your Tourist Activity</h2>
+            
+            <div class="activity-tabs">
+                <button class="activity-tab active">Adventure</button>
+                <button class="activity-tab">Cultural</button>
+                <button class="activity-tab">Nature</button>
+                <button class="activity-tab">Food</button>
+                <button class="activity-tab">Wellness</button>
+            </div>
+            
+            <div class="activity-grid">
+                <div class="activity-card">
+                    <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Trekking" class="activity-img">
+                    <div class="activity-content">
+                        <h3 class="activity-title">Himalayan Trekking Expedition</h3>
+                        <div class="activity-price">
+                            <span class="price-current">₹8,999</span>
+                            <span class="price-original">₹12,999</span>
+                        </div>
+                        <div class="activity-rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.8 (124 reviews)</span>
+                        </div>
+                        <p class="activity-description">Experience the breathtaking beauty of the Himalayas with our guided trekking expedition.</p>
+                        <div class="activity-footer">
+                            <div class="activity-duration">
+                                <i class="fas fa-clock"></i>
+                                <span>5 Days</span>
+                            </div>
+                            <button class="activity-btn">Book Now</button>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Mountain" class="gallery-img">
-                    <div class="gallery-overlay">
-                        <div class="gallery-title">Mountain Trek</div>
-                        <div class="gallery-location">Himalayas, India</div>
+                <div class="activity-card">
+                    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Scuba Diving" class="activity-img">
+                    <div class="activity-content">
+                        <h3 class="activity-title">Scuba Diving in Andaman</h3>
+                        <div class="activity-price">
+                            <span class="price-current">₹6,499</span>
+                            <span class="price-original">₹8,999</span>
+                        </div>
+                        <div class="activity-rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.9 (98 reviews)</span>
+                        </div>
+                        <p class="activity-description">Explore the vibrant underwater world of the Andaman Sea with our certified instructors.</p>
+                        <div class="activity-footer">
+                            <div class="activity-duration">
+                                <i class="fas fa-clock"></i>
+                                <span>3 Days</span>
+                            </div>
+                            <button class="activity-btn">Book Now</button>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Beach" class="gallery-img">
-                    <div class="gallery-overlay">
-                        <div class="gallery-title">Pristine Beach</div>
-                        <div class="gallery-location">Andaman Islands, India</div>
+                <div class="activity-card">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Desert Safari" class="activity-img">
+                    <div class="activity-content">
+                        <h3 class="activity-title">Rajasthan Desert Safari</h3>
+                        <div class="activity-price">
+                            <span class="price-current">₹4,999</span>
+                            <span class="price-original">₹6,999</span>
+                        </div>
+                        <div class="activity-rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.7 (156 reviews)</span>
+                        </div>
+                        <p class="activity-description">Experience the magic of the Thar Desert with camel rides and cultural performances.</p>
+                        <div class="activity-footer">
+                            <div class="activity-duration">
+                                <i class="fas fa-clock"></i>
+                                <span>2 Days</span>
+                            </div>
+                            <button class="activity-btn">Book Now</button>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1596394616838-073a3528f5a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Historical Site" class="gallery-img">
-                    <div class="gallery-overlay">
-                        <div class="gallery-title">Historical Monument</div>
-                        <div class="gallery-location">Delhi, India</div>
+                <div class="activity-card">
+                    <img src="https://images.unsplash.com/photo-1590523278191-995cbcda646b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Houseboat" class="activity-img">
+                    <div class="activity-content">
+                        <h3 class="activity-title">Kerala Backwater Cruise</h3>
+                        <div class="activity-price">
+                            <span class="price-current">₹7,499</span>
+                            <span class="price-original">₹9,999</span>
+                        </div>
+                        <div class="activity-rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.9 (203 reviews)</span>
+                        </div>
+                        <p class="activity-description">Relax on a traditional houseboat as you cruise through the serene backwaters of Kerala.</p>
+                        <div class="activity-footer">
+                            <div class="activity-duration">
+                                <i class="fas fa-clock"></i>
+                                <span>3 Days</span>
+                            </div>
+                            <button class="activity-btn">Book Now</button>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Forest" class="gallery-img">
-                    <div class="gallery-overlay">
-                        <div class="gallery-title">Lush Forest</div>
-                        <div class="gallery-location">Kerala, India</div>
+                <div class="activity-card">
+                    <img src="https://images.unsplash.com/photo-1519904981063-b0cf448d479e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Yoga Retreat" class="activity-img">
+                    <div class="activity-content">
+                        <h3 class="activity-title">Himalayan Yoga Retreat</h3>
+                        <div class="activity-price">
+                            <span class="price-current">₹9,999</span>
+                            <span class="price-original">₹14,999</span>
+                        </div>
+                        <div class="activity-rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.8 (87 reviews)</span>
+                        </div>
+                        <p class="activity-description">Rejuvenate your mind and body with our yoga and meditation retreat in the Himalayas.</p>
+                        <div class="activity-footer">
+                            <div class="activity-duration">
+                                <i class="fas fa-clock"></i>
+                                <span>7 Days</span>
+                            </div>
+                            <button class="activity-btn">Book Now</button>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1589481633157-cd991b615e8e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Desert" class="gallery-img">
-                    <div class="gallery-overlay">
-                        <div class="gallery-title">Golden Desert</div>
-                        <div class="gallery-location">Rajasthan, India</div>
+                <div class="activity-card">
+                    <img src="https://images.unsplash.com/photo-1602005592234-0f1a4566a498?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Cultural Tour" class="activity-img">
+                    <div class="activity-content">
+                        <h3 class="activity-title">Golden Triangle Tour</h3>
+                        <div class="activity-price">
+                            <span class="price-current">₹12,999</span>
+                            <span class="price-original">₹16,999</span>
+                        </div>
+                        <div class="activity-rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.7 (312 reviews)</span>
+                        </div>
+                        <p class="activity-description">Explore India's rich cultural heritage with visits to Delhi, Agra, and Jaipur.</p>
+                        <div class="activity-footer">
+                            <div class="activity-duration">
+                                <i class="fas fa-clock"></i>
+                                <span>6 Days</span>
+                            </div>
+                            <button class="activity-btn">Book Now</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer>
@@ -1331,10 +1175,9 @@
                 <h4>Features</h4>
                 <ul class="footer-links">
                     <li><a href="#">AI Travel Assistant</a></li>
-                    <li><a href="#">Multi-language Support</a></li>
                     <li><a href="#">Voice Commands</a></li>
-                    <li><a href="#">Trip Planning</a></li>
                     <li><a href="#">Live Updates</a></li>
+                    <li><a href="#">Personalized Plans</a></li>
                 </ul>
             </div>
             
@@ -1344,7 +1187,6 @@
                     <li><a href="#">About Us</a></li>
                     <li><a href="#">Careers</a></li>
                     <li><a href="#">Blog</a></li>
-                    <li><a href="#">Press</a></li>
                     <li><a href="#">Contact</a></li>
                 </ul>
             </div>
@@ -1356,7 +1198,6 @@
                     <li><a href="#">Safety Information</a></li>
                     <li><a href="#">Cancellation Options</a></li>
                     <li><a href="#">COVID-19 Response</a></li>
-                    <li><a href="#">Supporting People with Disabilities</a></li>
                 </ul>
             </div>
         </div>
@@ -1366,235 +1207,114 @@
         </div>
     </footer>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // DOM Elements
         const chatInput = document.getElementById('chatInput');
         const sendBtn = document.getElementById('sendBtn');
-        const chatMessages = document.getElementById('chatMessages');
-        const langBtns = document.querySelectorAll('.lang-btn');
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const placeBtns = document.querySelectorAll('.place-btn');
-        const travelForm = document.getElementById('travelForm');
-        const travelPlanResult = document.getElementById('travelPlanResult');
-        const planDetails = document.getElementById('planDetails');
+        const aiResponse = document.getElementById('aiResponse');
+        const searchChips = document.querySelectorAll('.search-chip');
+        const activityTabs = document.querySelectorAll('.activity-tab');
+        const gemBtns = document.querySelectorAll('.gem-btn');
+        const activityBtns = document.querySelectorAll('.activity-btn');
         const voiceBtns = document.querySelectorAll('.voice-btn');
-        const authButtons = document.querySelectorAll('.auth-buttons .btn');
+        const hamburger = document.querySelector('.hamburger');
 
-        // Chat Input Auto-resize
-        chatInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 100) + 'px';
-        });
-
-        // Function to add a message to the chat
-        function addMessage(content, isUser = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message');
-            messageDiv.classList.add(isUser ? 'user' : 'ai');
+        // Initialize map (hidden by default)
+        let map;
+        
+        function initMap() {
+            // Create map centered on Mumbai
+            map = L.map('map').setView([19.0760, 72.8777], 12);
             
-            const avatarDiv = document.createElement('div');
-            avatarDiv.classList.add('message-avatar');
-            avatarDiv.innerHTML = isUser ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+            // Add tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
             
-            const contentDiv = document.createElement('div');
-            contentDiv.classList.add('message-content');
-            contentDiv.textContent = content;
+            // Add markers for popular locations
+            const locations = [
+                { name: "Gateway of India", coords: [18.9217, 72.8347], crowd: "high" },
+                { name: "Marine Drive", coords: [18.9443, 72.8232], crowd: "medium" },
+                { name: "Juhu Beach", coords: [19.0884, 72.8265], crowd: "low" },
+                { name: "Colaba Causeway", coords: [18.9197, 72.8323], crowd: "medium" }
+            ];
             
-            const timeDiv = document.createElement('div');
-            timeDiv.classList.add('message-time');
-            const now = new Date();
-            timeDiv.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            
-            messageDiv.appendChild(avatarDiv);
-            messageDiv.appendChild(contentDiv);
-            messageDiv.appendChild(timeDiv);
-            
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // Function to show typing indicator
-        function showTypingIndicator() {
-            const typingDiv = document.createElement('div');
-            typingDiv.classList.add('message', 'ai');
-            typingDiv.id = 'typing-indicator';
-            
-            const avatarDiv = document.createElement('div');
-            avatarDiv.classList.add('message-avatar');
-            avatarDiv.innerHTML = '<i class="fas fa-robot"></i>';
-            
-            const typingContent = document.createElement('div');
-            typingContent.classList.add('typing-indicator');
-            
-            for (let i = 0; i < 3; i++) {
-                const span = document.createElement('span');
-                typingContent.appendChild(span);
-            }
-            
-            typingDiv.appendChild(avatarDiv);
-            typingDiv.appendChild(typingContent);
-            
-            chatMessages.appendChild(typingDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // Function to remove typing indicator
-        function removeTypingIndicator() {
-            const typingIndicator = document.getElementById('typing-indicator');
-            if (typingIndicator) {
-                typingIndicator.remove();
-            }
-        }
-
-        // Function to simulate AI response
-        function simulateAIResponse(userMessage) {
-            showTypingIndicator();
-            
-            setTimeout(() => {
-                removeTypingIndicator();
+            locations.forEach(location => {
+                const color = location.crowd === "high" ? "#ef4444" : 
+                             location.crowd === "medium" ? "#f59e0b" : "#10b981";
                 
-                // Simple response logic based on keywords
-                let response = "I'm not sure how to respond to that. Could you please provide more details about your travel plans?";
+                const marker = L.circleMarker(location.coords, {
+                    radius: 10,
+                    fillColor: color,
+                    color: "#fff",
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).addTo(map);
                 
-                if (userMessage.toLowerCase().includes('plan') && userMessage.toLowerCase().includes('trip')) {
-                    response = "I'd be happy to help you plan your trip! Please tell me your destination, budget, and interests.";
-                } else if (userMessage.toLowerCase().includes('hotel') || userMessage.toLowerCase().includes('stay')) {
-                    response = "I can help you find the perfect accommodation! What's your destination and what type of stay are you looking for?";
-                } else if (userMessage.toLowerCase().includes('restaurant') || userMessage.toLowerCase().includes('food')) {
-                    response = "Food is an essential part of travel! What type of cuisine are you interested in and where are you planning to visit?";
-                } else if (userMessage.toLowerCase().includes('weather')) {
-                    response = "I can check the current weather for you. Which location would you like to know about?";
-                } else if (userMessage.toLowerCase().includes('crowd') || userMessage.toLowerCase().includes('busy')) {
-                    response = "I can help you avoid crowded places! Which destination are you interested in?";
-                } else if (userMessage.toLowerCase().includes('hidden gem') || userMessage.toLowerCase().includes('offbeat')) {
-                    response = "Discovering hidden gems is my specialty! Which destination are you interested in exploring?";
-                } else if (userMessage.toLowerCase().includes('budget')) {
-                    response = "I'd be happy to help you plan within your budget! Please tell me your destination and approximate budget range.";
-                }
-                
-                addMessage(response);
-            }, 1500);
+                marker.bindPopup(`<b>${location.name}</b><br>Crowd Level: ${location.crowd}`);
+            });
         }
 
-        // Send message function
+        // Chat functionality
         function sendMessage() {
             const message = chatInput.value.trim();
             if (message) {
-                addMessage(message, true);
+                // Show AI response
+                aiResponse.classList.add('active');
+                
+                // Initialize map if not already done
+                if (!map) {
+                    setTimeout(initMap, 100);
+                }
+                
+                // Scroll to AI response
+                aiResponse.scrollIntoView({ behavior: 'smooth' });
+                
+                // Clear input
                 chatInput.value = '';
-                chatInput.style.height = 'auto';
-                simulateAIResponse(message);
             }
         }
 
-        // Event Listeners
         sendBtn.addEventListener('click', sendMessage);
         chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
+            if (e.key === 'Enter') {
                 sendMessage();
             }
         });
 
-        // Language selector functionality
-        langBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                langBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+        // Search chips functionality
+        searchChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                const searchQuery = chip.textContent.trim();
+                chatInput.value = `I want to ${searchQuery.toLowerCase()}`;
+                sendMessage();
             });
         });
 
-        // Places tabs functionality
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                tabBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                // In a real app, this would filter the places grid
+        // Activity tabs functionality
+        activityTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                activityTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                // In a real app, this would filter the activities
             });
         });
 
-        // Place buttons functionality (simulated)
-        placeBtns.forEach(btn => {
+        // Gem buttons functionality
+        gemBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 const action = btn.textContent.toLowerCase();
                 alert(`${action.charAt(0).toUpperCase() + action.slice(1)} functionality would be implemented here`);
             });
         });
 
-        // Travel form functionality
-        travelForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const destination = document.getElementById('destination').value;
-            const days = document.getElementById('days').value;
-            const budget = document.getElementById('budget').value;
-            const travelers = document.getElementById('travelers').value;
-            const interests = document.getElementById('interests').value;
-            
-            if (destination && days && budget && travelers) {
-                // Show the result section
-                travelPlanResult.style.display = 'block';
-                
-                // Generate a simple travel plan
-                let planHtml = `
-                    <div class="plan-day">
-                        <div class="plan-day-title">Day 1: Arrival at ${destination}</div>
-                        <div class="plan-activity">
-                            <div class="plan-activity-icon"><i class="fas fa-plane-arrival"></i></div>
-                            <div>Arrive at ${destination} and check into your hotel</div>
-                        </div>
-                        <div class="plan-activity">
-                            <div class="plan-activity-icon"><i class="fas fa-utensils"></i></div>
-                            <div>Enjoy local cuisine for dinner</div>
-                        </div>
-                    </div>
-                `;
-                
-                for (let i = 2; i <= days; i++) {
-                    planHtml += `
-                        <div class="plan-day">
-                            <div class="plan-day-title">Day ${i}: Exploring ${destination}</div>
-                            <div class="plan-activity">
-                                <div class="plan-activity-icon"><i class="fas fa-map-marker-alt"></i></div>
-                                <div>Visit popular attractions in ${destination}</div>
-                            </div>
-                            <div class="plan-activity">
-                                <div class="plan-activity-icon"><i class="fas fa-utensils"></i></div>
-                                <div>Try local specialties for lunch</div>
-                            </div>
-                            <div class="plan-activity">
-                                <div class="plan-activity-icon"><i class="fas fa-shopping-bag"></i></div>
-                                <div>Shopping for souvenirs</div>
-                            </div>
-                        </div>
-                    `;
-                }
-                
-                planHtml += `
-                    <div class="plan-day">
-                        <div class="plan-day-title">Day ${parseInt(days) + 1}: Departure</div>
-                        <div class="plan-activity">
-                            <div class="plan-activity-icon"><i class="fas fa-suitcase"></i></div>
-                            <div>Check out from hotel</div>
-                        </div>
-                        <div class="plan-activity">
-                            <div class="plan-activity-icon"><i class="fas fa-plane-departure"></i></div>
-                            <div>Depart from ${destination}</div>
-                        </div>
-                    </div>
-                    <div style="margin-top: 1.5rem; text-align: center;">
-                        <p><strong>Total Budget:</strong> ₹${budget} for ${travelers} traveler(s)</p>
-                        <p><strong>Interests:</strong> ${interests || 'General sightseeing'}</p>
-                    </div>
-                `;
-                
-                planDetails.innerHTML = planHtml;
-                
-                // Scroll to the result
-                travelPlanResult.scrollIntoView({ behavior: 'smooth' });
-            } else {
-                alert('Please fill in all the required fields');
-            }
+        // Activity buttons functionality
+        activityBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                alert('Booking functionality would be implemented here');
+            });
         });
 
         // Voice button functionality (simulated)
@@ -1605,19 +1325,7 @@
             });
         });
 
-        // Auth buttons functionality (simulated)
-        authButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (btn.textContent === 'Log In') {
-                    alert('Login form would appear here in a real implementation');
-                } else {
-                    alert('Sign up form would appear here in a real implementation');
-                }
-            });
-        });
-
         // Hamburger menu for mobile (simulated)
-        const hamburger = document.querySelector('.hamburger');
         hamburger.addEventListener('click', () => {
             // In a real app, this would toggle a mobile menu
             alert('Mobile menu would toggle here in a real implementation');
