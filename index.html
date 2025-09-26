@@ -7,9 +7,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
         :root {
-            --primary: #4f46e5;
-            --primary-dark: #4338ca;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
             --secondary: #8b5cf6;
             --accent: #ec4899;
             --dark: #0f172a;
@@ -25,7 +27,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
@@ -40,7 +42,7 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(20px);
             z-index: 1000;
             padding: 1rem 2rem;
@@ -116,7 +118,17 @@
             color: var(--gray);
         }
 
-        /* Hero Section */
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section with Enhanced Design */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -128,41 +140,106 @@
             overflow: hidden;
         }
 
-        .hero::before {
-            content: '';
+        /* Animated Background Elements */
+        .hero-bg {
             position: absolute;
-            top: -50%;
-            right: -50%;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%);
             z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+        }
+
+        .bg-circle-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            top: -100px;
+            right: -100px;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .bg-circle-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--secondary);
+            bottom: -50px;
+            left: -50px;
+            animation: float 15s infinite ease-in-out reverse;
+        }
+
+        .bg-circle-3 {
+            width: 200px;
+            height: 200px;
+            background: var(--accent);
+            top: 50%;
+            left: 30%;
+            animation: float 25s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(20px, -20px); }
+            50% { transform: translate(-10px, 10px); }
+            75% { transform: translate(15px, 5px); }
+        }
+
+        /* Floating Elements */
+        .floating-element {
+            position: absolute;
+            opacity: 0.7;
+            animation: float-up 15s infinite linear;
+        }
+
+        .floating-element:nth-child(odd) {
+            animation-duration: 18s;
+            animation-direction: reverse;
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
         }
 
         .hero-content {
             max-width: 800px;
             text-align: center;
             z-index: 1;
+            position: relative;
         }
 
         .hero-title {
-            font-size: 3.5rem;
+            font-size: clamp(2.5rem, 8vw, 4rem);
             font-weight: 800;
             margin-bottom: 1.5rem;
-            background: linear-gradient(90deg, var(--light), var(--primary));
+            background: linear-gradient(90deg, var(--light), var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             line-height: 1.2;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 5px rgba(99, 102, 241, 0.5)); }
+            to { filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.8)); }
         }
 
         .hero-subtitle {
-            font-size: 1.25rem;
+            font-size: clamp(1rem, 3vw, 1.5rem);
             color: var(--gray);
             margin-bottom: 3rem;
         }
 
-        /* Chat Interface */
+        /* Enhanced Chat Interface */
         .chat-container {
             width: 100%;
             max-width: 700px;
@@ -172,6 +249,24 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 2rem;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         .popular-searches {
@@ -194,12 +289,30 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-chip::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .search-chip:hover::before {
+            left: 100%;
         }
 
         .search-chip:hover {
             background: rgba(79, 70, 229, 0.2);
             border-color: var(--primary);
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
         }
 
         .chat-input-container {
@@ -209,6 +322,12 @@
             border-radius: 50px;
             padding: 0.75rem 1.5rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .chat-input-container:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
         }
 
         .chat-input {
@@ -242,6 +361,26 @@
             color: var(--gray);
             cursor: pointer;
             transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+        }
+
+        .action-btn:hover::after {
+            width: 100px;
+            height: 100px;
         }
 
         .action-btn:hover {
@@ -257,6 +396,30 @@
 
         .send-btn:hover {
             background: var(--primary-dark);
+        }
+
+        /* Feature Pills */
+        .feature-pills {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .feature-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        .feature-pill i {
+            color: var(--primary);
         }
 
         /* AI Response Section */
@@ -275,11 +438,11 @@
 
         .ai-response.active {
             display: block;
-            animation: fadeIn 0.5s ease-out;
+            animation: slideUp 0.5s ease-out;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -302,6 +465,13 @@
             border-radius: 50%;
             color: white;
             font-size: 1.25rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
         }
 
         .ai-title {
@@ -311,20 +481,20 @@
 
         .ai-content {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 2rem;
         }
 
         .ai-map {
-            height: 400px;
+            height: 300px;
             border-radius: 16px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .ai-details {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
         }
 
@@ -333,6 +503,11 @@
             border-radius: 16px;
             padding: 1.5rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .detail-card:hover {
+            transform: translateY(-5px);
         }
 
         .detail-title {
@@ -361,6 +536,11 @@
             padding: 0.75rem;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
+            transition: background 0.3s;
+        }
+
+        .crowd-item:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .crowd-name {
@@ -378,6 +558,7 @@
         .crowd-fill {
             height: 100%;
             border-radius: 4px;
+            transition: width 1s ease-out;
         }
 
         .activities-list {
@@ -393,6 +574,13 @@
             padding: 0.75rem;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .activity-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
         }
 
         .activity-icon {
@@ -424,6 +612,11 @@
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             padding: 1rem;
+            transition: all 0.3s;
+        }
+
+        .plan-day:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .plan-day-title {
@@ -462,7 +655,7 @@
             color: var(--gray);
         }
 
-        /* Hidden Gems Section */
+        /* Sections */
         .section {
             padding: 5rem 2rem;
         }
@@ -478,7 +671,7 @@
         }
 
         .section-title {
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 5vw, 2.5rem);
             font-weight: 800;
             margin-bottom: 1rem;
             background: linear-gradient(90deg, var(--light), var(--primary));
@@ -494,6 +687,7 @@
             margin: 0 auto;
         }
 
+        /* Hidden Gems Section */
         .gems-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -506,7 +700,24 @@
             border-radius: 20px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .gem-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .gem-card:hover::before {
+            transform: scaleX(1);
         }
 
         .gem-card:hover {
@@ -518,6 +729,11 @@
             width: 100%;
             height: 200px;
             object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .gem-card:hover .gem-img {
+            transform: scale(1.05);
         }
 
         .gem-content {
@@ -570,11 +786,29 @@
             border-radius: 50px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gem-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .gem-btn:hover::before {
+            left: 100%;
         }
 
         .gem-btn:hover {
             background: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
         /* Activities Section */
@@ -599,13 +833,37 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .activity-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .activity-tab:hover::before,
+        .activity-tab.active::before {
+            opacity: 1;
         }
 
         .activity-tab:hover,
         .activity-tab.active {
-            background: var(--primary);
             color: white;
-            border-color: var(--primary);
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+
+        .activity-tab span {
+            position: relative;
+            z-index: 1;
         }
 
         .activities-grid {
@@ -620,7 +878,24 @@
             border-radius: 20px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .activity-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .activity-card:hover::before {
+            transform: scaleX(1);
         }
 
         .activity-card:hover {
@@ -632,6 +907,11 @@
             width: 100%;
             height: 180px;
             object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .activity-card:hover .activity-img {
+            transform: scale(1.05);
         }
 
         .activity-content {
@@ -699,11 +979,29 @@
             border-radius: 50px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .activity-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .activity-btn:hover::before {
+            left: 100%;
         }
 
         .activity-btn:hover {
             background: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
         /* Footer */
@@ -779,10 +1077,26 @@
             font-size: 0.875rem;
         }
 
-        /* Responsive Design */
+        /* Mobile Responsive Design */
         @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero {
+                padding: 6rem 1rem 3rem;
+            }
+
             .hero-title {
-                font-size: 2.5rem;
+                font-size: 2rem;
             }
 
             .ai-content {
@@ -790,11 +1104,11 @@
             }
 
             .ai-map {
-                height: 300px;
+                height: 250px;
             }
 
-            nav {
-                display: none;
+            .ai-details {
+                grid-template-columns: 1fr;
             }
 
             .gems-grid,
@@ -806,7 +1120,133 @@
                 justify-content: flex-start;
                 overflow-x: auto;
                 padding-bottom: 0.5rem;
+                -webkit-overflow-scrolling: touch;
             }
+
+            .search-chip {
+                flex-shrink: 0;
+            }
+
+            .feature-pills {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .feature-pill {
+                flex-shrink: 0;
+            }
+
+            .activity-tabs {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .activity-tab {
+                flex-shrink: 0;
+            }
+
+            .section {
+                padding: 3rem 1rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Mobile Navigation Menu */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1001;
+            padding: 5rem 2rem 2rem;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active {
+            right: 0;
+        }
+
+        .mobile-nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .mobile-nav-close {
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+        }
+
+        .mobile-nav-links li {
+            margin-bottom: 1.5rem;
+        }
+
+        .mobile-nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 1.125rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .mobile-nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .mobile-nav-weather {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
     </style>
 </head>
@@ -832,11 +1272,70 @@
                     <div class="weather-location">Mumbai</div>
                 </div>
             </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
 
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-compass"></i>
+                </div>
+                TravelAI
+            </div>
+            <button class="mobile-nav-close" id="mobileNavClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#gems">Hidden Gems</a></li>
+            <li><a href="#activities">Activities</a></li>
+        </ul>
+        <div class="mobile-nav-weather">
+            <div class="weather-widget">
+                <i class="fas fa-sun weather-icon"></i>
+                <div>
+                    <div class="weather-temp">28°C</div>
+                    <div class="weather-location">Mumbai</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
     <!-- Hero Section -->
     <section class="hero" id="home">
+        <!-- Animated Background Elements -->
+        <div class="hero-bg">
+            <div class="bg-circle bg-circle-1"></div>
+            <div class="bg-circle bg-circle-2"></div>
+            <div class="bg-circle bg-circle-3"></div>
+            
+            <!-- Floating Elements -->
+            <div class="floating-element" style="top: 10%; left: 10%; font-size: 1.5rem; opacity: 0.3;">
+                <i class="fas fa-plane"></i>
+            </div>
+            <div class="floating-element" style="top: 20%; right: 15%; font-size: 1.2rem; opacity: 0.4;">
+                <i class="fas fa-mountain"></i>
+            </div>
+            <div class="floating-element" style="top: 60%; left: 5%; font-size: 1.8rem; opacity: 0.3;">
+                <i class="fas fa-umbrella-beach"></i>
+            </div>
+            <div class="floating-element" style="top: 40%; right: 5%; font-size: 1.4rem; opacity: 0.35;">
+                <i class="fas fa-landmark"></i>
+            </div>
+            <div class="floating-element" style="top: 70%; left: 20%; font-size: 1.6rem; opacity: 0.25;">
+                <i class="fas fa-ship"></i>
+            </div>
+        </div>
+        
         <div class="hero-content">
             <h1 class="hero-title">Where do you want to go today?</h1>
             <p class="hero-subtitle">Your AI travel companion is ready to create the perfect journey for you</p>
@@ -872,6 +1371,25 @@
                         </button>
                     </div>
                 </div>
+                
+                <div class="feature-pills">
+                    <div class="feature-pill">
+                        <i class="fas fa-language"></i>
+                        <span>Multi-language</span>
+                    </div>
+                    <div class="feature-pill">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <span>Smart Planning</span>
+                    </div>
+                    <div class="feature-pill">
+                        <i class="fas fa-users"></i>
+                        <span>Live Crowd Data</span>
+                    </div>
+                    <div class="feature-pill">
+                        <i class="fas fa-cloud-sun"></i>
+                        <span>Weather Updates</span>
+                    </div>
+                </div>
             </div>
             
             <!-- AI Response Section -->
@@ -896,19 +1414,19 @@
                                 <div class="crowd-item">
                                     <span class="crowd-name">Gateway of India</span>
                                     <div class="crowd-bar">
-                                        <div class="crowd-fill" style="background-color: var(--danger); width: 90%;"></div>
+                                        <div class="crowd-fill" style="background-color: var(--danger); width: 0%;"></div>
                                     </div>
                                 </div>
                                 <div class="crowd-item">
                                     <span class="crowd-name">Marine Drive</span>
                                     <div class="crowd-bar">
-                                        <div class="crowd-fill" style="background-color: var(--warning); width: 60%;"></div>
+                                        <div class="crowd-fill" style="background-color: var(--warning); width: 0%;"></div>
                                     </div>
                                 </div>
                                 <div class="crowd-item">
                                     <span class="crowd-name">Juhu Beach</span>
                                     <div class="crowd-bar">
-                                        <div class="crowd-fill" style="background-color: var(--success); width: 30%;"></div>
+                                        <div class="crowd-fill" style="background-color: var(--success); width: 0%;"></div>
                                     </div>
                                 </div>
                             </div>
@@ -1128,11 +1646,11 @@
             </div>
             
             <div class="activity-tabs">
-                <button class="activity-tab active">Adventure</button>
-                <button class="activity-tab">Cultural</button>
-                <button class="activity-tab">Nature</button>
-                <button class="activity-tab">Food</button>
-                <button class="activity-tab">Wellness</button>
+                <button class="activity-tab active"><span>Adventure</span></button>
+                <button class="activity-tab"><span>Cultural</span></button>
+                <button class="activity-tab"><span>Nature</span></button>
+                <button class="activity-tab"><span>Food</span></button>
+                <button class="activity-tab"><span>Wellness</span></button>
             </div>
             
             <div class="activities-grid">
@@ -1346,6 +1864,35 @@
         const gemBtns = document.querySelectorAll('.gem-btn');
         const activityBtns = document.querySelectorAll('.activity-btn');
         const voiceBtns = document.querySelectorAll('.voice-btn');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileNavClose = document.getElementById('mobileNavClose');
+        const overlay = document.getElementById('overlay');
+
+        // Mobile Menu Toggle
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileNav.classList.add('active');
+            overlay.classList.add('active');
+        });
+
+        mobileNavClose.addEventListener('click', () => {
+            mobileNav.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            mobileNav.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        // Close mobile nav when clicking on a link
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+        });
 
         // Initialize map (hidden by default)
         let map;
@@ -1396,8 +1943,18 @@
                     setTimeout(initMap, 100);
                 }
                 
+                // Animate crowd level bars
+                setTimeout(() => {
+                    const crowdFills = document.querySelectorAll('.crowd-fill');
+                    crowdFills[0].style.width = '90%';
+                    crowdFills[1].style.width = '60%';
+                    crowdFills[2].style.width = '30%';
+                }, 500);
+                
                 // Scroll to AI response
-                aiResponse.scrollIntoView({ behavior: 'smooth' });
+                setTimeout(() => {
+                    aiResponse.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 300);
                 
                 // Clear input
                 chatInput.value = '';
@@ -1466,6 +2023,29 @@
                     });
                 }
             });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.gem-card, .activity-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
         });
     </script>
 </body>
