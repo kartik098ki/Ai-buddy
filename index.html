@@ -42,10 +42,10 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(15, 23, 42, 0.85);
+            background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(20px);
             z-index: 1000;
-            padding: 1rem 2rem;
+            padding: 0.75rem 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -55,26 +55,27 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            font-size: 1.5rem;
+            gap: 0.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
             color: var(--light);
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 12px;
+            border-radius: 10px;
             color: white;
+            font-size: 0.9rem;
         }
 
         nav {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         nav a {
@@ -91,30 +92,31 @@
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1rem;
         }
 
         .weather-widget {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
             background: rgba(255, 255, 255, 0.1);
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 0.75rem;
             border-radius: 50px;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .weather-icon {
             color: #fbbf24;
-            font-size: 1.2rem;
+            font-size: 1rem;
         }
 
         .weather-temp {
             font-weight: 600;
+            font-size: 0.9rem;
         }
 
         .weather-location {
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             color: var(--gray);
         }
 
@@ -124,8 +126,9 @@
             background: none;
             border: none;
             color: var(--light);
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             cursor: pointer;
+            padding: 0.5rem;
         }
 
         /* Hero Section with Enhanced Design */
@@ -135,7 +138,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 8rem 2rem 4rem;
+            padding: 6rem 1rem 3rem;
             position: relative;
             overflow: hidden;
         }
@@ -155,33 +158,33 @@
             position: absolute;
             border-radius: 50%;
             filter: blur(80px);
-            opacity: 0.4;
+            opacity: 0.3;
         }
 
         .bg-circle-1 {
-            width: 400px;
-            height: 400px;
+            width: 300px;
+            height: 300px;
             background: var(--primary);
-            top: -100px;
-            right: -100px;
+            top: -50px;
+            right: -50px;
             animation: float 20s infinite ease-in-out;
         }
 
         .bg-circle-2 {
-            width: 300px;
-            height: 300px;
+            width: 200px;
+            height: 200px;
             background: var(--secondary);
-            bottom: -50px;
-            left: -50px;
+            bottom: -30px;
+            left: -30px;
             animation: float 15s infinite ease-in-out reverse;
         }
 
         .bg-circle-3 {
-            width: 200px;
-            height: 200px;
+            width: 150px;
+            height: 150px;
             background: var(--accent);
             top: 50%;
-            left: 30%;
+            left: 20%;
             animation: float 25s infinite ease-in-out;
         }
 
@@ -195,7 +198,7 @@
         /* Floating Elements */
         .floating-element {
             position: absolute;
-            opacity: 0.7;
+            opacity: 0.5;
             animation: float-up 15s infinite linear;
         }
 
@@ -210,16 +213,17 @@
         }
 
         .hero-content {
-            max-width: 800px;
+            width: 100%;
+            max-width: 600px;
             text-align: center;
             z-index: 1;
             position: relative;
         }
 
         .hero-title {
-            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-size: clamp(2rem, 8vw, 3rem);
             font-weight: 800;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             background: linear-gradient(90deg, var(--light), var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
@@ -234,21 +238,21 @@
         }
 
         .hero-subtitle {
-            font-size: clamp(1rem, 3vw, 1.5rem);
+            font-size: clamp(0.9rem, 3vw, 1.1rem);
             color: var(--gray);
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
+            line-height: 1.5;
         }
 
-        /* Enhanced Chat Interface */
+        /* Enhanced Chat Interface - Mobile Optimized */
         .chat-container {
             width: 100%;
-            max-width: 700px;
-            background: rgba(30, 41, 59, 0.7);
+            background: rgba(30, 41, 59, 0.8);
             backdrop-filter: blur(20px);
-            border-radius: 24px;
+            border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding: 1.5rem;
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
             position: relative;
             overflow: hidden;
         }
@@ -269,11 +273,12 @@
             100% { transform: translateX(100%); }
         }
 
+        /* Popular Searches - Mobile Friendly */
         .popular-searches {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.75rem;
-            margin-bottom: 2rem;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
             justify-content: center;
         }
 
@@ -281,16 +286,17 @@
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: var(--light);
-            padding: 0.75rem 1.25rem;
+            padding: 0.5rem 1rem;
             border-radius: 50px;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
             position: relative;
             overflow: hidden;
+            white-space: nowrap;
         }
 
         .search-chip::before {
@@ -315,14 +321,20 @@
             box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
         }
 
+        .search-chip i {
+            font-size: 0.7rem;
+        }
+
+        /* Chat Input Container - Mobile Optimized */
         .chat-input-container {
             display: flex;
             align-items: center;
-            background: rgba(15, 23, 42, 0.7);
+            background: rgba(15, 23, 42, 0.8);
             border-radius: 50px;
-            padding: 0.75rem 1.5rem;
+            padding: 0.6rem 1rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s;
+            min-height: 50px;
         }
 
         .chat-input-container:focus-within {
@@ -336,22 +348,23 @@
             border: none;
             color: var(--light);
             outline: none;
-            font-size: 1rem;
-            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            padding: 0.3rem 0;
         }
 
         .chat-input::placeholder {
             color: var(--gray);
+            font-size: 0.9rem;
         }
 
         .input-actions {
             display: flex;
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
 
         .action-btn {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -363,6 +376,7 @@
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
+            flex-shrink: 0;
         }
 
         .action-btn::after {
@@ -379,8 +393,8 @@
         }
 
         .action-btn:hover::after {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
         }
 
         .action-btn:hover {
@@ -398,42 +412,43 @@
             background: var(--primary-dark);
         }
 
-        /* Feature Pills */
+        /* Feature Pills - Mobile Optimized */
         .feature-pills {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
             flex-wrap: wrap;
         }
 
         .feature-pill {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
             background: rgba(255, 255, 255, 0.05);
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 0.8rem;
             border-radius: 50px;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             color: var(--gray);
+            white-space: nowrap;
         }
 
         .feature-pill i {
             color: var(--primary);
+            font-size: 0.8rem;
         }
 
-        /* AI Response Section */
+        /* AI Response Section - Mobile Optimized */
         .ai-response {
             display: none;
             width: 100%;
-            max-width: 1200px;
-            margin: 3rem auto 0;
-            background: rgba(30, 41, 59, 0.7);
+            margin-top: 2rem;
+            background: rgba(30, 41, 59, 0.8);
             backdrop-filter: blur(20px);
-            border-radius: 24px;
+            border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding: 1.5rem;
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
         }
 
         .ai-response.active {
@@ -450,22 +465,23 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .ai-avatar {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 50%;
             color: white;
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             animation: pulse 2s infinite;
+            flex-shrink: 0;
         }
 
         @keyframes pulse {
@@ -475,18 +491,19 @@
         }
 
         .ai-title {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: 700;
+            line-height: 1.3;
         }
 
         .ai-content {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
         .ai-map {
-            height: 300px;
+            height: 250px;
             border-radius: 16px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -494,46 +511,47 @@
 
         .ai-details {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: 1fr;
+            gap: 1rem;
         }
 
         .detail-card {
             background: rgba(15, 23, 42, 0.5);
             border-radius: 16px;
-            padding: 1.5rem;
+            padding: 1.2rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: transform 0.3s;
         }
 
         .detail-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
         }
 
         .detail-title {
-            font-size: 1.125rem;
+            font-size: 1rem;
             font-weight: 600;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.6rem;
         }
 
         .detail-title i {
             color: var(--primary);
+            font-size: 1.1rem;
         }
 
         .crowd-levels {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .crowd-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.75rem;
+            padding: 0.6rem;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             transition: background 0.3s;
@@ -545,33 +563,34 @@
 
         .crowd-name {
             font-weight: 500;
+            font-size: 0.9rem;
         }
 
         .crowd-bar {
-            width: 120px;
-            height: 8px;
+            width: 80px;
+            height: 6px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
+            border-radius: 3px;
             overflow: hidden;
         }
 
         .crowd-fill {
             height: 100%;
-            border-radius: 4px;
+            border-radius: 3px;
             transition: width 1s ease-out;
         }
 
         .activities-list {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.6rem;
         }
 
         .activity-item {
             display: flex;
             align-items: flex-start;
-            gap: 0.75rem;
-            padding: 0.75rem;
+            gap: 0.6rem;
+            padding: 0.6rem;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             transition: all 0.3s;
@@ -580,12 +599,13 @@
 
         .activity-item:hover {
             background: rgba(255, 255, 255, 0.1);
-            transform: translateX(5px);
+            transform: translateX(3px);
         }
 
         .activity-icon {
             color: var(--secondary);
-            margin-top: 0.25rem;
+            margin-top: 0.2rem;
+            font-size: 0.9rem;
         }
 
         .activity-info {
@@ -594,24 +614,25 @@
 
         .activity-name {
             font-weight: 500;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.2rem;
+            font-size: 0.9rem;
         }
 
         .activity-meta {
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             color: var(--gray);
         }
 
         .travel-plan {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .plan-day {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
-            padding: 1rem;
+            padding: 0.8rem;
             transition: all 0.3s;
         }
 
@@ -622,14 +643,15 @@
         .plan-day-title {
             font-weight: 600;
             color: var(--primary);
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.6rem;
+            font-size: 0.95rem;
         }
 
         .plan-activity {
             display: flex;
             align-items: flex-start;
-            gap: 0.75rem;
-            margin-bottom: 0.5rem;
+            gap: 0.6rem;
+            margin-bottom: 0.4rem;
         }
 
         .plan-activity:last-child {
@@ -638,7 +660,8 @@
 
         .plan-activity-icon {
             color: var(--secondary);
-            margin-top: 0.25rem;
+            margin-top: 0.2rem;
+            font-size: 0.85rem;
         }
 
         .plan-activity-info {
@@ -647,17 +670,18 @@
 
         .plan-activity-name {
             font-weight: 500;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.2rem;
+            font-size: 0.9rem;
         }
 
         .plan-activity-time {
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             color: var(--gray);
         }
 
         /* Sections */
         .section {
-            padding: 5rem 2rem;
+            padding: 4rem 1rem;
         }
 
         .container {
@@ -667,13 +691,13 @@
 
         .section-header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
         }
 
         .section-title {
-            font-size: clamp(2rem, 5vw, 2.5rem);
+            font-size: clamp(1.8rem, 5vw, 2.2rem);
             font-weight: 800;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             background: linear-gradient(90deg, var(--light), var(--primary));
             -webkit-background-clip: text;
             background-clip: text;
@@ -681,23 +705,24 @@
         }
 
         .section-subtitle {
-            font-size: 1.125rem;
+            font-size: 1rem;
             color: var(--gray);
             max-width: 600px;
             margin: 0 auto;
+            line-height: 1.5;
         }
 
         /* Hidden Gems Section */
         .gems-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
         }
 
         .gem-card {
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(20px);
-            border-radius: 20px;
+            border-radius: 16px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s;
@@ -721,13 +746,13 @@
         }
 
         .gem-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.4);
         }
 
         .gem-img {
             width: 100%;
-            height: 200px;
+            height: 180px;
             object-fit: cover;
             transition: transform 0.5s;
         }
@@ -737,58 +762,64 @@
         }
 
         .gem-content {
-            padding: 1.5rem;
+            padding: 1.2rem;
         }
 
         .gem-title {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .gem-badge {
             background: var(--accent);
             color: white;
-            font-size: 0.75rem;
-            padding: 0.25rem 0.75rem;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
             border-radius: 50px;
             font-weight: 600;
         }
 
         .gem-description {
             color: var(--gray);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
+            margin-bottom: 1.2rem;
+            line-height: 1.5;
+            font-size: 0.9rem;
         }
 
         .gem-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .gem-location {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
             color: var(--gray);
-            font-size: 0.875rem;
+            font-size: 0.8rem;
         }
 
         .gem-btn {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 0.5rem 1.25rem;
+            padding: 0.4rem 1rem;
             border-radius: 50px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
+            font-size: 0.85rem;
         }
 
         .gem-btn::before {
@@ -819,8 +850,8 @@
         .activity-tabs {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin-bottom: 3rem;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
             flex-wrap: wrap;
         }
 
@@ -828,13 +859,15 @@
             background: rgba(30, 41, 59, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--gray);
-            padding: 0.75rem 1.5rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 50px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
+            font-size: 0.85rem;
+            white-space: nowrap;
         }
 
         .activity-tab::before {
@@ -868,14 +901,14 @@
 
         .activities-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
         }
 
         .activity-card {
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(20px);
-            border-radius: 20px;
+            border-radius: 16px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s;
@@ -899,13 +932,13 @@
         }
 
         .activity-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.4);
         }
 
         .activity-img {
             width: 100%;
-            height: 180px;
+            height: 160px;
             object-fit: cover;
             transition: transform 0.5s;
         }
@@ -915,30 +948,31 @@
         }
 
         .activity-content {
-            padding: 1.5rem;
+            padding: 1.2rem;
         }
 
         .activity-title {
-            font-size: 1.125rem;
+            font-size: 1rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
+            line-height: 1.3;
         }
 
         .activity-price {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
+            gap: 0.6rem;
+            margin-bottom: 0.6rem;
         }
 
         .price-current {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--primary);
         }
 
         .price-original {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: var(--gray);
             text-decoration: line-through;
         }
@@ -946,42 +980,47 @@
         .activity-rating {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
+            gap: 0.4rem;
+            margin-bottom: 0.8rem;
             color: #fbbf24;
+            font-size: 0.85rem;
         }
 
         .activity-description {
             color: var(--gray);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
+            margin-bottom: 1.2rem;
+            line-height: 1.5;
+            font-size: 0.9rem;
         }
 
         .activity-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .activity-duration {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
             color: var(--gray);
-            font-size: 0.875rem;
+            font-size: 0.8rem;
         }
 
         .activity-btn {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 0.5rem 1.25rem;
+            padding: 0.4rem 1rem;
             border-radius: 50px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
+            font-size: 0.85rem;
         }
 
         .activity-btn::before {
@@ -1009,22 +1048,22 @@
             background: rgba(15, 23, 42, 0.8);
             backdrop-filter: blur(20px);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 3rem 2rem 1.5rem;
+            padding: 3rem 1rem 1.5rem;
         }
 
         .footer-content {
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 2rem;
             margin-bottom: 2rem;
         }
 
         .footer-column h3 {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
         .footer-links {
@@ -1032,13 +1071,14 @@
         }
 
         .footer-links li {
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.7rem;
         }
 
         .footer-links a {
             color: var(--gray);
             text-decoration: none;
             transition: color 0.3s;
+            font-size: 0.9rem;
         }
 
         .footer-links a:hover {
@@ -1047,13 +1087,13 @@
 
         .social-links {
             display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
+            gap: 0.8rem;
+            margin-top: 1.2rem;
         }
 
         .social-link {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1074,92 +1114,15 @@
             padding-top: 1.5rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--gray);
-            font-size: 0.875rem;
-        }
-
-        /* Mobile Responsive Design */
-        @media (max-width: 768px) {
-            header {
-                padding: 1rem;
-            }
-
-            nav {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .hero {
-                padding: 6rem 1rem 3rem;
-            }
-
-            .hero-title {
-                font-size: 2rem;
-            }
-
-            .ai-content {
-                grid-template-columns: 1fr;
-            }
-
-            .ai-map {
-                height: 250px;
-            }
-
-            .ai-details {
-                grid-template-columns: 1fr;
-            }
-
-            .gems-grid,
-            .activities-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .popular-searches {
-                justify-content: flex-start;
-                overflow-x: auto;
-                padding-bottom: 0.5rem;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .search-chip {
-                flex-shrink: 0;
-            }
-
-            .feature-pills {
-                justify-content: flex-start;
-                overflow-x: auto;
-                padding-bottom: 0.5rem;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .feature-pill {
-                flex-shrink: 0;
-            }
-
-            .activity-tabs {
-                justify-content: flex-start;
-                overflow-x: auto;
-                padding-bottom: 0.5rem;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .activity-tab {
-                flex-shrink: 0;
-            }
-
-            .section {
-                padding: 3rem 1rem;
-            }
+            font-size: 0.85rem;
         }
 
         /* Loading Animation */
         .loading {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             border-top-color: var(--primary);
             animation: spin 1s ease-in-out infinite;
@@ -1177,10 +1140,10 @@
             width: 80%;
             max-width: 300px;
             height: 100vh;
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(15, 23, 42, 0.98);
             backdrop-filter: blur(20px);
             z-index: 1001;
-            padding: 5rem 2rem 2rem;
+            padding: 5rem 1.5rem 2rem;
             transition: right 0.3s ease;
             overflow-y: auto;
         }
@@ -1202,6 +1165,7 @@
             color: var(--light);
             font-size: 1.5rem;
             cursor: pointer;
+            padding: 0.5rem;
         }
 
         .mobile-nav-links {
@@ -1209,15 +1173,17 @@
         }
 
         .mobile-nav-links li {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
         .mobile-nav-links a {
             color: var(--light);
             text-decoration: none;
-            font-size: 1.125rem;
+            font-size: 1.1rem;
             font-weight: 500;
             transition: color 0.3s;
+            display: block;
+            padding: 0.5rem 0;
         }
 
         .mobile-nav-links a:hover {
@@ -1237,7 +1203,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             z-index: 1000;
             opacity: 0;
             visibility: hidden;
@@ -1247,6 +1213,242 @@
         .overlay.active {
             opacity: 1;
             visibility: visible;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                padding: 0.5rem 1rem;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            .logo-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .weather-widget {
+                padding: 0.3rem 0.6rem;
+            }
+
+            .weather-temp {
+                font-size: 0.8rem;
+            }
+
+            .weather-location {
+                font-size: 0.7rem;
+            }
+
+            .hero {
+                padding: 5rem 1rem 2rem;
+            }
+
+            .hero-title {
+                font-size: 1.8rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 0.95rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .chat-container {
+                padding: 1.2rem;
+            }
+
+            .popular-searches {
+                gap: 0.4rem;
+                margin-bottom: 1rem;
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 0.3rem;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .search-chip {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.8rem;
+                flex-shrink: 0;
+            }
+
+            .chat-input-container {
+                padding: 0.5rem 0.8rem;
+                min-height: 44px;
+            }
+
+            .chat-input {
+                font-size: 0.85rem;
+            }
+
+            .action-btn {
+                width: 32px;
+                height: 32px;
+            }
+
+            .feature-pills {
+                gap: 0.4rem;
+                margin-top: 1rem;
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 0.3rem;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .feature-pill {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.6rem;
+                flex-shrink: 0;
+            }
+
+            .ai-response {
+                padding: 1.2rem;
+                margin-top: 1.5rem;
+            }
+
+            .ai-header {
+                margin-bottom: 1rem;
+                padding-bottom: 0.8rem;
+            }
+
+            .ai-title {
+                font-size: 1.1rem;
+            }
+
+            .ai-map {
+                height: 200px;
+            }
+
+            .detail-card {
+                padding: 1rem;
+            }
+
+            .detail-title {
+                font-size: 0.95rem;
+                margin-bottom: 0.6rem;
+            }
+
+            .section {
+                padding: 3rem 1rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+                margin-bottom: 0.6rem;
+            }
+
+            .section-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .gems-grid,
+            .activities-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+
+            .gem-img,
+            .activity-img {
+                height: 160px;
+            }
+
+            .activity-tabs {
+                gap: 0.4rem;
+                margin-bottom: 1.5rem;
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 0.3rem;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .activity-tab {
+                font-size: 0.8rem;
+                padding: 0.4rem 1rem;
+                flex-shrink: 0;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            .footer-column h3 {
+                margin-bottom: 1rem;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 1.6rem;
+            }
+
+            .hero-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .chat-container {
+                padding: 1rem;
+            }
+
+            .search-chip {
+                font-size: 0.7rem;
+                padding: 0.35rem 0.7rem;
+            }
+
+            .chat-input-container {
+                padding: 0.4rem 0.7rem;
+            }
+
+            .action-btn {
+                width: 30px;
+                height: 30px;
+            }
+
+            .feature-pill {
+                font-size: 0.65rem;
+                padding: 0.25rem 0.5rem;
+            }
+
+            .ai-response {
+                padding: 1rem;
+            }
+
+            .ai-map {
+                height: 180px;
+            }
+
+            .detail-card {
+                padding: 0.8rem;
+            }
+
+            .crowd-item {
+                padding: 0.5rem;
+            }
+
+            .activity-item {
+                padding: 0.5rem;
+            }
+
+            .plan-day {
+                padding: 0.6rem;
+            }
         }
     </style>
 </head>
@@ -1319,19 +1521,19 @@
             <div class="bg-circle bg-circle-3"></div>
             
             <!-- Floating Elements -->
-            <div class="floating-element" style="top: 10%; left: 10%; font-size: 1.5rem; opacity: 0.3;">
+            <div class="floating-element" style="top: 10%; left: 10%; font-size: 1.2rem; opacity: 0.3;">
                 <i class="fas fa-plane"></i>
             </div>
-            <div class="floating-element" style="top: 20%; right: 15%; font-size: 1.2rem; opacity: 0.4;">
+            <div class="floating-element" style="top: 20%; right: 15%; font-size: 1rem; opacity: 0.4;">
                 <i class="fas fa-mountain"></i>
             </div>
-            <div class="floating-element" style="top: 60%; left: 5%; font-size: 1.8rem; opacity: 0.3;">
+            <div class="floating-element" style="top: 60%; left: 5%; font-size: 1.4rem; opacity: 0.3;">
                 <i class="fas fa-umbrella-beach"></i>
             </div>
-            <div class="floating-element" style="top: 40%; right: 5%; font-size: 1.4rem; opacity: 0.35;">
+            <div class="floating-element" style="top: 40%; right: 5%; font-size: 1.1rem; opacity: 0.35;">
                 <i class="fas fa-landmark"></i>
             </div>
-            <div class="floating-element" style="top: 70%; left: 20%; font-size: 1.6rem; opacity: 0.25;">
+            <div class="floating-element" style="top: 70%; left: 20%; font-size: 1.3rem; opacity: 0.25;">
                 <i class="fas fa-ship"></i>
             </div>
         </div>
@@ -1664,7 +1866,7 @@
                         </div>
                         <div class="activity-rating">
                             <i class="fas fa-star"></i>
-                            <span>4.8 (124 reviews)</span>
+                            <span>4.8 (124)</span>
                         </div>
                         <p class="activity-description">Experience the breathtaking beauty of the Himalayas with our guided trekking expedition.</p>
                         <div class="activity-footer">
@@ -1687,7 +1889,7 @@
                         </div>
                         <div class="activity-rating">
                             <i class="fas fa-star"></i>
-                            <span>4.9 (98 reviews)</span>
+                            <span>4.9 (98)</span>
                         </div>
                         <p class="activity-description">Explore the vibrant underwater world of the Andaman Sea with our certified instructors.</p>
                         <div class="activity-footer">
@@ -1710,7 +1912,7 @@
                         </div>
                         <div class="activity-rating">
                             <i class="fas fa-star"></i>
-                            <span>4.7 (156 reviews)</span>
+                            <span>4.7 (156)</span>
                         </div>
                         <p class="activity-description">Experience the magic of the Thar Desert with camel rides and cultural performances.</p>
                         <div class="activity-footer">
@@ -1733,7 +1935,7 @@
                         </div>
                         <div class="activity-rating">
                             <i class="fas fa-star"></i>
-                            <span>4.9 (203 reviews)</span>
+                            <span>4.9 (203)</span>
                         </div>
                         <p class="activity-description">Relax on a traditional houseboat as you cruise through the serene backwaters of Kerala.</p>
                         <div class="activity-footer">
@@ -1756,7 +1958,7 @@
                         </div>
                         <div class="activity-rating">
                             <i class="fas fa-star"></i>
-                            <span>4.8 (87 reviews)</span>
+                            <span>4.8 (87)</span>
                         </div>
                         <p class="activity-description">Rejuvenate your mind and body with our yoga and meditation retreat in the Himalayas.</p>
                         <div class="activity-footer">
@@ -1779,7 +1981,7 @@
                         </div>
                         <div class="activity-rating">
                             <i class="fas fa-star"></i>
-                            <span>4.7 (312 reviews)</span>
+                            <span>4.7 (312)</span>
                         </div>
                         <p class="activity-description">Explore India's rich cultural heritage with visits to Delhi, Agra, and Jaipur.</p>
                         <div class="activity-footer">
@@ -1873,16 +2075,19 @@
         mobileMenuBtn.addEventListener('click', () => {
             mobileNav.classList.add('active');
             overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
         });
 
         mobileNavClose.addEventListener('click', () => {
             mobileNav.classList.remove('active');
             overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
         });
 
         overlay.addEventListener('click', () => {
             mobileNav.classList.remove('active');
             overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
         });
 
         // Close mobile nav when clicking on a link
@@ -1891,6 +2096,7 @@
             link.addEventListener('click', () => {
                 mobileNav.classList.remove('active');
                 overlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
             });
         });
 
@@ -2028,7 +2234,7 @@
         // Add animation on scroll
         const observerOptions = {
             threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
+            rootMargin: '0px 0px -50px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
@@ -2047,6 +2253,16 @@
             el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(el);
         });
+
+        // Prevent zoom on double tap (mobile)
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
     </script>
 </body>
 </html>
