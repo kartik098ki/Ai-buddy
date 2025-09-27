@@ -62,6 +62,7 @@
             font-size: 1.25rem;
             font-weight: 700;
             color: var(--light);
+            text-decoration: none;
         }
 
         .logo-icon {
@@ -1072,7 +1073,15 @@
             gap: 2rem;
         }
 
+        /* Map Container - Smaller and Repositioned */
+        .map-section {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
         .map-container {
+            flex: 1;
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(20px);
             border-radius: 20px;
@@ -1081,8 +1090,7 @@
             box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
             position: relative;
             overflow: hidden;
-            height: 400px;
-            margin-bottom: 2rem;
+            height: 300px;
         }
 
         .map-container::before {
@@ -1102,6 +1110,71 @@
             border-radius: 10px;
         }
 
+        .destination-info {
+            flex: 1;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .destination-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            animation: shimmer 3s infinite;
+        }
+
+        .destination-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--light);
+        }
+
+        .destination-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .destination-description {
+            color: var(--gray);
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        /* Day-wise Plan - Enhanced */
         .results-section {
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(20px);
@@ -1111,6 +1184,7 @@
             box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
             position: relative;
             overflow: hidden;
+            margin-bottom: 2rem;
         }
 
         .results-section::before {
@@ -1142,13 +1216,13 @@
         .day-plan {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
         .day-card {
             background: rgba(15, 23, 42, 0.5);
             border-radius: 16px;
-            padding: 1.2rem;
+            padding: 1.5rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: transform 0.3s;
             position: relative;
@@ -1170,24 +1244,39 @@
             transform: translateY(-3px);
         }
 
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
         .day-title {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 700;
-            margin-bottom: 1rem;
             color: var(--primary);
+        }
+
+        .day-date {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
         .day-activities {
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
+            gap: 1rem;
         }
 
         .day-activity {
             display: flex;
             align-items: flex-start;
-            gap: 0.8rem;
-            padding: 0.8rem;
+            gap: 1rem;
+            padding: 1rem;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             transition: all 0.3s;
@@ -1198,8 +1287,8 @@
         }
 
         .day-activity-icon {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1214,22 +1303,46 @@
             flex: 1;
         }
 
-        .day-activity-name {
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-            font-size: 0.95rem;
+        .day-activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
         }
 
-        .day-activity-desc {
-            font-size: 0.85rem;
-            color: var(--gray);
-            margin-bottom: 0.5rem;
+        .day-activity-name {
+            font-weight: 600;
+            font-size: 1rem;
         }
 
         .day-activity-time {
             font-size: 0.8rem;
             color: var(--primary);
             font-weight: 500;
+        }
+
+        .day-activity-desc {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Hidden Gems Section - Horizontal Scroll */
+        .gems-container {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .gems-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Edge */
+        }
+
+        .gems-container .gem-card {
+            flex: 0 0 auto;
+            width: 280px;
         }
 
         /* Instagram-style Reels */
@@ -1508,7 +1621,7 @@
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: 2rem;
             margin-bottom: 2rem;
         }
@@ -1529,35 +1642,6 @@
             font-size: 0.9rem;
             line-height: 1.6;
             max-width: 300px;
-        }
-
-        .footer-apps {
-            display: flex;
-            gap: 0.8rem;
-            margin-top: 1rem;
-        }
-
-        .app-badge {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            padding: 0.5rem 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--light);
-            text-decoration: none;
-            font-size: 0.8rem;
-            transition: all 0.3s;
-        }
-
-        .app-badge:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .app-badge i {
-            font-size: 1.2rem;
         }
 
         .footer-column {
@@ -1586,8 +1670,6 @@
 
         .footer-links {
             list-style: none;
-            margin: 0;
-            padding: 0;
         }
 
         .footer-links li {
@@ -1825,6 +1907,90 @@
             transform: translateY(-2px);
         }
 
+        /* Video Modal */
+        .video-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .video-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .video-container {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-player {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            display: block;
+        }
+
+        .video-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.7);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .video-close:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.1);
+        }
+
+        .video-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            color: white;
+            padding: 2rem 1.5rem 1.5rem;
+        }
+
+        .video-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .video-description {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
         /* Responsive Design */
         @media (max-width: 1024px) {
             .footer-content {
@@ -2049,10 +2215,6 @@
                 justify-content: center;
             }
 
-            .footer-apps {
-                justify-content: center;
-            }
-
             .footer-bottom {
                 flex-direction: column;
                 text-align: center;
@@ -2073,8 +2235,13 @@
                 font-size: 1.5rem;
             }
 
+            .map-section {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
             .map-container {
-                height: 300px;
+                height: 250px;
             }
 
             .modal-content {
@@ -2149,7 +2316,7 @@
             }
 
             .map-container {
-                height: 250px;
+                height: 200px;
             }
 
             .modal-content {
@@ -2165,12 +2332,12 @@
 <body>
     <!-- Header -->
     <header>
-        <div class="logo">
+        <a href="#home" class="logo">
             <div class="logo-icon">
                 <i class="fas fa-compass"></i>
             </div>
             Bot-Voyage
-        </div>
+        </a>
         <nav>
             <a href="#home">Home</a>
             <a href="#gems">Hidden Gems</a>
@@ -2229,6 +2396,23 @@
             <h3 class="modal-title">Coming Soon!</h3>
             <p class="modal-message">We're working hard to bring you the best login experience. Stay tuned!</p>
             <button class="modal-close" id="modalClose">Close</button>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-container">
+            <button class="video-close" id="videoClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <video class="video-player" id="videoPlayer" controls>
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-info">
+                <h3 class="video-title" id="videoTitle">Video Title</h3>
+                <p class="video-description" id="videoDescription">Video description goes here.</p>
+            </div>
         </div>
     </div>
 
@@ -2342,11 +2526,34 @@
         </div>
         
         <div class="results-content">
-            <!-- Map Container -->
-            <div class="map-container">
-                <div id="map"></div>
+            <!-- Map Section with Destination Info -->
+            <div class="map-section">
+                <div class="map-container">
+                    <div id="map"></div>
+                </div>
+                <div class="destination-info">
+                    <h3 class="destination-title" id="destinationTitle">Destination</h3>
+                    <div class="destination-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="statValue1">24</div>
+                            <div class="stat-label">Places to Visit</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="statValue2">4.8</div>
+                            <div class="stat-label">Avg. Rating</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="statValue3">3</div>
+                            <div class="stat-label">Days Trip</div>
+                        </div>
+                    </div>
+                    <p class="destination-description" id="destinationDescription">
+                        Discover the beauty of this destination with our curated travel experiences.
+                    </p>
+                </div>
             </div>
             
+            <!-- Day-wise Plan Section -->
             <div class="results-section">
                 <h3 class="results-section-title">
                     <i class="fas fa-calendar-alt"></i>
@@ -2354,16 +2561,21 @@
                 </h3>
                 <div class="day-plan">
                     <div class="day-card">
-                        <h4 class="day-title">Day 1: Arrival</h4>
+                        <div class="day-header">
+                            <h4 class="day-title">Day 1: Arrival</h4>
+                            <span class="day-date">Today</span>
+                        </div>
                         <div class="day-activities">
                             <div class="day-activity">
                                 <div class="day-activity-icon">
                                     <i class="fas fa-plane-arrival"></i>
                                 </div>
                                 <div class="day-activity-info">
-                                    <div class="day-activity-name">Arrive at Destination</div>
+                                    <div class="day-activity-header">
+                                        <div class="day-activity-name">Arrive at Destination</div>
+                                        <div class="day-activity-time">10:00 AM</div>
+                                    </div>
                                     <div class="day-activity-desc">Pick up from airport and transfer to hotel</div>
-                                    <div class="day-activity-time">10:00 AM</div>
                                 </div>
                             </div>
                             <div class="day-activity">
@@ -2371,9 +2583,11 @@
                                     <i class="fas fa-utensils"></i>
                                 </div>
                                 <div class="day-activity-info">
-                                    <div class="day-activity-name">Local Cuisine Experience</div>
+                                    <div class="day-activity-header">
+                                        <div class="day-activity-name">Local Cuisine Experience</div>
+                                        <div class="day-activity-time">1:00 PM</div>
+                                    </div>
                                     <div class="day-activity-desc">Taste authentic local dishes</div>
-                                    <div class="day-activity-time">1:00 PM</div>
                                 </div>
                             </div>
                             <div class="day-activity">
@@ -2381,25 +2595,32 @@
                                     <i class="fas fa-moon"></i>
                                 </div>
                                 <div class="day-activity-info">
-                                    <div class="day-activity-name">Evening Exploration</div>
+                                    <div class="day-activity-header">
+                                        <div class="day-activity-name">Evening Exploration</div>
+                                        <div class="day-activity-time">6:00 PM</div>
+                                    </div>
                                     <div class="day-activity-desc">Explore the local markets and nightlife</div>
-                                    <div class="day-activity-time">6:00 PM</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
                     <div class="day-card">
-                        <h4 class="day-title">Day 2: Sightseeing</h4>
+                        <div class="day-header">
+                            <h4 class="day-title">Day 2: Sightseeing</h4>
+                            <span class="day-date">Tomorrow</span>
+                        </div>
                         <div class="day-activities">
                             <div class="day-activity">
                                 <div class="day-activity-icon">
                                     <i class="fas fa-landmark"></i>
                                 </div>
                                 <div class="day-activity-info">
-                                    <div class="day-activity-name">Historical Sites</div>
+                                    <div class="day-activity-header">
+                                        <div class="day-activity-name">Historical Sites</div>
+                                        <div class="day-activity-time">9:00 AM</div>
+                                    </div>
                                     <div class="day-activity-desc">Visit famous historical landmarks</div>
-                                    <div class="day-activity-time">9:00 AM</div>
                                 </div>
                             </div>
                             <div class="day-activity">
@@ -2407,25 +2628,32 @@
                                     <i class="fas fa-camera"></i>
                                 </div>
                                 <div class="day-activity-info">
-                                    <div class="day-activity-name">Photography Tour</div>
+                                    <div class="day-activity-header">
+                                        <div class="day-activity-name">Photography Tour</div>
+                                        <div class="day-activity-time">2:00 PM</div>
+                                    </div>
                                     <div class="day-activity-desc">Capture the beauty of the destination</div>
-                                    <div class="day-activity-time">2:00 PM</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
                     <div class="day-card">
-                        <h4 class="day-title">Day 3: Adventure</h4>
+                        <div class="day-header">
+                            <h4 class="day-title">Day 3: Adventure</h4>
+                            <span class="day-date">Day After</span>
+                        </div>
                         <div class="day-activities">
                             <div class="day-activity">
                                 <div class="day-activity-icon">
                                     <i class="fas fa-hiking"></i>
                                 </div>
                                 <div class="day-activity-info">
-                                    <div class="day-activity-name">Adventure Activities</div>
+                                    <div class="day-activity-header">
+                                        <div class="day-activity-name">Adventure Activities</div>
+                                        <div class="day-activity-time">10:00 AM</div>
+                                    </div>
                                     <div class="day-activity-desc">Experience thrilling adventures</div>
-                                    <div class="day-activity-time">10:00 AM</div>
                                 </div>
                             </div>
                             <div class="day-activity">
@@ -2433,9 +2661,11 @@
                                     <i class="fas fa-plane-departure"></i>
                                 </div>
                                 <div class="day-activity-info">
-                                    <div class="day-activity-name">Departure</div>
+                                    <div class="day-activity-header">
+                                        <div class="day-activity-name">Departure</div>
+                                        <div class="day-activity-time">4:00 PM</div>
+                                    </div>
                                     <div class="day-activity-desc">Transfer to airport for departure</div>
-                                    <div class="day-activity-time">4:00 PM</div>
                                 </div>
                             </div>
                         </div>
@@ -2443,6 +2673,7 @@
                 </div>
             </div>
             
+            <!-- Hidden Gems Section - Horizontal Scroll -->
             <div class="results-section">
                 <h3 class="results-section-title">
                     <i class="fas fa-gem"></i>
@@ -2535,13 +2766,14 @@
                 </div>
             </div>
             
+            <!-- Experience Reels Section -->
             <div class="results-section">
                 <h3 class="results-section-title">
                     <i class="fas fa-video"></i>
                     Experience Reels
                 </h3>
                 <div class="reels-container">
-                    <div class="reel-card">
+                    <div class="reel-card" data-video="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" data-title="Scenic Beauty" data-description="Experience the breathtaking beauty of this destination">
                         <img src="https://images.unsplash.com/photo-1593699583289-6d1a8135a9c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Destination" class="reel-thumbnail">
                         <div class="reel-overlay">
                             <h4 class="reel-title">Scenic Beauty</h4>
@@ -2561,7 +2793,7 @@
                         </div>
                     </div>
                     
-                    <div class="reel-card">
+                    <div class="reel-card" data-video="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" data-title="Travel Experience" data-description="Immerse yourself in the local culture and traditions">
                         <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Experience" class="reel-thumbnail">
                         <div class="reel-overlay">
                             <h4 class="reel-title">Travel Experience</h4>
@@ -2581,7 +2813,7 @@
                         </div>
                     </div>
                     
-                    <div class="reel-card">
+                    <div class="reel-card" data-video="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" data-title="Adventure Activities" data-description="Experience thrilling adventures in this destination">
                         <img src="https://images.unsplash.com/photo-1477587458883-4717ed88318e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Adventure" class="reel-thumbnail">
                         <div class="reel-overlay">
                             <h4 class="reel-title">Adventure Activities</h4>
@@ -2601,7 +2833,7 @@
                         </div>
                     </div>
                     
-                    <div class="reel-card">
+                    <div class="reel-card" data-video="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" data-title="Mountain Views" data-description="Enjoy breathtaking mountain views and landscapes">
                         <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Mountain" class="reel-thumbnail">
                         <div class="reel-overlay">
                             <h4 class="reel-title">Mountain Views</h4>
@@ -2623,6 +2855,7 @@
                 </div>
             </div>
             
+            <!-- Nearby Hotels Section -->
             <div class="results-section">
                 <h3 class="results-section-title">
                     <i class="fas fa-hotel"></i>
@@ -2877,22 +3110,6 @@
                     Bot-Voyage
                 </div>
                 <p>Your intelligent travel companion for exploring the incredible India. Discover hidden gems, book unique experiences, and create unforgettable memories.</p>
-                <div class="footer-apps">
-                    <a href="#" class="app-badge">
-                        <i class="fab fa-apple"></i>
-                        <div>
-                            <div style="font-size: 0.7rem;">Download on the</div>
-                            <div style="font-weight: 600;">App Store</div>
-                        </div>
-                    </a>
-                    <a href="#" class="app-badge">
-                        <i class="fab fa-google-play"></i>
-                        <div>
-                            <div style="font-size: 0.7rem;">Get it on</div>
-                            <div style="font-weight: 600;">Google Play</div>
-                        </div>
-                    </a>
-                </div>
             </div>
             
             <div class="footer-column">
@@ -2923,42 +3140,14 @@
                     <li><a href="#">Help Center</a></li>
                     <li><a href="#">Safety Information</a></li>
                     <li><a href="#">Cancellation Options</a></li>
-                    <li><a href="#">COVID-19 Guidelines</a></li>
                     <li><a href="#">Travel Insurance</a></li>
                 </ul>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Connect</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Community</a></li>
-                    <li><a href="#">Partners</a></li>
-                    <li><a href="#">Affiliates</a></li>
-                    <li><a href="#">Developers</a></li>
-                </ul>
-                <div class="social-links">
-                    <a href="#" class="social-link">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="social-link">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="social-link">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="social-link">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                    <a href="#" class="social-link">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                </div>
             </div>
         </div>
         
         <div class="footer-bottom">
             <div class="footer-copyright">
-                &copy; 2023 Bot-Voyage Technologies Pvt. Ltd. All rights reserved.
+                &copy; 2025 Bot-Voyage Technologies Pvt. Ltd. All rights reserved.
             </div>
             <div class="footer-legal">
                 <a href="#">Privacy Policy</a>
@@ -2992,6 +3181,14 @@
         const loginModal = document.getElementById('loginModal');
         const modalClose = document.getElementById('modalClose');
         
+        // Video Modal Elements
+        const videoModal = document.getElementById('videoModal');
+        const videoClose = document.getElementById('videoClose');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const videoTitle = document.getElementById('videoTitle');
+        const videoDescription = document.getElementById('videoDescription');
+        const reelCards = document.querySelectorAll('.reel-card');
+        
         // Weather Elements
         const weatherWidget = document.getElementById('weatherWidget');
         const weatherIcon = document.getElementById('weatherIcon');
@@ -3000,6 +3197,13 @@
         const mobileWeatherIcon = document.getElementById('mobileWeatherIcon');
         const mobileWeatherTemp = document.getElementById('mobileWeatherTemp');
         const mobileWeatherLocation = document.getElementById('mobileWeatherLocation');
+
+        // Destination Info Elements
+        const destinationTitle = document.getElementById('destinationTitle');
+        const destinationDescription = document.getElementById('destinationDescription');
+        const statValue1 = document.getElementById('statValue1');
+        const statValue2 = document.getElementById('statValue2');
+        const statValue3 = document.getElementById('statValue3');
 
         // Map variable
         let map;
@@ -3033,6 +3237,27 @@
             });
         });
 
+        // Home Button Functionality
+        document.querySelector('.logo').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (searchResults.classList.contains('active')) {
+                searchResults.classList.remove('active');
+                heroSection.style.display = 'flex';
+                document.getElementById('gems').style.display = 'block';
+                document.getElementById('activities').style.display = 'block';
+                document.querySelector('footer').style.display = 'block';
+                
+                // Destroy map to free resources
+                if (map) {
+                    map.remove();
+                    map = null;
+                }
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+            }
+        });
+
         // Login Button Functionality
         loginBtn.addEventListener('click', () => {
             loginModal.classList.add('active');
@@ -3052,6 +3277,42 @@
             }
         });
 
+        // Video Modal Functionality
+        reelCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const videoSrc = card.getAttribute('data-video');
+                const title = card.getAttribute('data-title');
+                const description = card.getAttribute('data-description');
+                
+                videoPlayer.src = videoSrc;
+                videoTitle.textContent = title;
+                videoDescription.textContent = description;
+                
+                videoModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                // Play video
+                videoPlayer.play();
+            });
+        });
+
+        videoClose.addEventListener('click', () => {
+            videoModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            videoPlayer.pause();
+            videoPlayer.currentTime = 0;
+        });
+
+        // Close modal when clicking outside
+        videoModal.addEventListener('click', (e) => {
+            if (e.target === videoModal) {
+                videoModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                videoPlayer.pause();
+                videoPlayer.currentTime = 0;
+            }
+        });
+
         // Chat functionality
         function sendMessage() {
             const message = chatInput.value.trim();
@@ -3065,6 +3326,9 @@
                 
                 // Set the title based on the search query
                 resultsTitle.textContent = `Search Results for "${message}"`;
+                
+                // Update destination info based on search query
+                updateDestinationInfo(message);
                 
                 // Initialize map based on destination
                 initializeMap(message);
@@ -3136,6 +3400,43 @@
                 console.log('Voice button clicked');
             });
         });
+
+        // Update destination info based on search query
+        function updateDestinationInfo(query) {
+            const queryLower = query.toLowerCase();
+            
+            if (queryLower.includes('mumbai') || queryLower.includes('cafes')) {
+                destinationTitle.textContent = 'Mumbai';
+                destinationDescription.textContent = 'The bustling metropolis of Mumbai offers a vibrant cafe culture with hidden gems in every corner.';
+                statValue1.textContent = '32';
+                statValue2.textContent = '4.7';
+                statValue3.textContent = '3';
+            } else if (queryLower.includes('goa')) {
+                destinationTitle.textContent = 'Goa';
+                destinationDescription.textContent = 'Goa is famous for its beautiful beaches, vibrant nightlife, and Portuguese heritage.';
+                statValue1.textContent = '28';
+                statValue2.textContent = '4.9';
+                statValue3.textContent = '4';
+            } else if (queryLower.includes('rajasthan')) {
+                destinationTitle.textContent = 'Rajasthan';
+                destinationDescription.textContent = 'Rajasthan, the land of kings, offers magnificent forts, palaces, and colorful culture.';
+                statValue1.textContent = '42';
+                statValue2.textContent = '4.8';
+                statValue3.textContent = '5';
+            } else if (queryLower.includes('delhi')) {
+                destinationTitle.textContent = 'Delhi';
+                destinationDescription.textContent = 'Delhi, the capital of India, is a perfect blend of history and modernity.';
+                statValue1.textContent = '36';
+                statValue2.textContent = '4.6';
+                statValue3.textContent = '3';
+            } else {
+                destinationTitle.textContent = 'Your Destination';
+                destinationDescription.textContent = 'Discover the beauty of this destination with our curated travel experiences.';
+                statValue1.textContent = '24';
+                statValue2.textContent = '4.8';
+                statValue3.textContent = '3';
+            }
+        }
 
         // Weather functionality
         function updateWeatherUI(data) {
@@ -3247,16 +3548,6 @@
                 .bindPopup(`<b>${destinationName}</b><br>Your travel destination`)
                 .openPopup();
         }
-
-        // Reels functionality
-        const reelCards = document.querySelectorAll('.reel-card');
-        
-        reelCards.forEach(card => {
-            card.addEventListener('click', () => {
-                // In a real app, this would open the reel video
-                console.log('Reel clicked');
-            });
-        });
 
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
