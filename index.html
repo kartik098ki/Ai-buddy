@@ -21,6 +21,9 @@
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
+            --crowd-low: #10b981;
+            --crowd-medium: #f59e0b;
+            --crowd-high: #ef4444;
         }
 
         * {
@@ -145,6 +148,55 @@
 
         @keyframes spin {
             to { transform: rotate(360deg); }
+        }
+
+        /* Live Crowd Widget */
+        .crowd-widget {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 0.9rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .crowd-widget:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .crowd-icon {
+            font-size: 1.1rem;
+        }
+
+        .crowd-low-icon {
+            color: var(--crowd-low);
+        }
+
+        .crowd-medium-icon {
+            color: var(--crowd-medium);
+        }
+
+        .crowd-high-icon {
+            color: var(--crowd-high);
+        }
+
+        .crowd-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .crowd-level {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .crowd-location {
+            font-size: 0.7rem;
+            color: var(--gray);
         }
 
         /* Mobile Menu Button */
@@ -1141,91 +1193,102 @@
             font-weight: 500;
         }
 
-        .media-grid {
-            display: flex;
+        /* Instagram-style Reels */
+        .reels-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 1rem;
-            overflow-x: auto;
-            padding-bottom: 0.5rem;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
         }
 
-        .media-grid::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Edge */
-        }
-
-        .media-card {
-            flex: 0 0 auto;
-            width: 280px;
+        .reel-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 9/16;
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(20px);
-            border-radius: 16px;
-            overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s;
-            position: relative;
+            cursor: pointer;
         }
 
-        .media-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transform: scaleX(0);
-            transition: transform 0.3s;
-        }
-
-        .media-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .media-card:hover {
+        .reel-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.4);
         }
 
-        .media-img {
+        .reel-thumbnail {
             width: 100%;
-            height: 160px;
+            height: 100%;
             object-fit: cover;
             transition: transform 0.5s;
         }
 
-        .media-card:hover .media-img {
+        .reel-card:hover .reel-thumbnail {
             transform: scale(1.05);
         }
 
-        .media-content {
-            padding: 1.2rem;
+        .reel-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 60%, rgba(0, 0, 0, 0.8));
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
-        .media-title {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 0.4rem;
-            line-height: 1.3;
+        .reel-card:hover .reel-overlay {
+            opacity: 1;
         }
 
-        .media-description {
-            color: var(--gray);
-            margin-bottom: 1rem;
-            line-height: 1.5;
-            font-size: 0.9rem;
-        }
-
-        .media-type {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            background: rgba(99, 102, 241, 0.2);
-            color: var(--primary);
-            padding: 0.3rem 0.8rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
+        .reel-title {
+            color: white;
             font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .reel-stats {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        .reel-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .reel-play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .reel-card:hover .reel-play-button {
+            opacity: 1;
         }
 
         .hotels-grid {
@@ -1351,9 +1414,9 @@
             transform: translateY(-2px);
         }
 
-        /* Footer - Enhanced */
+        /* Professional Footer */
         footer {
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.95) 100%);
             backdrop-filter: blur(20px);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding: 3rem 1rem 1.5rem;
@@ -1388,14 +1451,66 @@
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
             gap: 2rem;
             margin-bottom: 2rem;
         }
 
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-brand .logo {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-brand p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            max-width: 300px;
+        }
+
+        .footer-apps {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .app-badge {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 0.5rem 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--light);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .app-badge:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .app-badge i {
+            font-size: 1.2rem;
+        }
+
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+        }
+
         .footer-column h3 {
-            font-size: 1.1rem;
-            font-weight: 700;
+            font-size: 1rem;
+            font-weight: 600;
             margin-bottom: 1.2rem;
             color: var(--light);
             position: relative;
@@ -1407,24 +1522,26 @@
             position: absolute;
             bottom: -5px;
             left: 0;
-            width: 40px;
+            width: 30px;
             height: 2px;
             background: var(--primary);
         }
 
         .footer-links {
             list-style: none;
+            margin: 0;
+            padding: 0;
         }
 
         .footer-links li {
-            margin-bottom: 0.7rem;
+            margin-bottom: 0.8rem;
         }
 
         .footer-links a {
             color: var(--gray);
             text-decoration: none;
             transition: color 0.3s;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -1448,8 +1565,8 @@
         }
 
         .social-link {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1466,14 +1583,40 @@
         }
 
         .footer-bottom {
-            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
             padding-top: 1.5rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copyright {
             color: var(--gray);
             font-size: 0.85rem;
         }
 
-        /* Booking Modal - Enhanced */
+        .footer-legal {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-legal a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+        }
+
+        .footer-legal a:hover {
+            color: var(--light);
+        }
+
+        /* Enhanced Booking Modal */
         .booking-modal {
             display: none;
             position: fixed;
@@ -1497,11 +1640,11 @@
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             width: 100%;
-            max-width: 500px;
+            max-width: 600px;
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
-            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
         .modal-content::before {
@@ -1510,7 +1653,7 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
+            height: 4px;
             background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
         }
 
@@ -1518,14 +1661,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem;
+            padding: 2rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .modal-title {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            color: var(--light);
+            background: linear-gradient(90deg, var(--light), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         .modal-close {
@@ -1535,8 +1681,8 @@
             font-size: 1.5rem;
             cursor: pointer;
             transition: all 0.3s;
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1549,18 +1695,19 @@
         }
 
         .modal-body {
-            padding: 1.5rem;
+            padding: 2rem;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
         }
 
         .form-label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
             font-weight: 500;
             color: var(--light);
+            font-size: 0.95rem;
         }
 
         .form-input, .form-select, .form-textarea {
@@ -1568,9 +1715,9 @@
             background: rgba(30, 41, 59, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--light);
-            padding: 0.8rem 1rem;
-            border-radius: 10px;
-            font-size: 0.9rem;
+            padding: 0.9rem 1.2rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
             transition: all 0.3s;
         }
 
@@ -1582,31 +1729,31 @@
 
         .form-textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 120px;
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            gap: 1.2rem;
         }
 
         .modal-footer {
             display: flex;
             justify-content: flex-end;
             gap: 1rem;
-            padding: 1.5rem;
+            padding: 2rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .btn {
-            padding: 0.8rem 1.5rem;
-            border-radius: 10px;
+            padding: 0.9rem 1.8rem;
+            border-radius: 12px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             border: none;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
 
         .btn-secondary {
@@ -1635,10 +1782,11 @@
             background: rgba(16, 185, 129, 0.2);
             border: 1px solid var(--success);
             color: var(--success);
-            padding: 1rem;
-            border-radius: 10px;
-            margin-bottom: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            margin-bottom: 1.8rem;
             text-align: center;
+            font-weight: 500;
         }
 
         .success-message.active {
@@ -1740,6 +1888,17 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+            
+            .footer-brand {
+                grid-column: span 2;
+            }
+        }
+
         @media (max-width: 768px) {
             header {
                 padding: 0.5rem 1rem;
@@ -1772,6 +1931,18 @@
             }
 
             .weather-location {
+                font-size: 0.7rem;
+            }
+
+            .crowd-widget {
+                padding: 0.3rem 0.6rem;
+            }
+
+            .crowd-level {
+                font-size: 0.8rem;
+            }
+
+            .crowd-location {
                 font-size: 0.7rem;
             }
 
@@ -1907,10 +2078,19 @@
                 flex-shrink: 0;
             }
 
+            .reels-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+            }
+
             .footer-content {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
                 text-align: center;
+            }
+
+            .footer-brand {
+                grid-column: span 1;
             }
 
             .footer-column h3 {
@@ -1918,6 +2098,20 @@
             }
 
             .social-links {
+                justify-content: center;
+            }
+
+            .footer-apps {
+                justify-content: center;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .footer-legal {
                 justify-content: center;
             }
 
@@ -1939,12 +2133,8 @@
                 flex-direction: column;
             }
 
-            .media-grid {
-                gap: 0.8rem;
-            }
-
-            .media-card {
-                width: 240px;
+            .modal-content {
+                max-width: 90%;
             }
         }
 
@@ -2002,8 +2192,25 @@
                 font-size: 0.75rem;
             }
 
-            .media-card {
-                width: 200px;
+            .reels-container {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+
+            .modal-header {
+                padding: 1.5rem;
+            }
+
+            .modal-title {
+                font-size: 1.5rem;
+            }
+
+            .modal-body {
+                padding: 1.5rem;
+            }
+
+            .modal-footer {
+                padding: 1.5rem;
             }
         }
     </style>
@@ -2028,6 +2235,13 @@
                 <div class="weather-info">
                     <div class="weather-temp" id="weatherTemp">28°C</div>
                     <div class="weather-location" id="weatherLocation">Mumbai</div>
+                </div>
+            </div>
+            <div class="crowd-widget" id="crowdWidget">
+                <i class="fas fa-users crowd-icon crowd-medium-icon" id="crowdIcon"></i>
+                <div class="crowd-info">
+                    <div class="crowd-level" id="crowdLevel">Medium</div>
+                    <div class="crowd-location" id="crowdLocation">Gateway of India</div>
                 </div>
             </div>
             <button class="mobile-menu-btn" id="mobileMenuBtn">
@@ -2060,6 +2274,13 @@
                 <div class="weather-info">
                     <div class="weather-temp" id="mobileWeatherTemp">28°C</div>
                     <div class="weather-location" id="mobileWeatherLocation">Mumbai</div>
+                </div>
+            </div>
+            <div class="crowd-widget" style="margin-top: 1rem;">
+                <i class="fas fa-users crowd-icon crowd-medium-icon" id="mobileCrowdIcon"></i>
+                <div class="crowd-info">
+                    <div class="crowd-level" id="mobileCrowdLevel">Medium</div>
+                    <div class="crowd-location" id="mobileCrowdLocation">Gateway of India</div>
                 </div>
             </div>
         </div>
@@ -2341,52 +2562,84 @@
                     <i class="fas fa-video"></i>
                     Experience Reels
                 </h3>
-                <div class="media-grid">
-                    <div class="media-card">
-                        <img src="https://images.unsplash.com/photo-1593699583289-6d1a8135a9c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Destination" class="media-img">
-                        <div class="media-content">
-                            <h3 class="media-title">Scenic Beauty</h3>
-                            <p class="media-description">Breathtaking views of the destination.</p>
-                            <div class="media-type">
-                                <i class="fas fa-play"></i>
-                                <span>Video Reel</span>
+                <div class="reels-container">
+                    <div class="reel-card">
+                        <img src="https://images.unsplash.com/photo-1593699583289-6d1a8135a9c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Destination" class="reel-thumbnail">
+                        <div class="reel-overlay">
+                            <h4 class="reel-title">Scenic Beauty</h4>
+                            <div class="reel-stats">
+                                <div class="reel-stat">
+                                    <i class="fas fa-heart"></i>
+                                    <span>12.5K</span>
+                                </div>
+                                <div class="reel-stat">
+                                    <i class="fas fa-eye"></i>
+                                    <span>45.2K</span>
+                                </div>
                             </div>
+                        </div>
+                        <div class="reel-play-button">
+                            <i class="fas fa-play"></i>
                         </div>
                     </div>
                     
-                    <div class="media-card">
-                        <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Experience" class="media-img">
-                        <div class="media-content">
-                            <h3 class="media-title">Travel Experience</h3>
-                            <p class="media-description">Experience the culture and traditions.</p>
-                            <div class="media-type">
-                                <i class="fas fa-play"></i>
-                                <span>Video Reel</span>
+                    <div class="reel-card">
+                        <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Experience" class="reel-thumbnail">
+                        <div class="reel-overlay">
+                            <h4 class="reel-title">Travel Experience</h4>
+                            <div class="reel-stats">
+                                <div class="reel-stat">
+                                    <i class="fas fa-heart"></i>
+                                    <span>8.7K</span>
+                                </div>
+                                <div class="reel-stat">
+                                    <i class="fas fa-eye"></i>
+                                    <span>32.1K</span>
+                                </div>
                             </div>
+                        </div>
+                        <div class="reel-play-button">
+                            <i class="fas fa-play"></i>
                         </div>
                     </div>
                     
-                    <div class="media-card">
-                        <img src="https://images.unsplash.com/photo-1477587458883-4717ed88318e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Adventure" class="media-img">
-                        <div class="media-content">
-                            <h3 class="media-title">Adventure Activities</h3>
-                            <p class="media-description">Thrilling adventures for adrenaline junkies.</p>
-                            <div class="media-type">
-                                <i class="fas fa-play"></i>
-                                <span>Video Reel</span>
+                    <div class="reel-card">
+                        <img src="https://images.unsplash.com/photo-1477587458883-4717ed88318e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Adventure" class="reel-thumbnail">
+                        <div class="reel-overlay">
+                            <h4 class="reel-title">Adventure Activities</h4>
+                            <div class="reel-stats">
+                                <div class="reel-stat">
+                                    <i class="fas fa-heart"></i>
+                                    <span>15.3K</span>
+                                </div>
+                                <div class="reel-stat">
+                                    <i class="fas fa-eye"></i>
+                                    <span>67.8K</span>
+                                </div>
                             </div>
+                        </div>
+                        <div class="reel-play-button">
+                            <i class="fas fa-play"></i>
                         </div>
                     </div>
                     
-                    <div class="media-card">
-                        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Mountain" class="media-img">
-                        <div class="media-content">
-                            <h3 class="media-title">Mountain Views</h3>
-                            <p class="media-description">Majestic mountains and scenic landscapes.</p>
-                            <div class="media-type">
-                                <i class="fas fa-play"></i>
-                                <span>Video Reel</span>
+                    <div class="reel-card">
+                        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Mountain" class="reel-thumbnail">
+                        <div class="reel-overlay">
+                            <h4 class="reel-title">Mountain Views</h4>
+                            <div class="reel-stats">
+                                <div class="reel-stat">
+                                    <i class="fas fa-heart"></i>
+                                    <span>9.2K</span>
+                                </div>
+                                <div class="reel-stat">
+                                    <i class="fas fa-eye"></i>
+                                    <span>28.5K</span>
+                                </div>
                             </div>
+                        </div>
+                        <div class="reel-play-button">
+                            <i class="fas fa-play"></i>
                         </div>
                     </div>
                 </div>
@@ -2605,12 +2858,76 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Professional Footer -->
     <footer>
         <div class="footer-content">
+            <div class="footer-brand">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-compass"></i>
+                    </div>
+                    Bot-Voyage
+                </div>
+                <p>Your intelligent travel companion for exploring the incredible India. Discover hidden gems, book unique experiences, and create unforgettable memories.</p>
+                <div class="footer-apps">
+                    <a href="#" class="app-badge">
+                        <i class="fab fa-apple"></i>
+                        <div>
+                            <div style="font-size: 0.7rem;">Download on the</div>
+                            <div style="font-weight: 600;">App Store</div>
+                        </div>
+                    </a>
+                    <a href="#" class="app-badge">
+                        <i class="fab fa-google-play"></i>
+                        <div>
+                            <div style="font-size: 0.7rem;">Get it on</div>
+                            <div style="font-weight: 600;">Google Play</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
             <div class="footer-column">
-                <h3>Bot-Voyage</h3>
-                <p>Your intelligent travel companion for exploring the incredible India.</p>
+                <h3>Features</h3>
+                <ul class="footer-links">
+                    <li><a href="#">AI Travel Assistant</a></li>
+                    <li><a href="#">Voice Commands</a></li>
+                    <li><a href="#">Live Updates</a></li>
+                    <li><a href="#">Personalized Plans</a></li>
+                    <li><a href="#">Real-time Crowd Data</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Safety Information</a></li>
+                    <li><a href="#">Cancellation Options</a></li>
+                    <li><a href="#">COVID-19 Guidelines</a></li>
+                    <li><a href="#">Travel Insurance</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Partners</a></li>
+                    <li><a href="#">Affiliates</a></li>
+                    <li><a href="#">Developers</a></li>
+                </ul>
                 <div class="social-links">
                     <a href="#" class="social-link">
                         <i class="fab fa-facebook-f"></i>
@@ -2624,46 +2941,28 @@
                     <a href="#" class="social-link">
                         <i class="fab fa-youtube"></i>
                     </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
                 </div>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Features</h3>
-                <ul class="footer-links">
-                    <li><a href="#">AI Travel Assistant</a></li>
-                    <li><a href="#">Voice Commands</a></li>
-                    <li><a href="#">Live Updates</a></li>
-                    <li><a href="#">Personalized Plans</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Company</h3>
-                <ul class="footer-links">
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Support</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Safety Information</a></li>
-                    <li><a href="#">Cancellation Options</a></li>
-                    <li><a href="#">COVID-19 Guidelines</a></li>
-                </ul>
             </div>
         </div>
         
         <div class="footer-bottom">
-            <p>&copy; 2023 Bot-Voyage. All rights reserved.</p>
+            <div class="footer-copyright">
+                &copy; 2023 Bot-Voyage Technologies Pvt. Ltd. All rights reserved.
+            </div>
+            <div class="footer-legal">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookie Policy</a>
+                <a href="#">Accessibility</a>
+                <a href="#">Sitemap</a>
+            </div>
         </div>
     </footer>
 
-    <!-- Booking Modal -->
+    <!-- Enhanced Booking Modal -->
     <div class="booking-modal" id="bookingModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -2757,6 +3056,15 @@
         const mobileWeatherIcon = document.getElementById('mobileWeatherIcon');
         const mobileWeatherTemp = document.getElementById('mobileWeatherTemp');
         const mobileWeatherLocation = document.getElementById('mobileWeatherLocation');
+        
+        // Crowd Elements
+        const crowdWidget = document.getElementById('crowdWidget');
+        const crowdIcon = document.getElementById('crowdIcon');
+        const crowdLevel = document.getElementById('crowdLevel');
+        const crowdLocation = document.getElementById('crowdLocation');
+        const mobileCrowdIcon = document.getElementById('mobileCrowdIcon');
+        const mobileCrowdLevel = document.getElementById('mobileCrowdLevel');
+        const mobileCrowdLocation = document.getElementById('mobileCrowdLocation');
 
         // Mobile Menu Toggle
         mobileMenuBtn.addEventListener('click', () => {
@@ -3000,6 +3308,75 @@
             fetchWeatherData();
         });
 
+        // Live Crowd functionality
+        function updateCrowdUI(data) {
+            // Update crowd icon based on crowd level
+            let iconClass = 'fas fa-users crowd-icon crowd-low-icon';
+            if (data.level === 'medium') {
+                iconClass = 'fas fa-users crowd-icon crowd-medium-icon';
+            } else if (data.level === 'high') {
+                iconClass = 'fas fa-users crowd-icon crowd-high-icon';
+            }
+            
+            // Update crowd elements
+            crowdIcon.className = iconClass;
+            mobileCrowdIcon.className = iconClass;
+            
+            // Update crowd level
+            crowdLevel.textContent = data.level.charAt(0).toUpperCase() + data.level.slice(1);
+            mobileCrowdLevel.textContent = data.level.charAt(0).toUpperCase() + data.level.slice(1);
+            
+            // Update location
+            crowdLocation.textContent = data.location;
+            mobileCrowdLocation.textContent = data.location;
+        }
+
+        // Function to simulate crowd data
+        function fetchCrowdData() {
+            // In a real app, this would fetch real-time crowd data from an API
+            // For demo, we'll simulate it with random data
+            const locations = [
+                'Gateway of India',
+                'Taj Mahal',
+                'Red Fort',
+                'India Gate',
+                'Marina Beach'
+            ];
+            
+            const levels = ['low', 'medium', 'high'];
+            
+            const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+            const randomLevel = levels[Math.floor(Math.random() * levels.length)];
+            
+            updateCrowdUI({
+                location: randomLocation,
+                level: randomLevel
+            });
+        }
+
+        // Fetch crowd data on page load
+        fetchCrowdData();
+
+        // Update crowd data every 30 seconds
+        setInterval(fetchCrowdData, 30000);
+
+        // Update crowd when clicking on the crowd widget
+        crowdWidget.addEventListener('click', () => {
+            // In a real app, this could open a detailed crowd view
+            // For demo, we'll just refresh the data
+            fetchCrowdData();
+        });
+
+        // Reels functionality
+        const reelCards = document.querySelectorAll('.reel-card');
+        
+        reelCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // In a real app, this would open the reel video
+                console.log('Reel clicked');
+            });
+        });
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -3030,7 +3407,7 @@
         }, observerOptions);
 
         // Observe elements for animation
-        document.querySelectorAll('.gem-card, .activity-card').forEach(el => {
+        document.querySelectorAll('.gem-card, .activity-card, .reel-card').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
             el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
