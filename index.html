@@ -136,53 +136,23 @@
             color: var(--gray);
         }
 
-        /* Live Crowd Widget */
-        .crowd-widget {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 0.4rem 0.7rem;
+        /* Login Button */
+        .login-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
             border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .crowd-widget:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .crowd-icon {
-            font-size: 1rem;
-        }
-
-        .crowd-low-icon {
-            color: var(--crowd-low);
-        }
-
-        .crowd-medium-icon {
-            color: var(--crowd-medium);
-        }
-
-        .crowd-high-icon {
-            color: var(--crowd-high);
-        }
-
-        .crowd-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .crowd-level {
             font-weight: 600;
-            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
         }
 
-        .crowd-location {
-            font-size: 0.65rem;
-            color: var(--gray);
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
         }
 
         /* Mobile Menu Button */
@@ -712,6 +682,57 @@
             font-size: 0.9rem;
         }
 
+        /* Crowd Widget in Gem Cards */
+        .gem-crowd-widget {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 0.6rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            width: fit-content;
+        }
+
+        .gem-crowd-widget:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .gem-crowd-icon {
+            font-size: 0.9rem;
+        }
+
+        .gem-crowd-low-icon {
+            color: var(--crowd-low);
+        }
+
+        .gem-crowd-medium-icon {
+            color: var(--crowd-medium);
+        }
+
+        .gem-crowd-high-icon {
+            color: var(--crowd-high);
+        }
+
+        .gem-crowd-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gem-crowd-level {
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        .gem-crowd-location {
+            font-size: 0.6rem;
+            color: var(--gray);
+        }
+
         .gem-footer {
             display: flex;
             justify-content: space-between;
@@ -1011,6 +1032,8 @@
             align-items: center;
             justify-content: space-between;
             margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .back-btn {
@@ -1047,6 +1070,36 @@
             display: grid;
             grid-template-columns: 1fr;
             gap: 2rem;
+        }
+
+        .map-container {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            height: 400px;
+            margin-bottom: 2rem;
+        }
+
+        .map-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            animation: shimmer 3s infinite;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+            border-radius: 10px;
         }
 
         .results-section {
@@ -1703,6 +1756,75 @@
             visibility: visible;
         }
 
+        /* Login Modal */
+        .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .login-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+        }
+
+        .login-modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--light);
+        }
+
+        .modal-message {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .modal-close {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .modal-close:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
         /* Responsive Design */
         @media (max-width: 1024px) {
             .footer-content {
@@ -1758,20 +1880,9 @@
                 font-size: 0.6rem;
             }
 
-            .crowd-widget {
-                padding: 0.3rem 0.5rem;
-            }
-
-            .crowd-icon {
-                font-size: 0.9rem;
-            }
-
-            .crowd-level {
-                font-size: 0.75rem;
-            }
-
-            .crowd-location {
-                font-size: 0.6rem;
+            .login-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
             }
 
             .hero {
@@ -1961,6 +2072,18 @@
             .results-title {
                 font-size: 1.5rem;
             }
+
+            .map-container {
+                height: 300px;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+
+            .modal-title {
+                font-size: 1.3rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -2024,6 +2147,18 @@
             .hotel-card {
                 width: 200px;
             }
+
+            .map-container {
+                height: 250px;
+            }
+
+            .modal-content {
+                padding: 1.2rem;
+            }
+
+            .modal-title {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
@@ -2049,13 +2184,7 @@
                     <div class="weather-location" id="weatherLocation">Mumbai</div>
                 </div>
             </div>
-            <div class="crowd-widget" id="crowdWidget">
-                <i class="fas fa-users crowd-icon crowd-medium-icon" id="crowdIcon"></i>
-                <div class="crowd-info">
-                    <div class="crowd-level" id="crowdLevel">Medium</div>
-                    <div class="crowd-location" id="crowdLocation">Gateway</div>
-                </div>
-            </div>
+            <button class="login-btn" id="loginBtn">Login</button>
             <button class="mobile-menu-btn" id="mobileMenuBtn">
                 <i class="fas fa-bars"></i>
             </button>
@@ -2088,18 +2217,20 @@
                     <div class="weather-location" id="mobileWeatherLocation">Mumbai</div>
                 </div>
             </div>
-            <div class="crowd-widget" style="margin-top: 1rem;">
-                <i class="fas fa-users crowd-icon crowd-medium-icon" id="mobileCrowdIcon"></i>
-                <div class="crowd-info">
-                    <div class="crowd-level" id="mobileCrowdLevel">Medium</div>
-                    <div class="crowd-location" id="mobileCrowdLocation">Gateway</div>
-                </div>
-            </div>
         </div>
     </div>
 
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
+
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="modal-content">
+            <h3 class="modal-title">Coming Soon!</h3>
+            <p class="modal-message">We're working hard to bring you the best login experience. Stay tuned!</p>
+            <button class="modal-close" id="modalClose">Close</button>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
@@ -2211,6 +2342,11 @@
         </div>
         
         <div class="results-content">
+            <!-- Map Container -->
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+            
             <div class="results-section">
                 <h3 class="results-section-title">
                     <i class="fas fa-calendar-alt"></i>
@@ -2321,6 +2457,16 @@
                                 <span class="gem-badge">Must Visit</span>
                             </h3>
                             <p class="gem-description">A breathtaking waterfall hidden away from the tourist crowds.</p>
+                            
+                            <!-- Crowd Widget in Gem Card -->
+                            <div class="gem-crowd-widget">
+                                <i class="fas fa-users gem-crowd-icon gem-crowd-medium-icon"></i>
+                                <div class="gem-crowd-info">
+                                    <div class="gem-crowd-level">Medium</div>
+                                    <div class="gem-crowd-location">Western Ghats</div>
+                                </div>
+                            </div>
+                            
                             <div class="gem-footer">
                                 <div class="gem-location">
                                     <i class="fas fa-map-marker-alt"></i>
@@ -2339,6 +2485,16 @@
                                 <span class="gem-badge">Historical</span>
                             </h3>
                             <p class="gem-description">A centuries-old temple with intricate carvings and rich history.</p>
+                            
+                            <!-- Crowd Widget in Gem Card -->
+                            <div class="gem-crowd-widget">
+                                <i class="fas fa-users gem-crowd-icon gem-crowd-low-icon"></i>
+                                <div class="gem-crowd-info">
+                                    <div class="gem-crowd-level">Low</div>
+                                    <div class="gem-crowd-location">Tamil Nadu</div>
+                                </div>
+                            </div>
+                            
                             <div class="gem-footer">
                                 <div class="gem-location">
                                     <i class="fas fa-map-marker-alt"></i>
@@ -2357,6 +2513,16 @@
                                 <span class="gem-badge">Nature</span>
                             </h3>
                             <p class="gem-description">A mystical forest trail with diverse flora and fauna.</p>
+                            
+                            <!-- Crowd Widget in Gem Card -->
+                            <div class="gem-crowd-widget">
+                                <i class="fas fa-users gem-crowd-icon gem-crowd-high-icon"></i>
+                                <div class="gem-crowd-info">
+                                    <div class="gem-crowd-level">High</div>
+                                    <div class="gem-crowd-location">Nature Reserve</div>
+                                </div>
+                            </div>
+                            
                             <div class="gem-footer">
                                 <div class="gem-location">
                                     <i class="fas fa-map-marker-alt"></i>
@@ -2532,6 +2698,16 @@
                             <span class="gem-badge">Hidden</span>
                         </h3>
                         <p class="gem-description">A breathtaking waterfall hidden away from the tourist crowds. Perfect for a peaceful day in nature.</p>
+                        
+                        <!-- Crowd Widget in Gem Card -->
+                        <div class="gem-crowd-widget">
+                            <i class="fas fa-users gem-crowd-icon gem-crowd-medium-icon"></i>
+                            <div class="gem-crowd-info">
+                                <div class="gem-crowd-level">Medium</div>
+                                <div class="gem-crowd-location">Western Ghats</div>
+                            </div>
+                        </div>
+                        
                         <div class="gem-footer">
                             <div class="gem-location">
                                 <i class="fas fa-map-marker-alt"></i>
@@ -2550,6 +2726,16 @@
                             <span class="gem-badge">Offbeat</span>
                         </h3>
                         <p class="gem-description">A quaint village nestled in the mountains with traditional architecture and stunning views.</p>
+                        
+                        <!-- Crowd Widget in Gem Card -->
+                        <div class="gem-crowd-widget">
+                            <i class="fas fa-users gem-crowd-icon gem-crowd-low-icon"></i>
+                            <div class="gem-crowd-info">
+                                <div class="gem-crowd-level">Low</div>
+                                <div class="gem-crowd-location">Himachal Pradesh</div>
+                            </div>
+                        </div>
+                        
                         <div class="gem-footer">
                             <div class="gem-location">
                                 <i class="fas fa-map-marker-alt"></i>
@@ -2568,6 +2754,16 @@
                             <span class="gem-badge">Historical</span>
                         </h3>
                         <p class="gem-description">A centuries-old temple with intricate carvings and a rich history waiting to be discovered.</p>
+                        
+                        <!-- Crowd Widget in Gem Card -->
+                        <div class="gem-crowd-widget">
+                            <i class="fas fa-users gem-crowd-icon gem-crowd-medium-icon"></i>
+                            <div class="gem-crowd-info">
+                                <div class="gem-crowd-level">Medium</div>
+                                <div class="gem-crowd-location">Tamil Nadu</div>
+                            </div>
+                        </div>
+                        
                         <div class="gem-footer">
                             <div class="gem-location">
                                 <i class="fas fa-map-marker-alt"></i>
@@ -2792,6 +2988,9 @@
         const backBtn = document.getElementById('backBtn');
         const resultsTitle = document.getElementById('resultsTitle');
         const heroSection = document.getElementById('home');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginModal = document.getElementById('loginModal');
+        const modalClose = document.getElementById('modalClose');
         
         // Weather Elements
         const weatherWidget = document.getElementById('weatherWidget');
@@ -2801,15 +3000,9 @@
         const mobileWeatherIcon = document.getElementById('mobileWeatherIcon');
         const mobileWeatherTemp = document.getElementById('mobileWeatherTemp');
         const mobileWeatherLocation = document.getElementById('mobileWeatherLocation');
-        
-        // Crowd Elements
-        const crowdWidget = document.getElementById('crowdWidget');
-        const crowdIcon = document.getElementById('crowdIcon');
-        const crowdLevel = document.getElementById('crowdLevel');
-        const crowdLocation = document.getElementById('crowdLocation');
-        const mobileCrowdIcon = document.getElementById('mobileCrowdIcon');
-        const mobileCrowdLevel = document.getElementById('mobileCrowdLevel');
-        const mobileCrowdLocation = document.getElementById('mobileCrowdLocation');
+
+        // Map variable
+        let map;
 
         // Mobile Menu Toggle
         mobileMenuBtn.addEventListener('click', () => {
@@ -2840,6 +3033,25 @@
             });
         });
 
+        // Login Button Functionality
+        loginBtn.addEventListener('click', () => {
+            loginModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        modalClose.addEventListener('click', () => {
+            loginModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close modal when clicking outside
+        loginModal.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
         // Chat functionality
         function sendMessage() {
             const message = chatInput.value.trim();
@@ -2853,6 +3065,9 @@
                 
                 // Set the title based on the search query
                 resultsTitle.textContent = `Search Results for "${message}"`;
+                
+                // Initialize map based on destination
+                initializeMap(message);
                 
                 // Scroll to top
                 window.scrollTo(0, 0);
@@ -2885,6 +3100,12 @@
             document.getElementById('gems').style.display = 'block';
             document.getElementById('activities').style.display = 'block';
             document.querySelector('footer').style.display = 'block';
+            
+            // Destroy map to free resources
+            if (map) {
+                map.remove();
+                map = null;
+            }
             
             // Scroll to top
             window.scrollTo(0, 0);
@@ -2986,65 +3207,46 @@
             fetchWeatherData();
         });
 
-        // Live Crowd functionality
-        function updateCrowdUI(data) {
-            // Update crowd icon based on crowd level
-            let iconClass = 'fas fa-users crowd-icon crowd-low-icon';
-            if (data.level === 'medium') {
-                iconClass = 'fas fa-users crowd-icon crowd-medium-icon';
-            } else if (data.level === 'high') {
-                iconClass = 'fas fa-users crowd-icon crowd-high-icon';
+        // Initialize map based on destination
+        function initializeMap(destination) {
+            // Map coordinates for different destinations
+            const destinations = {
+                'goa': [15.2993, 74.1240],
+                'rajasthan': [27.0238, 74.2179],
+                'mumbai': [19.0760, 72.8777],
+                'delhi': [28.7041, 77.1025],
+                'kashmir': [33.7781, 76.5762],
+                'kerala': [10.8505, 76.2711],
+                'himachal': [31.1048, 77.1734]
+            };
+            
+            // Get coordinates for the destination
+            let coords = [20.5937, 78.9629]; // Default to center of India
+            let destinationName = 'India';
+            
+            // Check if destination is in our list
+            const destKey = destination.toLowerCase();
+            for (const key in destinations) {
+                if (destKey.includes(key)) {
+                    coords = destinations[key];
+                    destinationName = key.charAt(0).toUpperCase() + key.slice(1);
+                    break;
+                }
             }
             
-            // Update crowd elements
-            crowdIcon.className = iconClass;
-            mobileCrowdIcon.className = iconClass;
+            // Initialize the map
+            map = L.map('map').setView(coords, 10);
             
-            // Update crowd level
-            crowdLevel.textContent = data.level.charAt(0).toUpperCase() + data.level.slice(1);
-            mobileCrowdLevel.textContent = data.level.charAt(0).toUpperCase() + data.level.slice(1);
+            // Add tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
             
-            // Update location - truncate for mobile
-            const location = data.location;
-            crowdLocation.textContent = location.length > 10 ? location.substring(0, 10) + '...' : location;
-            mobileCrowdLocation.textContent = location.length > 10 ? location.substring(0, 10) + '...' : location;
+            // Add a marker for the destination
+            L.marker(coords).addTo(map)
+                .bindPopup(`<b>${destinationName}</b><br>Your travel destination`)
+                .openPopup();
         }
-
-        // Function to simulate crowd data
-        function fetchCrowdData() {
-            // In a real app, this would fetch real-time crowd data from an API
-            // For demo, we'll simulate it with random data
-            const locations = [
-                'Gateway of India',
-                'Taj Mahal',
-                'Red Fort',
-                'India Gate',
-                'Marina Beach'
-            ];
-            
-            const levels = ['low', 'medium', 'high'];
-            
-            const randomLocation = locations[Math.floor(Math.random() * locations.length)];
-            const randomLevel = levels[Math.floor(Math.random() * levels.length)];
-            
-            updateCrowdUI({
-                location: randomLocation,
-                level: randomLevel
-            });
-        }
-
-        // Fetch crowd data on page load
-        fetchCrowdData();
-
-        // Update crowd data every 30 seconds
-        setInterval(fetchCrowdData, 30000);
-
-        // Update crowd when clicking on the crowd widget
-        crowdWidget.addEventListener('click', () => {
-            // In a real app, this could open a detailed crowd view
-            // For demo, we'll just refresh the data
-            fetchCrowdData();
-        });
 
         // Reels functionality
         const reelCards = document.querySelectorAll('.reel-card');
