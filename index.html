@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
+        /* All existing CSS remains unchanged */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
         :root {
@@ -2225,6 +2226,51 @@
             transform: translateY(-2px);
         }
 
+        /* Loading indicator */
+        .loading-indicator {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(99, 102, 241, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 10;
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .chat-input-container.loading .loading-indicator {
+            display: block;
+        }
+
+        .chat-input-container.loading .send-btn {
+            display: none;
+        }
+
+        /* Error message */
+        .error-message {
+            display: none;
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
         /* Responsive Design */
         @media (max-width: 1024px) {
             .footer-content {
@@ -2311,7 +2357,7 @@
             .chat-container {
                 padding: 1.2rem;
                 border-radius: 16px;
-                box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.4);
+                box-shadow: 0 15rem 30rem -10rem rgba(0, 0, 0, 0.4);
             }
 
             .popular-searches {
@@ -2869,7 +2915,9 @@
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
+                    <div class="loading-indicator"></div>
                 </div>
+                <div class="error-message" id="errorMessage">Failed to generate travel plan. Please try again.</div>
             </div>
             
             <!-- Collaborative Feature Button - Redesigned -->
@@ -2953,117 +3001,8 @@
                     <i class="fas fa-calendar-alt"></i>
                     Your Day-wise Plan
                 </h3>
-                <div class="day-plan">
-                    <div class="day-card">
-                        <div class="day-header">
-                            <h4 class="day-title">Day 1: Arrival</h4>
-                            <span class="day-date">Today</span>
-                        </div>
-                        <div class="day-activities">
-                            <div class="day-activity">
-                                <div class="day-activity-icon">
-                                    <i class="fas fa-plane-arrival"></i>
-                                </div>
-                                <div class="day-activity-info">
-                                    <div class="day-activity-header">
-                                        <div class="day-activity-name">Arrive at Destination</div>
-                                        <div class="day-activity-time">10:00 AM</div>
-                                    </div>
-                                    <div class="day-activity-desc">Pick up from airport and transfer to hotel</div>
-                                </div>
-                            </div>
-                            <div class="day-activity">
-                                <div class="day-activity-icon">
-                                    <i class="fas fa-utensils"></i>
-                                </div>
-                                <div class="day-activity-info">
-                                    <div class="day-activity-header">
-                                        <div class="day-activity-name">Local Cuisine Experience</div>
-                                        <div class="day-activity-time">1:00 PM</div>
-                                    </div>
-                                    <div class="day-activity-desc">Taste authentic local dishes</div>
-                                </div>
-                            </div>
-                            <div class="day-activity">
-                                <div class="day-activity-icon">
-                                    <i class="fas fa-moon"></i>
-                                </div>
-                                <div class="day-activity-info">
-                                    <div class="day-activity-header">
-                                        <div class="day-activity-name">Evening Exploration</div>
-                                        <div class="day-activity-time">6:00 PM</div>
-                                    </div>
-                                    <div class="day-activity-desc">Explore the local markets and nightlife</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="day-card">
-                        <div class="day-header">
-                            <h4 class="day-title">Day 2: Sightseeing</h4>
-                            <span class="day-date">Tomorrow</span>
-                        </div>
-                        <div class="day-activities">
-                            <div class="day-activity">
-                                <div class="day-activity-icon">
-                                    <i class="fas fa-landmark"></i>
-                                </div>
-                                <div class="day-activity-info">
-                                    <div class="day-activity-header">
-                                        <div class="day-activity-name">Historical Sites</div>
-                                        <div class="day-activity-time">9:00 AM</div>
-                                    </div>
-                                    <div class="day-activity-desc">Visit famous historical landmarks</div>
-                                </div>
-                            </div>
-                            <div class="day-activity">
-                                <div class="day-activity-icon">
-                                    <i class="fas fa-camera"></i>
-                                </div>
-                                <div class="day-activity-info">
-                                    <div class="day-activity-header">
-                                        <div class="day-activity-name">Photography Tour</div>
-                                        <div class="day-activity-time">2:00 PM</div>
-                                    </div>
-                                    <div class="day-activity-desc">Capture the beauty of the destination</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="day-card">
-                        <div class="day-header">
-                            <h4 class="day-title">Day 3: Adventure</h4>
-                            <span class="day-date">Day After</span>
-                        </div>
-                        <div class="day-activities">
-                            <div class="day-activity">
-                                <div class="day-activity-icon">
-                                    <i class="fas fa-hiking"></i>
-                                </div>
-                                <div class="day-activity-info">
-                                    <div class="day-activity-header">
-                                        <div class="day-activity-name">Adventure Activities</div>
-                                        <div class="day-activity-time">10:00 AM</div>
-                                    </div>
-                                    <div class="day-activity-desc">Experience thrilling adventures</div>
-                                </div>
-                            </div>
-                            <div class="day-activity">
-                                <div class="day-activity-icon">
-                                    <i class="fas fa-plane-departure"></i>
-                                </div>
-                                <div class="day-activity-info">
-                                    <div class="day-activity-header">
-                                        <div class="day-activity-name">Departure</div>
-                                        <div class="day-activity-time">4:00 PM</div>
-                                    </div>
-                                    <div class="day-activity-desc">Transfer to airport for departure</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="day-plan" id="dayPlan">
+                    <!-- Day cards will be dynamically generated here -->
                 </div>
             </div>
             
@@ -3073,90 +3012,8 @@
                     <i class="fas fa-gem"></i>
                     Hidden Gems to Explore
                 </h3>
-                <div class="gems-container">
-                    <div class="gem-card">
-                        <img src="https://images.unsplash.com/photo-1589481633157-cd991b615e8e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Hidden Waterfall" class="gem-img">
-                        <div class="gem-content">
-                            <h3 class="gem-title">
-                                Secret Waterfall
-                                <span class="gem-badge">Must Visit</span>
-                            </h3>
-                            <p class="gem-description">A breathtaking waterfall hidden away from the tourist crowds.</p>
-                            
-                            <!-- Crowd Widget in Gem Card -->
-                            <div class="gem-crowd-widget">
-                                <i class="fas fa-users gem-crowd-icon gem-crowd-medium-icon"></i>
-                                <div class="gem-crowd-info">
-                                    <div class="gem-crowd-level">Medium</div>
-                                    <div class="gem-crowd-location">Western Ghats</div>
-                                </div>
-                            </div>
-                            
-                            <div class="gem-footer">
-                                <div class="gem-location">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span>Remote Location</span>
-                                </div>
-                                <button class="gem-btn">Explore</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="gem-card">
-                        <img src="https://images.unsplash.com/photo-1596394616838-073a3528f5a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Ancient Temple" class="gem-img">
-                        <div class="gem-content">
-                            <h3 class="gem-title">
-                                Ancient Temple
-                                <span class="gem-badge">Historical</span>
-                            </h3>
-                            <p class="gem-description">A centuries-old temple with intricate carvings and rich history.</p>
-                            
-                            <!-- Crowd Widget in Gem Card -->
-                            <div class="gem-crowd-widget">
-                                <i class="fas fa-users gem-crowd-icon gem-crowd-low-icon"></i>
-                                <div class="gem-crowd-info">
-                                    <div class="gem-crowd-level">Low</div>
-                                    <div class="gem-crowd-location">Tamil Nadu</div>
-                                </div>
-                            </div>
-                            
-                            <div class="gem-footer">
-                                <div class="gem-location">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span>Heritage Site</span>
-                                </div>
-                                <button class="gem-btn">Visit</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="gem-card">
-                        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Forest Trail" class="gem-img">
-                        <div class="gem-content">
-                            <h3 class="gem-title">
-                                Enchanted Forest
-                                <span class="gem-badge">Nature</span>
-                            </h3>
-                            <p class="gem-description">A mystical forest trail with diverse flora and fauna.</p>
-                            
-                            <!-- Crowd Widget in Gem Card -->
-                            <div class="gem-crowd-widget">
-                                <i class="fas fa-users gem-crowd-icon gem-crowd-high-icon"></i>
-                                <div class="gem-crowd-info">
-                                    <div class="gem-crowd-level">High</div>
-                                    <div class="gem-crowd-location">Nature Reserve</div>
-                                </div>
-                            </div>
-                            
-                            <div class="gem-footer">
-                                <div class="gem-location">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span>Nature Reserve</span>
-                                </div>
-                                <button class="gem-btn">Trek</button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="gems-container" id="gemsContainer">
+                    <!-- Gem cards will be dynamically generated here -->
                 </div>
             </div>
             
@@ -3166,86 +3023,8 @@
                     <i class="fas fa-video"></i>
                     Experience Reels
                 </h3>
-                <div class="reels-container">
-                    <div class="reel-card" data-video="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" data-title="Scenic Beauty" data-description="Experience the breathtaking beauty of this destination">
-                        <img src="https://images.unsplash.com/photo-1593699583289-6d1a8135a9c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Destination" class="reel-thumbnail">
-                        <div class="reel-overlay">
-                            <h4 class="reel-title">Scenic Beauty</h4>
-                            <div class="reel-stats">
-                                <div class="reel-stat">
-                                    <i class="fas fa-heart"></i>
-                                    <span>12.5K</span>
-                                </div>
-                                <div class="reel-stat">
-                                    <i class="fas fa-eye"></i>
-                                    <span>45.2K</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="reel-play-button">
-                            <i class="fas fa-play"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="reel-card" data-video="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" data-title="Travel Experience" data-description="Immerse yourself in the local culture and traditions">
-                        <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Experience" class="reel-thumbnail">
-                        <div class="reel-overlay">
-                            <h4 class="reel-title">Travel Experience</h4>
-                            <div class="reel-stats">
-                                <div class="reel-stat">
-                                    <i class="fas fa-heart"></i>
-                                    <span>8.7K</span>
-                                </div>
-                                <div class="reel-stat">
-                                    <i class="fas fa-eye"></i>
-                                    <span>32.1K</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="reel-play-button">
-                            <i class="fas fa-play"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="reel-card" data-video="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" data-title="Adventure Activities" data-description="Experience thrilling adventures in this destination">
-                        <img src="https://images.unsplash.com/photo-1477587458883-4717ed88318e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Adventure" class="reel-thumbnail">
-                        <div class="reel-overlay">
-                            <h4 class="reel-title">Adventure Activities</h4>
-                            <div class="reel-stats">
-                                <div class="reel-stat">
-                                    <i class="fas fa-heart"></i>
-                                    <span>15.3K</span>
-                                </div>
-                                <div class="reel-stat">
-                                    <i class="fas fa-eye"></i>
-                                    <span>67.8K</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="reel-play-button">
-                            <i class="fas fa-play"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="reel-card" data-video="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" data-title="Mountain Views" data-description="Enjoy breathtaking mountain views and landscapes">
-                        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Mountain" class="reel-thumbnail">
-                        <div class="reel-overlay">
-                            <h4 class="reel-title">Mountain Views</h4>
-                            <div class="reel-stats">
-                                <div class="reel-stat">
-                                    <i class="fas fa-heart"></i>
-                                    <span>9.2K</span>
-                                </div>
-                                <div class="reel-stat">
-                                    <i class="fas fa-eye"></i>
-                                    <span>28.5K</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="reel-play-button">
-                            <i class="fas fa-play"></i>
-                        </div>
-                    </div>
+                <div class="reels-container" id="reelsContainer">
+                    <!-- Reel cards will be dynamically generated here -->
                 </div>
             </div>
             
@@ -3255,54 +3034,8 @@
                     <i class="fas fa-hotel"></i>
                     Nearby Hotels
                 </h3>
-                <div class="hotels-container">
-                    <div class="hotel-card">
-                        <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Luxury Hotel" class="hotel-img">
-                        <div class="hotel-content">
-                            <h3 class="hotel-title">Luxury Resort</h3>
-                            <div class="hotel-rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.8 (324)</span>
-                            </div>
-                            <p class="hotel-description">Experience luxury at its finest with premium amenities.</p>
-                            <div class="hotel-footer">
-                                <div class="hotel-price">₹8,500/night</div>
-                                <button class="hotel-btn book-now-btn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="hotel-card">
-                        <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Boutique Hotel" class="hotel-img">
-                        <div class="hotel-content">
-                            <h3 class="hotel-title">Boutique Hotel</h3>
-                            <div class="hotel-rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.6 (198)</span>
-                            </div>
-                            <p class="hotel-description">Charming boutique hotel with personalized service.</p>
-                            <div class="hotel-footer">
-                                <div class="hotel-price">₹6,200/night</div>
-                                <button class="hotel-btn book-now-btn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="hotel-card">
-                        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Heritage Hotel" class="hotel-img">
-                        <div class="hotel-content">
-                            <h3 class="hotel-title">Heritage Hotel</h3>
-                            <div class="hotel-rating">
-                                <i class="fas fa-star"></i>
-                                <span>4.7 (256)</span>
-                            </div>
-                            <p class="hotel-description">Stay in a beautifully restored heritage property.</p>
-                            <div class="hotel-footer">
-                                <div class="hotel-price">₹5,800/night</div>
-                                <button class="hotel-btn book-now-btn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="hotels-container" id="hotelsContainer">
+                    <!-- Hotel cards will be dynamically generated here -->
                 </div>
             </div>
         </div>
@@ -3599,7 +3332,6 @@
         const videoPlayer = document.getElementById('videoPlayer');
         const videoTitle = document.getElementById('videoTitle');
         const videoDescription = document.getElementById('videoDescription');
-        const reelCards = document.querySelectorAll('.reel-card');
         
         // Collaborative Modal Elements
         const collabBtn = document.getElementById('collabBtn');
@@ -3627,6 +3359,13 @@
         const statValue1 = document.getElementById('statValue1');
         const statValue2 = document.getElementById('statValue2');
         const statValue3 = document.getElementById('statValue3');
+        
+        // Dynamic Content Elements
+        const dayPlan = document.getElementById('dayPlan');
+        const gemsContainer = document.getElementById('gemsContainer');
+        const reelsContainer = document.getElementById('reelsContainer');
+        const hotelsContainer = document.getElementById('hotelsContainer');
+        const errorMessage = document.getElementById('errorMessage');
 
         // Map variable
         let map;
@@ -3708,11 +3447,12 @@
         });
 
         // Video Modal Functionality
-        reelCards.forEach(card => {
-            card.addEventListener('click', () => {
-                const videoSrc = card.getAttribute('data-video');
-                const title = card.getAttribute('data-title');
-                const description = card.getAttribute('data-description');
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.reel-card')) {
+                const reelCard = e.target.closest('.reel-card');
+                const videoSrc = reelCard.getAttribute('data-video');
+                const title = reelCard.getAttribute('data-title');
+                const description = reelCard.getAttribute('data-description');
                 
                 videoPlayer.src = videoSrc;
                 videoTitle.textContent = title;
@@ -3723,7 +3463,7 @@
                 
                 // Play video
                 videoPlayer.play();
-            });
+            }
         });
 
         videoClose.addEventListener('click', () => {
@@ -3824,28 +3564,425 @@
             }
         });
 
-        // Chat functionality
-        function sendMessage() {
+        // Sample data for fallback
+        const sampleData = {
+            dayPlan: [
+                {
+                    day: "Day 1",
+                    title: "Arrival",
+                    activities: [
+                        {
+                            time: "10:00 AM",
+                            name: "Arrive at Destination",
+                            description: "Pick up from airport and transfer to hotel"
+                        },
+                        {
+                            time: "1:00 PM",
+                            name: "Local Cuisine Experience",
+                            description: "Taste authentic local dishes"
+                        },
+                        {
+                            time: "6:00 PM",
+                            name: "Evening Exploration",
+                            description: "Explore the local markets and nightlife"
+                        }
+                    ]
+                },
+                {
+                    day: "Day 2",
+                    title: "Sightseeing",
+                    activities: [
+                        {
+                            time: "9:00 AM",
+                            name: "Historical Sites",
+                            description: "Visit famous historical landmarks"
+                        },
+                        {
+                            time: "2:00 PM",
+                            name: "Photography Tour",
+                            description: "Capture the beauty of the destination"
+                        }
+                    ]
+                },
+                {
+                    day: "Day 3",
+                    title: "Adventure",
+                    activities: [
+                        {
+                            time: "10:00 AM",
+                            name: "Adventure Activities",
+                            description: "Experience thrilling adventures"
+                        },
+                        {
+                            time: "4:00 PM",
+                            name: "Departure",
+                            description: "Transfer to airport for departure"
+                        }
+                    ]
+                }
+            ],
+            hiddenGems: [
+                {
+                    name: "Secret Waterfall",
+                    description: "A breathtaking waterfall hidden away from the tourist crowds.",
+                    crowdLevel: "Medium"
+                },
+                {
+                    name: "Ancient Temple",
+                    description: "A centuries-old temple with intricate carvings and rich history.",
+                    crowdLevel: "Low"
+                },
+                {
+                    name: "Enchanted Forest",
+                    description: "A mystical forest trail with diverse flora and fauna.",
+                    crowdLevel: "High"
+                }
+            ],
+            experienceReels: [
+                {
+                    title: "Scenic Beauty",
+                    description: "Experience the breathtaking beauty of this destination"
+                },
+                {
+                    title: "Local Culture",
+                    description: "Immerse yourself in the local culture and traditions"
+                },
+                {
+                    title: "Adventure Activities",
+                    description: "Experience thrilling adventures in this destination"
+                }
+            ],
+            hotels: [
+                {
+                    name: "Luxury Resort",
+                    description: "Experience luxury at its finest with premium amenities.",
+                    rating: 4.8,
+                    price: 8500
+                },
+                {
+                    name: "Boutique Hotel",
+                    description: "Charming boutique hotel with personalized service.",
+                    rating: 4.6,
+                    price: 6200
+                },
+                {
+                    name: "Heritage Hotel",
+                    description: "Stay in a beautifully restored heritage property.",
+                    rating: 4.7,
+                    price: 5800
+                }
+            ]
+        };
+
+        // Function to generate travel plan using sample data
+        function generateTravelPlan(destination) {
+            // For now, we'll use the sample data
+            // In a real implementation, this would call an API
+            return Promise.resolve(sampleData);
+        }
+
+        // Function to update the search results page with generated content
+        function updateSearchResults(data, destination) {
+            // Update destination info
+            destinationTitle.textContent = destination;
+            destinationDescription.textContent = `Discover the beauty of ${destination} with our curated travel experiences.`;
+            statValue1.textContent = "24";
+            statValue2.textContent = "4.8";
+            statValue3.textContent = "3";
+
+            // Update day-wise plan
+            dayPlan.innerHTML = '';
+            data.dayPlan.forEach(day => {
+                const dayCard = document.createElement('div');
+                dayCard.className = 'day-card';
+                
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'day-header';
+                
+                const dayTitle = document.createElement('h4');
+                dayTitle.className = 'day-title';
+                dayTitle.textContent = day.title;
+                
+                const dayDate = document.createElement('span');
+                dayDate.className = 'day-date';
+                dayDate.textContent = day.day;
+                
+                dayHeader.appendChild(dayTitle);
+                dayHeader.appendChild(dayDate);
+                
+                const dayActivities = document.createElement('div');
+                dayActivities.className = 'day-activities';
+                
+                day.activities.forEach(activity => {
+                    const dayActivity = document.createElement('div');
+                    dayActivity.className = 'day-activity';
+                    
+                    const activityIcon = document.createElement('div');
+                    activityIcon.className = 'day-activity-icon';
+                    activityIcon.innerHTML = '<i class="fas fa-map-marker-alt"></i>';
+                    
+                    const activityInfo = document.createElement('div');
+                    activityInfo.className = 'day-activity-info';
+                    
+                    const activityHeader = document.createElement('div');
+                    activityHeader.className = 'day-activity-header';
+                    
+                    const activityName = document.createElement('div');
+                    activityName.className = 'day-activity-name';
+                    activityName.textContent = activity.name;
+                    
+                    const activityTime = document.createElement('div');
+                    activityTime.className = 'day-activity-time';
+                    activityTime.textContent = activity.time;
+                    
+                    activityHeader.appendChild(activityName);
+                    activityHeader.appendChild(activityTime);
+                    
+                    const activityDesc = document.createElement('div');
+                    activityDesc.className = 'day-activity-desc';
+                    activityDesc.textContent = activity.description;
+                    
+                    activityInfo.appendChild(activityHeader);
+                    activityInfo.appendChild(activityDesc);
+                    
+                    dayActivity.appendChild(activityIcon);
+                    dayActivity.appendChild(activityInfo);
+                    
+                    dayActivities.appendChild(dayActivity);
+                });
+                
+                dayCard.appendChild(dayHeader);
+                dayCard.appendChild(dayActivities);
+                
+                dayPlan.appendChild(dayCard);
+            });
+
+            // Update hidden gems
+            gemsContainer.innerHTML = '';
+            data.hiddenGems.forEach(gem => {
+                const gemCard = document.createElement('div');
+                gemCard.className = 'gem-card';
+                
+                const gemImg = document.createElement('img');
+                gemImg.className = 'gem-img';
+                gemImg.src = `https://picsum.photos/seed/${gem.name.replace(/\s+/g, '')}/400/300.jpg`;
+                gemImg.alt = gem.name;
+                
+                const gemContent = document.createElement('div');
+                gemContent.className = 'gem-content';
+                
+                const gemTitle = document.createElement('h3');
+                gemTitle.className = 'gem-title';
+                gemTitle.innerHTML = `${gem.name} <span class="gem-badge">Hidden</span>`;
+                
+                const gemDescription = document.createElement('p');
+                gemDescription.className = 'gem-description';
+                gemDescription.textContent = gem.description;
+                
+                const gemCrowdWidget = document.createElement('div');
+                gemCrowdWidget.className = 'gem-crowd-widget';
+                
+                const crowdIconClass = gem.crowdLevel === 'Low' ? 'gem-crowd-low-icon' : 
+                                      gem.crowdLevel === 'Medium' ? 'gem-crowd-medium-icon' : 'gem-crowd-high-icon';
+                
+                gemCrowdWidget.innerHTML = `
+                    <i class="fas fa-users gem-crowd-icon ${crowdIconClass}"></i>
+                    <div class="gem-crowd-info">
+                        <div class="gem-crowd-level">${gem.crowdLevel}</div>
+                        <div class="gem-crowd-location">${destination}</div>
+                    </div>
+                `;
+                
+                const gemFooter = document.createElement('div');
+                gemFooter.className = 'gem-footer';
+                
+                const gemLocation = document.createElement('div');
+                gemLocation.className = 'gem-location';
+                gemLocation.innerHTML = '<i class="fas fa-map-marker-alt"></i><span>Hidden Location</span>';
+                
+                const gemBtn = document.createElement('button');
+                gemBtn.className = 'gem-btn';
+                gemBtn.textContent = 'Explore';
+                
+                gemFooter.appendChild(gemLocation);
+                gemFooter.appendChild(gemBtn);
+                
+                gemContent.appendChild(gemTitle);
+                gemContent.appendChild(gemDescription);
+                gemContent.appendChild(gemCrowdWidget);
+                gemContent.appendChild(gemFooter);
+                
+                gemCard.appendChild(gemImg);
+                gemCard.appendChild(gemContent);
+                
+                gemsContainer.appendChild(gemCard);
+            });
+
+            // Update experience reels
+            reelsContainer.innerHTML = '';
+            data.experienceReels.forEach((reel, index) => {
+                const reelCard = document.createElement('div');
+                reelCard.className = 'reel-card';
+                reelCard.setAttribute('data-video', 'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4');
+                reelCard.setAttribute('data-title', reel.title);
+                reelCard.setAttribute('data-description', reel.description);
+                
+                const reelThumbnail = document.createElement('img');
+                reelThumbnail.className = 'reel-thumbnail';
+                reelThumbnail.src = `https://picsum.photos/seed/${reel.title.replace(/\s+/g, '')}/400/600.jpg`;
+                reelThumbnail.alt = reel.title;
+                
+                const reelOverlay = document.createElement('div');
+                reelOverlay.className = 'reel-overlay';
+                
+                const reelTitle = document.createElement('h4');
+                reelTitle.className = 'reel-title';
+                reelTitle.textContent = reel.title;
+                
+                const reelStats = document.createElement('div');
+                reelStats.className = 'reel-stats';
+                
+                const reelStat1 = document.createElement('div');
+                reelStat1.className = 'reel-stat';
+                reelStat1.innerHTML = '<i class="fas fa-heart"></i><span>' + (Math.floor(Math.random() * 20) + 5) + 'K</span>';
+                
+                const reelStat2 = document.createElement('div');
+                reelStat2.className = 'reel-stat';
+                reelStat2.innerHTML = '<i class="fas fa-eye"></i><span>' + (Math.floor(Math.random() * 50) + 20) + 'K</span>';
+                
+                reelStats.appendChild(reelStat1);
+                reelStats.appendChild(reelStat2);
+                
+                reelOverlay.appendChild(reelTitle);
+                reelOverlay.appendChild(reelStats);
+                
+                const reelPlayButton = document.createElement('div');
+                reelPlayButton.className = 'reel-play-button';
+                reelPlayButton.innerHTML = '<i class="fas fa-play"></i>';
+                
+                reelCard.appendChild(reelThumbnail);
+                reelCard.appendChild(reelOverlay);
+                reelCard.appendChild(reelPlayButton);
+                
+                reelsContainer.appendChild(reelCard);
+            });
+
+            // Update hotels
+            hotelsContainer.innerHTML = '';
+            data.hotels.forEach(hotel => {
+                const hotelCard = document.createElement('div');
+                hotelCard.className = 'hotel-card';
+                
+                const hotelImg = document.createElement('img');
+                hotelImg.className = 'hotel-img';
+                hotelImg.src = `https://picsum.photos/seed/${hotel.name.replace(/\s+/g, '')}/400/300.jpg`;
+                hotelImg.alt = hotel.name;
+                
+                const hotelContent = document.createElement('div');
+                hotelContent.className = 'hotel-content';
+                
+                const hotelTitle = document.createElement('h3');
+                hotelTitle.className = 'hotel-title';
+                hotelTitle.textContent = hotel.name;
+                
+                const hotelRating = document.createElement('div');
+                hotelRating.className = 'hotel-rating';
+                hotelRating.innerHTML = `<i class="fas fa-star"></i><span>${hotel.rating} (${Math.floor(Math.random() * 200) + 50})</span>`;
+                
+                const hotelDescription = document.createElement('p');
+                hotelDescription.className = 'hotel-description';
+                hotelDescription.textContent = hotel.description;
+                
+                const hotelFooter = document.createElement('div');
+                hotelFooter.className = 'hotel-footer';
+                
+                const hotelPrice = document.createElement('div');
+                hotelPrice.className = 'hotel-price';
+                hotelPrice.textContent = `₹${hotel.price}/night`;
+                
+                const hotelBtn = document.createElement('button');
+                hotelBtn.className = 'hotel-btn book-now-btn';
+                hotelBtn.textContent = 'Book Now';
+                
+                hotelFooter.appendChild(hotelPrice);
+                hotelFooter.appendChild(hotelBtn);
+                
+                hotelContent.appendChild(hotelTitle);
+                hotelContent.appendChild(hotelRating);
+                hotelContent.appendChild(hotelDescription);
+                hotelContent.appendChild(hotelFooter);
+                
+                hotelCard.appendChild(hotelImg);
+                hotelCard.appendChild(hotelContent);
+                
+                hotelsContainer.appendChild(hotelCard);
+            });
+        }
+
+        // Chat functionality with sample data
+        async function sendMessage() {
             const message = chatInput.value.trim();
             if (message) {
-                // Show search results page
-                heroSection.style.display = 'none';
-                document.getElementById('gems').style.display = 'none';
-                document.getElementById('activities').style.display = 'none';
-                document.querySelector('footer').style.display = 'none';
-                searchResults.classList.add('active');
+                // Hide any previous error messages
+                errorMessage.classList.remove('show');
                 
-                // Set the title based on the search query
-                resultsTitle.textContent = `Search Results for "${message}"`;
+                // Show loading state
+                const chatInputContainer = document.querySelector('.chat-input-container');
+                chatInputContainer.classList.add('loading');
                 
-                // Update destination info based on search query
-                updateDestinationInfo(message);
+                // Extract destination from message
+                let destination = message;
+                if (message.toLowerCase().includes('delhi')) {
+                    destination = 'Delhi';
+                } else if (message.toLowerCase().includes('mumbai')) {
+                    destination = 'Mumbai';
+                } else if (message.toLowerCase().includes('goa')) {
+                    destination = 'Goa';
+                } else if (message.toLowerCase().includes('rajasthan')) {
+                    destination = 'Rajasthan';
+                } else if (message.toLowerCase().includes('kerala')) {
+                    destination = 'Kerala';
+                } else if (message.toLowerCase().includes('kashmir')) {
+                    destination = 'Kashmir';
+                } else if (message.toLowerCase().includes('himachal')) {
+                    destination = 'Himachal Pradesh';
+                }
                 
-                // Initialize map based on destination
-                initializeMap(message);
-                
-                // Scroll to top
-                window.scrollTo(0, 0);
+                try {
+                    // Generate travel plan using sample data
+                    const travelPlan = await generateTravelPlan(destination);
+                    
+                    if (travelPlan) {
+                        // Show search results page
+                        heroSection.style.display = 'none';
+                        document.getElementById('gems').style.display = 'none';
+                        document.getElementById('activities').style.display = 'none';
+                        document.querySelector('footer').style.display = 'none';
+                        searchResults.classList.add('active');
+                        
+                        // Set the title based on the search query
+                        resultsTitle.textContent = `Travel Plan for ${destination}`;
+                        
+                        // Update the search results with generated content
+                        updateSearchResults(travelPlan, destination);
+                        
+                        // Initialize map based on destination
+                        initializeMap(destination);
+                        
+                        // Scroll to top
+                        window.scrollTo(0, 0);
+                    } else {
+                        // Show error message
+                        errorMessage.classList.add('show');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    // Show error message
+                    errorMessage.classList.add('show');
+                } finally {
+                    // Remove loading state
+                    chatInputContainer.classList.remove('loading');
+                }
                 
                 // Clear input
                 chatInput.value = '';
@@ -4029,7 +4166,7 @@
                 'delhi': [28.7041, 77.1025],
                 'kashmir': [33.7781, 76.5762],
                 'kerala': [10.8505, 76.2711],
-                'himachal': [31.1048, 77.1734]
+                'himachal pradesh': [31.1048, 77.1734]
             };
             
             // Get coordinates for the destination
