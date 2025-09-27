@@ -95,16 +95,16 @@
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         /* Enhanced Weather Widget */
         .weather-widget {
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.4rem;
             background: rgba(255, 255, 255, 0.1);
-            padding: 0.5rem 0.9rem;
+            padding: 0.4rem 0.7rem;
             border-radius: 50px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s;
@@ -118,7 +118,7 @@
 
         .weather-icon {
             color: #fbbf24;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .weather-info {
@@ -128,35 +128,21 @@
 
         .weather-temp {
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
         .weather-location {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--gray);
-        }
-
-        .weather-loading {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #fbbf24;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
         }
 
         /* Live Crowd Widget */
         .crowd-widget {
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.4rem;
             background: rgba(255, 255, 255, 0.1);
-            padding: 0.5rem 0.9rem;
+            padding: 0.4rem 0.7rem;
             border-radius: 50px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s;
@@ -169,7 +155,7 @@
         }
 
         .crowd-icon {
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .crowd-low-icon {
@@ -191,11 +177,11 @@
 
         .crowd-level {
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
         .crowd-location {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--gray);
         }
 
@@ -1195,12 +1181,21 @@
 
         /* Instagram-style Reels */
         .reels-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            display: flex;
             gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .reels-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Edge */
         }
 
         .reel-card {
+            flex: 0 0 auto;
+            width: 200px;
             position: relative;
             border-radius: 12px;
             overflow: hidden;
@@ -1291,13 +1286,22 @@
             opacity: 1;
         }
 
-        .hotels-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
+        .hotels-container {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .hotels-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Edge */
         }
 
         .hotel-card {
+            flex: 0 0 auto;
+            width: 280px;
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(20px);
             border-radius: 16px;
@@ -1330,7 +1334,7 @@
 
         .hotel-img {
             width: 100%;
-            height: 180px;
+            height: 160px;
             object-fit: cover;
             transition: transform 0.5s;
         }
@@ -1616,194 +1620,6 @@
             color: var(--light);
         }
 
-        /* Enhanced Booking Modal */
-        .booking-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-
-        .booking-modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 100%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-content::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .modal-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(90deg, var(--light), var(--primary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            color: var(--gray);
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-
-        .modal-close:hover {
-            color: var(--light);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .modal-body {
-            padding: 2rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.8rem;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.6rem;
-            font-weight: 500;
-            color: var(--light);
-            font-size: 0.95rem;
-        }
-
-        .form-input, .form-select, .form-textarea {
-            width: 100%;
-            background: rgba(30, 41, 59, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--light);
-            padding: 0.9rem 1.2rem;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            transition: all 0.3s;
-        }
-
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-        }
-
-        .form-textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.2rem;
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-            padding: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .btn {
-            padding: 0.9rem 1.8rem;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            font-size: 0.95rem;
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--light);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
-        }
-
-        /* Success Message */
-        .success-message {
-            display: none;
-            background: rgba(16, 185, 129, 0.2);
-            border: 1px solid var(--success);
-            color: var(--success);
-            padding: 1.2rem;
-            border-radius: 12px;
-            margin-bottom: 1.8rem;
-            text-align: center;
-            font-weight: 500;
-        }
-
-        .success-message.active {
-            display: block;
-        }
-
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--primary);
-            animation: spin 1s ease-in-out infinite;
-        }
-
         /* Mobile Navigation Menu */
         .mobile-nav {
             position: fixed;
@@ -1922,28 +1738,40 @@
                 display: block;
             }
 
+            .header-actions {
+                gap: 0.5rem;
+            }
+
             .weather-widget {
-                padding: 0.3rem 0.6rem;
+                padding: 0.3rem 0.5rem;
+            }
+
+            .weather-icon {
+                font-size: 0.9rem;
             }
 
             .weather-temp {
-                font-size: 0.8rem;
+                font-size: 0.75rem;
             }
 
             .weather-location {
-                font-size: 0.7rem;
+                font-size: 0.6rem;
             }
 
             .crowd-widget {
-                padding: 0.3rem 0.6rem;
+                padding: 0.3rem 0.5rem;
+            }
+
+            .crowd-icon {
+                font-size: 0.9rem;
             }
 
             .crowd-level {
-                font-size: 0.8rem;
+                font-size: 0.75rem;
             }
 
             .crowd-location {
-                font-size: 0.7rem;
+                font-size: 0.6rem;
             }
 
             .hero {
@@ -2047,15 +1875,13 @@
             }
 
             .gems-grid,
-            .activities-grid,
-            .hotels-grid {
+            .activities-grid {
                 grid-template-columns: 1fr;
                 gap: 1.2rem;
             }
 
             .gem-img,
-            .activity-img,
-            .hotel-img {
+            .activity-img {
                 height: 160px;
             }
 
@@ -2079,8 +1905,19 @@
             }
 
             .reels-container {
-                grid-template-columns: repeat(2, 1fr);
                 gap: 0.8rem;
+            }
+
+            .reel-card {
+                width: 160px;
+            }
+
+            .hotels-container {
+                gap: 0.8rem;
+            }
+
+            .hotel-card {
+                width: 240px;
             }
 
             .footer-content {
@@ -2123,18 +1960,6 @@
 
             .results-title {
                 font-size: 1.5rem;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .modal-footer {
-                flex-direction: column;
-            }
-
-            .modal-content {
-                max-width: 90%;
             }
         }
 
@@ -2192,25 +2017,12 @@
                 font-size: 0.75rem;
             }
 
-            .reels-container {
-                grid-template-columns: 1fr;
-                gap: 0.8rem;
+            .reel-card {
+                width: 140px;
             }
 
-            .modal-header {
-                padding: 1.5rem;
-            }
-
-            .modal-title {
-                font-size: 1.5rem;
-            }
-
-            .modal-body {
-                padding: 1.5rem;
-            }
-
-            .modal-footer {
-                padding: 1.5rem;
+            .hotel-card {
+                width: 200px;
             }
         }
     </style>
@@ -2241,7 +2053,7 @@
                 <i class="fas fa-users crowd-icon crowd-medium-icon" id="crowdIcon"></i>
                 <div class="crowd-info">
                     <div class="crowd-level" id="crowdLevel">Medium</div>
-                    <div class="crowd-location" id="crowdLocation">Gateway of India</div>
+                    <div class="crowd-location" id="crowdLocation">Gateway</div>
                 </div>
             </div>
             <button class="mobile-menu-btn" id="mobileMenuBtn">
@@ -2280,7 +2092,7 @@
                 <i class="fas fa-users crowd-icon crowd-medium-icon" id="mobileCrowdIcon"></i>
                 <div class="crowd-info">
                     <div class="crowd-level" id="mobileCrowdLevel">Medium</div>
-                    <div class="crowd-location" id="mobileCrowdLocation">Gateway of India</div>
+                    <div class="crowd-location" id="mobileCrowdLocation">Gateway</div>
                 </div>
             </div>
         </div>
@@ -2500,7 +2312,7 @@
                     <i class="fas fa-gem"></i>
                     Hidden Gems to Explore
                 </h3>
-                <div class="gems-grid">
+                <div class="gems-container">
                     <div class="gem-card">
                         <img src="https://images.unsplash.com/photo-1589481633157-cd991b615e8e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Hidden Waterfall" class="gem-img">
                         <div class="gem-content">
@@ -2650,7 +2462,7 @@
                     <i class="fas fa-hotel"></i>
                     Nearby Hotels
                 </h3>
-                <div class="hotels-grid">
+                <div class="hotels-container">
                     <div class="hotel-card">
                         <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Luxury Hotel" class="hotel-img">
                         <div class="hotel-content">
@@ -2962,66 +2774,6 @@
         </div>
     </footer>
 
-    <!-- Enhanced Booking Modal -->
-    <div class="booking-modal" id="bookingModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Book Your Experience</h3>
-                <button class="modal-close" id="modalClose">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="success-message" id="successMessage">
-                    <i class="fas fa-check-circle"></i> Your booking request has been submitted successfully!
-                </div>
-                <form id="bookingForm">
-                    <div class="form-group">
-                        <label class="form-label" for="fullName">Full Name</label>
-                        <input type="text" class="form-input" id="fullName" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="email">Email Address</label>
-                        <input type="email" class="form-input" id="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="phone">Phone Number</label>
-                        <input type="tel" class="form-input" id="phone" required>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label" for="date">Travel Date</label>
-                            <input type="date" class="form-input" id="date" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="travelers">Number of Travelers</label>
-                            <select class="form-select" id="travelers" required>
-                                <option value="">Select</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5+">5+</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="experience">Experience</label>
-                        <input type="text" class="form-input" id="experience" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="message">Special Requests</label>
-                        <textarea class="form-textarea" id="message" placeholder="Any special requests or questions..."></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" id="cancelBtn">Cancel</button>
-                <button class="btn btn-primary" id="submitBtn">Submit Booking</button>
-            </div>
-        </div>
-    </div>
-
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // DOM Elements
@@ -3040,13 +2792,6 @@
         const backBtn = document.getElementById('backBtn');
         const resultsTitle = document.getElementById('resultsTitle');
         const heroSection = document.getElementById('home');
-        const bookingModal = document.getElementById('bookingModal');
-        const modalClose = document.getElementById('modalClose');
-        const cancelBtn = document.getElementById('cancelBtn');
-        const submitBtn = document.getElementById('submitBtn');
-        const bookingForm = document.getElementById('bookingForm');
-        const successMessage = document.getElementById('successMessage');
-        const experienceInput = document.getElementById('experience');
         
         // Weather Elements
         const weatherWidget = document.getElementById('weatherWidget');
@@ -3163,73 +2908,6 @@
             });
         });
 
-        // Booking Modal functionality
-        const bookNowBtns = document.querySelectorAll('.book-now-btn');
-        
-        bookNowBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                // Get the experience name from the parent card
-                const card = btn.closest('.activity-card, .hotel-card');
-                const title = card.querySelector('.activity-title, .hotel-title').textContent;
-                
-                // Set the experience name in the form
-                experienceInput.value = title;
-                
-                // Show the modal
-                bookingModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
-        });
-
-        modalClose.addEventListener('click', () => {
-            bookingModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-            resetForm();
-        });
-
-        cancelBtn.addEventListener('click', () => {
-            bookingModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-            resetForm();
-        });
-
-        // Close modal when clicking outside
-        bookingModal.addEventListener('click', (e) => {
-            if (e.target === bookingModal) {
-                bookingModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-                resetForm();
-            }
-        });
-
-        // Form submission
-        submitBtn.addEventListener('click', () => {
-            if (bookingForm.checkValidity()) {
-                // In a real app, you would send the form data to a server
-                // For demo, we'll just show a success message
-                successMessage.classList.add('active');
-                bookingForm.style.display = 'none';
-                
-                // Reset form after 3 seconds and close modal
-                setTimeout(() => {
-                    bookingModal.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                    resetForm();
-                }, 3000);
-            } else {
-                // If form is invalid, trigger validation
-                bookingForm.reportValidity();
-            }
-        });
-
-        function resetForm() {
-            bookingForm.reset();
-            bookingForm.style.display = 'block';
-            successMessage.classList.remove('active');
-        }
-
         // Voice button functionality (simulated)
         voiceBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -3326,9 +3004,10 @@
             crowdLevel.textContent = data.level.charAt(0).toUpperCase() + data.level.slice(1);
             mobileCrowdLevel.textContent = data.level.charAt(0).toUpperCase() + data.level.slice(1);
             
-            // Update location
-            crowdLocation.textContent = data.location;
-            mobileCrowdLocation.textContent = data.location;
+            // Update location - truncate for mobile
+            const location = data.location;
+            crowdLocation.textContent = location.length > 10 ? location.substring(0, 10) + '...' : location;
+            mobileCrowdLocation.textContent = location.length > 10 ? location.substring(0, 10) + '...' : location;
         }
 
         // Function to simulate crowd data
@@ -3407,7 +3086,7 @@
         }, observerOptions);
 
         // Observe elements for animation
-        document.querySelectorAll('.gem-card, .activity-card, .reel-card').forEach(el => {
+        document.querySelectorAll('.gem-card, .activity-card, .reel-card, .hotel-card').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
             el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
