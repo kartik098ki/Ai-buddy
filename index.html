@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TravelAI - Your Intelligent Travel Companion</title>
+    <title>Bot-Voyage - Your Intelligent Travel Companion</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
@@ -302,32 +302,34 @@
 
         /* Enhanced Popular Searches - Mobile Friendly */
         .popular-searches {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.8rem;
             margin-bottom: 1.5rem;
-            justify-content: center;
         }
 
-        .search-chip {
+        .search-box {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: var(--light);
-            padding: 0.6rem 1rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
+            padding: 1rem;
+            border-radius: 16px;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 0.4rem;
+            justify-content: center;
+            gap: 0.5rem;
+            text-align: center;
             position: relative;
             overflow: hidden;
-            white-space: nowrap;
             font-weight: 500;
+            height: 100px;
         }
 
-        .search-chip::before {
+        .search-box::before {
             content: '';
             position: absolute;
             top: 0;
@@ -338,19 +340,20 @@
             transition: left 0.5s;
         }
 
-        .search-chip:hover::before {
+        .search-box:hover::before {
             left: 100%;
         }
 
-        .search-chip:hover {
-            background: rgba(79, 70, 229, 0.2);
+        .search-box:hover {
+            background: rgba(99, 102, 241, 0.2);
             border-color: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
         }
 
-        .search-chip i {
-            font-size: 0.7rem;
+        .search-box i {
+            font-size: 1.5rem;
+            color: var(--accent);
         }
 
         /* Enhanced Chat Input Container - Mobile Optimized */
@@ -438,32 +441,6 @@
 
         .send-btn:hover {
             background: var(--primary-dark);
-        }
-
-        /* Feature Pills - Mobile Optimized */
-        .feature-pills {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .feature-pill {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 0.4rem 0.8rem;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            color: var(--gray);
-            white-space: nowrap;
-        }
-
-        .feature-pill i {
-            color: var(--primary);
-            font-size: 0.8rem;
         }
 
         /* Trending Destinations Section */
@@ -1126,12 +1103,384 @@
             transform: translateY(-2px);
         }
 
+        /* Search Results Page */
+        .search-results {
+            display: none;
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            padding: 6rem 1rem 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .results-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--primary);
+        }
+
+        .results-title {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--light), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .results-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .results-section {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .results-section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .results-section-title i {
+            color: var(--primary);
+        }
+
+        .day-plan {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .day-card {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 16px;
+            padding: 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .day-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .day-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .day-activities {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .day-activity {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .day-activity:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .day-activity-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 50%;
+            color: var(--primary);
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .day-activity-info {
+            flex: 1;
+        }
+
+        .day-activity-name {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+        }
+
+        .day-activity-desc {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .day-activity-time {
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .media-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .media-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .media-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .media-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.4);
+        }
+
+        .media-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .media-card:hover .media-img {
+            transform: scale(1.05);
+        }
+
+        .media-content {
+            padding: 1.2rem;
+        }
+
+        .media-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            line-height: 1.3;
+        }
+
+        .media-description {
+            color: var(--gray);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        .media-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .hotels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .hotel-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .hotel-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .hotel-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .hotel-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.4);
+        }
+
+        .hotel-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .hotel-card:hover .hotel-img {
+            transform: scale(1.05);
+        }
+
+        .hotel-content {
+            padding: 1.2rem;
+        }
+
+        .hotel-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            line-height: 1.3;
+        }
+
+        .hotel-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-bottom: 0.8rem;
+            color: #fbbf24;
+            font-size: 0.85rem;
+        }
+
+        .hotel-description {
+            color: var(--gray);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        .hotel-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .hotel-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .hotel-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            font-size: 0.85rem;
+        }
+
+        .hotel-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .hotel-btn:hover::before {
+            left: 100%;
+        }
+
+        .hotel-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
         /* Footer */
         footer {
-            background: rgba(15, 23, 42, 0.8);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.9) 100%);
             backdrop-filter: blur(20px);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding: 3rem 1rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
         }
 
         .footer-content {
@@ -1147,6 +1496,19 @@
             font-size: 1.1rem;
             font-weight: 700;
             margin-bottom: 1.2rem;
+            color: var(--light);
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
         }
 
         .footer-links {
@@ -1162,10 +1524,20 @@
             text-decoration: none;
             transition: color 0.3s;
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a::before {
+            content: '•';
+            color: var(--primary);
+            font-size: 1rem;
         }
 
         .footer-links a:hover {
             color: var(--light);
+            transform: translateX(5px);
         }
 
         .social-links {
@@ -1175,8 +1547,8 @@
         }
 
         .social-link {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1198,6 +1570,165 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--gray);
             font-size: 0.85rem;
+        }
+
+        /* Booking Modal */
+        .booking-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .booking-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--light);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .modal-close:hover {
+            color: var(--light);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--light);
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid var(--success);
+            color: var(--success);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .success-message.active {
+            display: block;
         }
 
         /* Loading Animation */
@@ -1361,23 +1892,19 @@
             }
 
             .popular-searches {
-                gap: 0.4rem;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
                 margin-bottom: 1rem;
-                justify-content: flex-start;
-                overflow-x: auto;
-                padding-bottom: 0.3rem;
-                -webkit-overflow-scrolling: touch;
             }
 
-            .popular-searches::-webkit-scrollbar {
-                display: none;
+            .search-box {
+                height: 90px;
+                padding: 0.8rem;
+                font-size: 0.8rem;
             }
 
-            .search-chip {
-                font-size: 0.75rem;
-                padding: 0.4rem 0.8rem;
-                flex-shrink: 0;
-                border-radius: 30px;
+            .search-box i {
+                font-size: 1.3rem;
             }
 
             .chat-input-container {
@@ -1393,26 +1920,6 @@
             .action-btn {
                 width: 32px;
                 height: 32px;
-            }
-
-            .feature-pills {
-                gap: 0.4rem;
-                margin-top: 1rem;
-                justify-content: flex-start;
-                overflow-x: auto;
-                padding-bottom: 0.3rem;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .feature-pills::-webkit-scrollbar {
-                display: none;
-            }
-
-            .feature-pill {
-                font-size: 0.7rem;
-                padding: 0.3rem 0.6rem;
-                flex-shrink: 0;
-                border-radius: 30px;
             }
 
             .trending-destinations {
@@ -1483,13 +1990,17 @@
             }
 
             .gems-grid,
-            .activities-grid {
+            .activities-grid,
+            .media-grid,
+            .hotels-grid {
                 grid-template-columns: 1fr;
                 gap: 1.2rem;
             }
 
             .gem-img,
-            .activity-img {
+            .activity-img,
+            .media-img,
+            .hotel-img {
                 height: 160px;
             }
 
@@ -1525,6 +2036,24 @@
             .social-links {
                 justify-content: center;
             }
+
+            .results-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .results-title {
+                font-size: 1.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-footer {
+                flex-direction: column;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1547,9 +2076,15 @@
                 border-radius: 14px;
             }
 
-            .search-chip {
-                font-size: 0.7rem;
-                padding: 0.35rem 0.7rem;
+            .popular-searches {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+
+            .search-box {
+                height: 80px;
+                padding: 0.6rem;
+                font-size: 0.75rem;
             }
 
             .chat-input-container {
@@ -1560,11 +2095,6 @@
             .action-btn {
                 width: 30px;
                 height: 30px;
-            }
-
-            .feature-pill {
-                font-size: 0.65rem;
-                padding: 0.25rem 0.5rem;
             }
 
             .trending-card {
@@ -1613,7 +2143,7 @@
             <div class="logo-icon">
                 <i class="fas fa-compass"></i>
             </div>
-            TravelAI
+            Bot-Voyage
         </div>
         <nav>
             <a href="#home">Home</a>
@@ -1641,7 +2171,7 @@
                 <div class="logo-icon">
                     <i class="fas fa-compass"></i>
                 </div>
-                TravelAI
+                Bot-Voyage
             </div>
             <button class="mobile-nav-close" id="mobileNavClose">
                 <i class="fas fa-times"></i>
@@ -1676,19 +2206,19 @@
             
             <!-- Floating Elements -->
             <div class="floating-element" style="top: 10%; left: 10%; font-size: 1.2rem; opacity: 0.3;">
-                <i class="fas fa-plane"></i>
+                <i class="fas fa-monument"></i>
             </div>
             <div class="floating-element" style="top: 20%; right: 15%; font-size: 1rem; opacity: 0.4;">
-                <i class="fas fa-mountain"></i>
+                <i class="fas fa-gopuram"></i>
             </div>
             <div class="floating-element" style="top: 60%; left: 5%; font-size: 1.4rem; opacity: 0.3;">
-                <i class="fas fa-umbrella-beach"></i>
+                <i class="fas fa-om"></i>
             </div>
             <div class="floating-element" style="top: 40%; right: 5%; font-size: 1.1rem; opacity: 0.35;">
-                <i class="fas fa-landmark"></i>
+                <i class="fas fa-mosque"></i>
             </div>
             <div class="floating-element" style="top: 70%; left: 20%; font-size: 1.3rem; opacity: 0.25;">
-                <i class="fas fa-ship"></i>
+                <i class="fas fa-dharmachakra"></i>
             </div>
         </div>
         
@@ -1698,21 +2228,21 @@
             
             <div class="chat-container">
                 <div class="popular-searches">
-                    <div class="search-chip">
-                        <i class="fas fa-search"></i>
+                    <div class="search-box">
+                        <i class="fas fa-umbrella-beach"></i>
                         <span>Weekend in Goa</span>
                     </div>
-                    <div class="search-chip">
-                        <i class="fas fa-search"></i>
-                        <span>Hidden gems in Rajasthan</span>
+                    <div class="search-box">
+                        <i class="fas fa-gem"></i>
+                        <span>Hidden Gems in Rajasthan</span>
                     </div>
-                    <div class="search-chip">
-                        <i class="fas fa-search"></i>
-                        <span>Best cafes in Mumbai</span>
+                    <div class="search-box">
+                        <i class="fas fa-coffee"></i>
+                        <span>Best Cafes in Mumbai</span>
                     </div>
-                    <div class="search-chip">
-                        <i class="fas fa-search"></i>
-                        <span>Historical places in Delhi</span>
+                    <div class="search-box">
+                        <i class="fas fa-landmark"></i>
+                        <span>Historical Places in Delhi</span>
                     </div>
                 </div>
                 
@@ -1727,171 +2257,300 @@
                         </button>
                     </div>
                 </div>
-                
-                <div class="feature-pills">
-                    <div class="feature-pill">
-                        <i class="fas fa-language"></i>
-                        <span>Multi-language</span>
-                    </div>
-                    <div class="feature-pill">
-                        <i class="fas fa-map-marked-alt"></i>
-                        <span>Smart Planning</span>
-                    </div>
-                    <div class="feature-pill">
-                        <i class="fas fa-users"></i>
-                        <span>Live Crowd Data</span>
-                    </div>
-                    <div class="feature-pill">
-                        <i class="fas fa-cloud-sun"></i>
-                        <span>Weather Updates</span>
-                    </div>
-                </div>
             </div>
             
             <!-- Trending Destinations Section -->
             <div class="trending-destinations">
-                <h3 class="trending-title">Trending Destinations</h3>
+                <h3 class="trending-title">Trending Indian Destinations</h3>
                 <div class="trending-container">
                     <div class="trending-card">
-                        <img src="https://images.unsplash.com/photo-1564399580075-5dfe19c205f3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Paris" class="trending-img">
-                        <div class="trending-name">Paris</div>
+                        <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Kashmir" class="trending-img">
+                        <div class="trending-name">Kashmir</div>
                     </div>
                     <div class="trending-card">
-                        <img src="https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Bali" class="trending-img">
-                        <div class="trending-name">Bali</div>
+                        <img src="https://images.unsplash.com/photo-1593699583289-6d1a8135a9c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Kerala" class="trending-img">
+                        <div class="trending-name">Kerala</div>
                     </div>
                     <div class="trending-card">
-                        <img src="https://images.unsplash.com/photo-1543429776-2782fc04b43d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Dubai" class="trending-img">
-                        <div class="trending-name">Dubai</div>
-                    </div>
-                    <div class="trending-card">
-                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Rajasthan" class="trending-img">
+                        <img src="https://images.unsplash.com/photo-1477587458883-4717ed88318e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Rajasthan" class="trending-img">
                         <div class="trending-name">Rajasthan</div>
                     </div>
                     <div class="trending-card">
-                        <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Switzerland" class="trending-img">
-                        <div class="trending-name">Switzerland</div>
+                        <img src="https://images.unsplash.com/photo-1596394616838-073a3528f5a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Goa" class="trending-img">
+                        <div class="trending-name">Goa</div>
+                    </div>
+                    <div class="trending-card">
+                        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Himachal" class="trending-img">
+                        <div class="trending-name">Himachal</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Results Page -->
+    <section class="search-results" id="searchResults">
+        <div class="results-header">
+            <button class="back-btn" id="backBtn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back</span>
+            </button>
+            <h2 class="results-title" id="resultsTitle">Search Results</h2>
+        </div>
+        
+        <div class="results-content">
+            <div class="results-section">
+                <h3 class="results-section-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    Your Day-wise Plan
+                </h3>
+                <div class="day-plan">
+                    <div class="day-card">
+                        <h4 class="day-title">Day 1: Arrival</h4>
+                        <div class="day-activities">
+                            <div class="day-activity">
+                                <div class="day-activity-icon">
+                                    <i class="fas fa-plane-arrival"></i>
+                                </div>
+                                <div class="day-activity-info">
+                                    <div class="day-activity-name">Arrive at Destination</div>
+                                    <div class="day-activity-desc">Pick up from airport and transfer to hotel</div>
+                                    <div class="day-activity-time">10:00 AM</div>
+                                </div>
+                            </div>
+                            <div class="day-activity">
+                                <div class="day-activity-icon">
+                                    <i class="fas fa-utensils"></i>
+                                </div>
+                                <div class="day-activity-info">
+                                    <div class="day-activity-name">Local Cuisine Experience</div>
+                                    <div class="day-activity-desc">Taste authentic local dishes</div>
+                                    <div class="day-activity-time">1:00 PM</div>
+                                </div>
+                            </div>
+                            <div class="day-activity">
+                                <div class="day-activity-icon">
+                                    <i class="fas fa-moon"></i>
+                                </div>
+                                <div class="day-activity-info">
+                                    <div class="day-activity-name">Evening Exploration</div>
+                                    <div class="day-activity-desc">Explore the local markets and nightlife</div>
+                                    <div class="day-activity-time">6:00 PM</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card">
+                        <h4 class="day-title">Day 2: Sightseeing</h4>
+                        <div class="day-activities">
+                            <div class="day-activity">
+                                <div class="day-activity-icon">
+                                    <i class="fas fa-landmark"></i>
+                                </div>
+                                <div class="day-activity-info">
+                                    <div class="day-activity-name">Historical Sites</div>
+                                    <div class="day-activity-desc">Visit famous historical landmarks</div>
+                                    <div class="day-activity-time">9:00 AM</div>
+                                </div>
+                            </div>
+                            <div class="day-activity">
+                                <div class="day-activity-icon">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                                <div class="day-activity-info">
+                                    <div class="day-activity-name">Photography Tour</div>
+                                    <div class="day-activity-desc">Capture the beauty of the destination</div>
+                                    <div class="day-activity-time">2:00 PM</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card">
+                        <h4 class="day-title">Day 3: Adventure</h4>
+                        <div class="day-activities">
+                            <div class="day-activity">
+                                <div class="day-activity-icon">
+                                    <i class="fas fa-hiking"></i>
+                                </div>
+                                <div class="day-activity-info">
+                                    <div class="day-activity-name">Adventure Activities</div>
+                                    <div class="day-activity-desc">Experience thrilling adventures</div>
+                                    <div class="day-activity-time">10:00 AM</div>
+                                </div>
+                            </div>
+                            <div class="day-activity">
+                                <div class="day-activity-icon">
+                                    <i class="fas fa-plane-departure"></i>
+                                </div>
+                                <div class="day-activity-info">
+                                    <div class="day-activity-name">Departure</div>
+                                    <div class="day-activity-desc">Transfer to airport for departure</div>
+                                    <div class="day-activity-time">4:00 PM</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <!-- AI Response Section -->
-            <div class="ai-response" id="aiResponse">
-                <div class="ai-header">
-                    <div class="ai-avatar">
-                        <i class="fas fa-robot"></i>
+            <div class="results-section">
+                <h3 class="results-section-title">
+                    <i class="fas fa-gem"></i>
+                    Hidden Gems to Explore
+                </h3>
+                <div class="gems-grid">
+                    <div class="gem-card">
+                        <img src="https://images.unsplash.com/photo-1589481633157-cd991b615e8e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Hidden Waterfall" class="gem-img">
+                        <div class="gem-content">
+                            <h3 class="gem-title">
+                                Secret Waterfall
+                                <span class="gem-badge">Must Visit</span>
+                            </h3>
+                            <p class="gem-description">A breathtaking waterfall hidden away from the tourist crowds.</p>
+                            <div class="gem-footer">
+                                <div class="gem-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Remote Location</span>
+                                </div>
+                                <button class="gem-btn">Explore</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="ai-title">Here's your personalized travel plan</div>
-                </div>
-                
-                <div class="ai-content">
-                    <div class="ai-map" id="map"></div>
                     
-                    <div class="ai-details">
-                        <div class="detail-card">
-                            <div class="detail-title">
-                                <i class="fas fa-users"></i>
-                                Live Crowd Levels
-                            </div>
-                            <div class="crowd-levels">
-                                <div class="crowd-item">
-                                    <span class="crowd-name">Gateway of India</span>
-                                    <div class="crowd-bar">
-                                        <div class="crowd-fill" style="background-color: var(--danger); width: 0%;"></div>
-                                    </div>
+                    <div class="gem-card">
+                        <img src="https://images.unsplash.com/photo-1596394616838-073a3528f5a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Ancient Temple" class="gem-img">
+                        <div class="gem-content">
+                            <h3 class="gem-title">
+                                Ancient Temple
+                                <span class="gem-badge">Historical</span>
+                            </h3>
+                            <p class="gem-description">A centuries-old temple with intricate carvings and rich history.</p>
+                            <div class="gem-footer">
+                                <div class="gem-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Heritage Site</span>
                                 </div>
-                                <div class="crowd-item">
-                                    <span class="crowd-name">Marine Drive</span>
-                                    <div class="crowd-bar">
-                                        <div class="crowd-fill" style="background-color: var(--warning); width: 0%;"></div>
-                                    </div>
-                                </div>
-                                <div class="crowd-item">
-                                    <span class="crowd-name">Juhu Beach</span>
-                                    <div class="crowd-bar">
-                                        <div class="crowd-fill" style="background-color: var(--success); width: 0%;"></div>
-                                    </div>
-                                </div>
+                                <button class="gem-btn">Visit</button>
                             </div>
                         </div>
-                        
-                        <div class="detail-card">
-                            <div class="detail-title">
-                                <i class="fas fa-map-marker-alt"></i>
-                                Nearby Activities
-                            </div>
-                            <div class="activities-list">
-                                <div class="activity-item">
-                                    <div class="activity-icon"><i class="fas fa-landmark"></i></div>
-                                    <div class="activity-info">
-                                        <div class="activity-name">Gateway of India</div>
-                                        <div class="activity-meta">Historical Monument • 1.2 km</div>
-                                    </div>
+                    </div>
+                    
+                    <div class="gem-card">
+                        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Forest Trail" class="gem-img">
+                        <div class="gem-content">
+                            <h3 class="gem-title">
+                                Enchanted Forest
+                                <span class="gem-badge">Nature</span>
+                            </h3>
+                            <p class="gem-description">A mystical forest trail with diverse flora and fauna.</p>
+                            <div class="gem-footer">
+                                <div class="gem-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Nature Reserve</span>
                                 </div>
-                                <div class="activity-item">
-                                    <div class="activity-icon"><i class="fas fa-utensils"></i></div>
-                                    <div class="activity-info">
-                                        <div class="activity-name">Seafood Restaurant</div>
-                                        <div class="activity-meta">Dining • 0.8 km</div>
-                                    </div>
-                                </div>
-                                <div class="activity-item">
-                                    <div class="activity-icon"><i class="fas fa-shopping-bag"></i></div>
-                                    <div class="activity-info">
-                                        <div class="activity-name">Colaba Market</div>
-                                        <div class="activity-meta">Shopping • 1.5 km</div>
-                                    </div>
-                                </div>
+                                <button class="gem-btn">Trek</button>
                             </div>
                         </div>
-                        
-                        <div class="detail-card">
-                            <div class="detail-title">
-                                <i class="fas fa-calendar-alt"></i>
-                                Your Travel Plan
+                    </div>
+                </div>
+            </div>
+            
+            <div class="results-section">
+                <h3 class="results-section-title">
+                    <i class="fas fa-photo-video"></i>
+                    Photos & Videos
+                </h3>
+                <div class="media-grid">
+                    <div class="media-card">
+                        <img src="https://images.unsplash.com/photo-1593699583289-6d1a8135a9c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Destination" class="media-img">
+                        <div class="media-content">
+                            <h3 class="media-title">Scenic Beauty</h3>
+                            <p class="media-description">Breathtaking views of the destination.</p>
+                            <div class="media-type">
+                                <i class="fas fa-image"></i>
+                                <span>Photo Gallery</span>
                             </div>
-                            <div class="travel-plan">
-                                <div class="plan-day">
-                                    <div class="plan-day-title">Day 1: Arrival & Exploration</div>
-                                    <div class="plan-activity">
-                                        <div class="plan-activity-icon"><i class="fas fa-plane-arrival"></i></div>
-                                        <div class="plan-activity-info">
-                                            <div class="plan-activity-name">Arrive at Mumbai Airport</div>
-                                            <div class="plan-activity-time">10:00 AM</div>
-                                        </div>
-                                    </div>
-                                    <div class="plan-activity">
-                                        <div class="plan-activity-icon"><i class="fas fa-hotel"></i></div>
-                                        <div class="plan-activity-info">
-                                            <div class="plan-activity-name">Check-in at Hotel</div>
-                                            <div class="plan-activity-time">12:00 PM</div>
-                                        </div>
-                                    </div>
-                                    <div class="plan-activity">
-                                        <div class="plan-activity-icon"><i class="fas fa-landmark"></i></div>
-                                        <div class="plan-activity-info">
-                                            <div class="plan-activity-name">Visit Gateway of India</div>
-                                            <div class="plan-activity-time">3:00 PM</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="plan-day">
-                                    <div class="plan-day-title">Day 2: Sightseeing</div>
-                                    <div class="plan-activity">
-                                        <div class="plan-activity-icon"><i class="fas fa-route"></i></div>
-                                        <div class="plan-activity-info">
-                                            <div class="plan-activity-name">Marine Drive Walk</div>
-                                            <div class="plan-activity-time">9:00 AM</div>
-                                        </div>
-                                    </div>
-                                    <div class="plan-activity">
-                                        <div class="plan-activity-icon"><i class="fas fa-umbrella-beach"></i></div>
-                                        <div class="plan-activity-info">
-                                            <div class="plan-activity-name">Juhu Beach</div>
-                                            <div class="plan-activity-time">2:00 PM</div>
-                                        </div>
-                                    </div>
-                                </div>
+                        </div>
+                    </div>
+                    
+                    <div class="media-card">
+                        <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Experience" class="media-img">
+                        <div class="media-content">
+                            <h3 class="media-title">Travel Experience</h3>
+                            <p class="media-description">Experience the culture and traditions.</p>
+                            <div class="media-type">
+                                <i class="fas fa-video"></i>
+                                <span>Video Reel</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="media-card">
+                        <img src="https://images.unsplash.com/photo-1477587458883-4717ed88318e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Adventure" class="media-img">
+                        <div class="media-content">
+                            <h3 class="media-title">Adventure Activities</h3>
+                            <p class="media-description">Thrilling adventures for adrenaline junkies.</p>
+                            <div class="media-type">
+                                <i class="fas fa-video"></i>
+                                <span>Video Reel</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="results-section">
+                <h3 class="results-section-title">
+                    <i class="fas fa-hotel"></i>
+                    Nearby Hotels
+                </h3>
+                <div class="hotels-grid">
+                    <div class="hotel-card">
+                        <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Luxury Hotel" class="hotel-img">
+                        <div class="hotel-content">
+                            <h3 class="hotel-title">Luxury Resort</h3>
+                            <div class="hotel-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.8 (324)</span>
+                            </div>
+                            <p class="hotel-description">Experience luxury at its finest with premium amenities.</p>
+                            <div class="hotel-footer">
+                                <div class="hotel-price">₹8,500/night</div>
+                                <button class="hotel-btn book-now-btn">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="hotel-card">
+                        <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Boutique Hotel" class="hotel-img">
+                        <div class="hotel-content">
+                            <h3 class="hotel-title">Boutique Hotel</h3>
+                            <div class="hotel-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.6 (198)</span>
+                            </div>
+                            <p class="hotel-description">Charming boutique hotel with personalized service.</p>
+                            <div class="hotel-footer">
+                                <div class="hotel-price">₹6,200/night</div>
+                                <button class="hotel-btn book-now-btn">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="hotel-card">
+                        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Heritage Hotel" class="hotel-img">
+                        <div class="hotel-content">
+                            <h3 class="hotel-title">Heritage Hotel</h3>
+                            <div class="hotel-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.7 (256)</span>
+                            </div>
+                            <p class="hotel-description">Stay in a beautifully restored heritage property.</p>
+                            <div class="hotel-footer">
+                                <div class="hotel-price">₹5,800/night</div>
+                                <button class="hotel-btn book-now-btn">Book Now</button>
                             </div>
                         </div>
                     </div>
@@ -2055,7 +2714,7 @@
                                 <i class="fas fa-clock"></i>
                                 <span>5 Days</span>
                             </div>
-                            <button class="activity-btn">Book Now</button>
+                            <button class="activity-btn book-now-btn">Book Now</button>
                         </div>
                     </div>
                 </div>
@@ -2078,13 +2737,13 @@
                                 <i class="fas fa-clock"></i>
                                 <span>3 Days</span>
                             </div>
-                            <button class="activity-btn">Book Now</button>
+                            <button class="activity-btn book-now-btn">Book Now</button>
                         </div>
                     </div>
                 </div>
                 
                 <div class="activity-card">
-                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Desert Safari" class="activity-img">
+                    <img src="https://images.unsplash.com/photo-1596394616838-073a3528f5a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Desert Safari" class="activity-img">
                     <div class="activity-content">
                         <h3 class="activity-title">Rajasthan Desert Safari</h3>
                         <div class="activity-price">
@@ -2101,7 +2760,7 @@
                                 <i class="fas fa-clock"></i>
                                 <span>2 Days</span>
                             </div>
-                            <button class="activity-btn">Book Now</button>
+                            <button class="activity-btn book-now-btn">Book Now</button>
                         </div>
                     </div>
                 </div>
@@ -2124,13 +2783,13 @@
                                 <i class="fas fa-clock"></i>
                                 <span>3 Days</span>
                             </div>
-                            <button class="activity-btn">Book Now</button>
+                            <button class="activity-btn book-now-btn">Book Now</button>
                         </div>
                     </div>
                 </div>
                 
                 <div class="activity-card">
-                    <img src="https://images.unsplash.com/photo-1519904981063-b0cf448d479e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Yoga Retreat" class="activity-img">
+                    <img src="https://images.unsplash.com/photo-1519904916838-073a3528f5a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Yoga Retreat" class="activity-img">
                     <div class="activity-content">
                         <h3 class="activity-title">Himalayan Yoga Retreat</h3>
                         <div class="activity-price">
@@ -2147,7 +2806,7 @@
                                 <i class="fas fa-clock"></i>
                                 <span>7 Days</span>
                             </div>
-                            <button class="activity-btn">Book Now</button>
+                            <button class="activity-btn book-now-btn">Book Now</button>
                         </div>
                     </div>
                 </div>
@@ -2170,7 +2829,7 @@
                                 <i class="fas fa-clock"></i>
                                 <span>6 Days</span>
                             </div>
-                            <button class="activity-btn">Book Now</button>
+                            <button class="activity-btn book-now-btn">Book Now</button>
                         </div>
                     </div>
                 </div>
@@ -2182,8 +2841,8 @@
     <footer>
         <div class="footer-content">
             <div class="footer-column">
-                <h3>TravelAI</h3>
-                <p>Your intelligent travel companion for exploring the world.</p>
+                <h3>Bot-Voyage</h3>
+                <p>Your intelligent travel companion for exploring the incredible India.</p>
                 <div class="social-links">
                     <a href="#" class="social-link">
                         <i class="fab fa-facebook-f"></i>
@@ -2195,7 +2854,7 @@
                         <i class="fab fa-instagram"></i>
                     </a>
                     <a href="#" class="social-link">
-                        <i class="fab fa-linkedin-in"></i>
+                        <i class="fab fa-youtube"></i>
                     </a>
                 </div>
             </div>
@@ -2226,23 +2885,82 @@
                     <li><a href="#">Help Center</a></li>
                     <li><a href="#">Safety Information</a></li>
                     <li><a href="#">Cancellation Options</a></li>
-                    <li><a href="#">COVID-19 Response</a></li>
+                    <li><a href="#">COVID-19 Guidelines</a></li>
                 </ul>
             </div>
         </div>
         
         <div class="footer-bottom">
-            <p>&copy; 2023 TravelAI. All rights reserved.</p>
+            <p>&copy; 2023 Bot-Voyage. All rights reserved.</p>
         </div>
     </footer>
+
+    <!-- Booking Modal -->
+    <div class="booking-modal" id="bookingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Book Your Experience</h3>
+                <button class="modal-close" id="modalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i> Your booking request has been submitted successfully!
+                </div>
+                <form id="bookingForm">
+                    <div class="form-group">
+                        <label class="form-label" for="fullName">Full Name</label>
+                        <input type="text" class="form-input" id="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email Address</label>
+                        <input type="email" class="form-input" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="phone">Phone Number</label>
+                        <input type="tel" class="form-input" id="phone" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="date">Travel Date</label>
+                            <input type="date" class="form-input" id="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="travelers">Number of Travelers</label>
+                            <select class="form-select" id="travelers" required>
+                                <option value="">Select</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5+">5+</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="experience">Experience</label>
+                        <input type="text" class="form-input" id="experience" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="message">Special Requests</label>
+                        <textarea class="form-textarea" id="message" placeholder="Any special requests or questions..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                <button class="btn btn-primary" id="submitBtn">Submit Booking</button>
+            </div>
+        </div>
+    </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // DOM Elements
         const chatInput = document.getElementById('chatInput');
         const sendBtn = document.getElementById('sendBtn');
-        const aiResponse = document.getElementById('aiResponse');
-        const searchChips = document.querySelectorAll('.search-chip');
+        const searchBoxes = document.querySelectorAll('.search-box');
         const activityTabs = document.querySelectorAll('.activity-tab');
         const gemBtns = document.querySelectorAll('.gem-btn');
         const activityBtns = document.querySelectorAll('.activity-btn');
@@ -2251,6 +2969,17 @@
         const mobileNav = document.getElementById('mobileNav');
         const mobileNavClose = document.getElementById('mobileNavClose');
         const overlay = document.getElementById('overlay');
+        const searchResults = document.getElementById('searchResults');
+        const backBtn = document.getElementById('backBtn');
+        const resultsTitle = document.getElementById('resultsTitle');
+        const heroSection = document.getElementById('home');
+        const bookingModal = document.getElementById('bookingModal');
+        const modalClose = document.getElementById('modalClose');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const bookingForm = document.getElementById('bookingForm');
+        const successMessage = document.getElementById('successMessage');
+        const experienceInput = document.getElementById('experience');
         
         // Weather Elements
         const weatherWidget = document.getElementById('weatherWidget');
@@ -2290,67 +3019,22 @@
             });
         });
 
-        // Initialize map (hidden by default)
-        let map;
-        
-        function initMap() {
-            // Create map centered on Mumbai
-            map = L.map('map').setView([19.0760, 72.8777], 12);
-            
-            // Add tile layer
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-            
-            // Add markers for popular locations
-            const locations = [
-                { name: "Gateway of India", coords: [18.9217, 72.8347], crowd: "high" },
-                { name: "Marine Drive", coords: [18.9443, 72.8232], crowd: "medium" },
-                { name: "Juhu Beach", coords: [19.0884, 72.8265], crowd: "low" },
-                { name: "Colaba Causeway", coords: [18.9197, 72.8323], crowd: "medium" }
-            ];
-            
-            locations.forEach(location => {
-                const color = location.crowd === "high" ? "#ef4444" : 
-                             location.crowd === "medium" ? "#f59e0b" : "#10b981";
-                
-                const marker = L.circleMarker(location.coords, {
-                    radius: 10,
-                    fillColor: color,
-                    color: "#fff",
-                    weight: 2,
-                    opacity: 1,
-                    fillOpacity: 0.8
-                }).addTo(map);
-                
-                marker.bindPopup(`<b>${location.name}</b><br>Crowd Level: ${location.crowd}`);
-            });
-        }
-
         // Chat functionality
         function sendMessage() {
             const message = chatInput.value.trim();
             if (message) {
-                // Show AI response
-                aiResponse.classList.add('active');
+                // Show search results page
+                heroSection.style.display = 'none';
+                document.getElementById('gems').style.display = 'none';
+                document.getElementById('activities').style.display = 'none';
+                document.querySelector('footer').style.display = 'none';
+                searchResults.classList.add('active');
                 
-                // Initialize map if not already done
-                if (!map) {
-                    setTimeout(initMap, 100);
-                }
+                // Set the title based on the search query
+                resultsTitle.textContent = `Search Results for "${message}"`;
                 
-                // Animate crowd level bars
-                setTimeout(() => {
-                    const crowdFills = document.querySelectorAll('.crowd-fill');
-                    crowdFills[0].style.width = '90%';
-                    crowdFills[1].style.width = '60%';
-                    crowdFills[2].style.width = '30%';
-                }, 500);
-                
-                // Scroll to AI response
-                setTimeout(() => {
-                    aiResponse.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 300);
+                // Scroll to top
+                window.scrollTo(0, 0);
                 
                 // Clear input
                 chatInput.value = '';
@@ -2364,13 +3048,25 @@
             }
         });
 
-        // Search chips functionality
-        searchChips.forEach(chip => {
-            chip.addEventListener('click', () => {
-                const searchQuery = chip.textContent.trim();
+        // Search boxes functionality
+        searchBoxes.forEach(box => {
+            box.addEventListener('click', () => {
+                const searchQuery = box.textContent.trim();
                 chatInput.value = `I want to ${searchQuery.toLowerCase()}`;
                 sendMessage();
             });
+        });
+
+        // Back button functionality
+        backBtn.addEventListener('click', () => {
+            searchResults.classList.remove('active');
+            heroSection.style.display = 'flex';
+            document.getElementById('gems').style.display = 'block';
+            document.getElementById('activities').style.display = 'block';
+            document.querySelector('footer').style.display = 'block';
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
         });
 
         // Activity tabs functionality
@@ -2391,13 +3087,72 @@
             });
         });
 
-        // Activity buttons functionality
-        activityBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // In a real app, this would open the booking flow
-                console.log('Book activity clicked');
+        // Booking Modal functionality
+        const bookNowBtns = document.querySelectorAll('.book-now-btn');
+        
+        bookNowBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Get the experience name from the parent card
+                const card = btn.closest('.activity-card, .hotel-card');
+                const title = card.querySelector('.activity-title, .hotel-title').textContent;
+                
+                // Set the experience name in the form
+                experienceInput.value = title;
+                
+                // Show the modal
+                bookingModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
             });
         });
+
+        modalClose.addEventListener('click', () => {
+            bookingModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            resetForm();
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            bookingModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            resetForm();
+        });
+
+        // Close modal when clicking outside
+        bookingModal.addEventListener('click', (e) => {
+            if (e.target === bookingModal) {
+                bookingModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                resetForm();
+            }
+        });
+
+        // Form submission
+        submitBtn.addEventListener('click', () => {
+            if (bookingForm.checkValidity()) {
+                // In a real app, you would send the form data to a server
+                // For demo, we'll just show a success message
+                successMessage.classList.add('active');
+                bookingForm.style.display = 'none';
+                
+                // Reset form after 3 seconds and close modal
+                setTimeout(() => {
+                    bookingModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                    resetForm();
+                }, 3000);
+            } else {
+                // If form is invalid, trigger validation
+                bookingForm.reportValidity();
+            }
+        });
+
+        function resetForm() {
+            bookingForm.reset();
+            bookingForm.style.display = 'block';
+            successMessage.classList.remove('active');
+        }
 
         // Voice button functionality (simulated)
         voiceBtns.forEach(btn => {
@@ -2445,25 +3200,16 @@
         // Function to fetch weather data
         async function fetchWeatherData(city = 'Mumbai') {
             try {
-                // For demo purposes, we'll use mock data
-                // In a real app, you would use: 
-                // const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=YOUR_API_KEY&units=metric`);
-                // const data = await response.json();
+                // Replace with your actual API key
+                const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY';
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
                 
-                // Mock weather data
-                const mockData = {
-                    name: city,
-                    main: {
-                        temp: Math.floor(Math.random() * 15) + 20 // Random temp between 20-35°C
-                    },
-                    weather: [
-                        {
-                            main: ['Clear', 'Clouds', 'Rain'][Math.floor(Math.random() * 3)]
-                        }
-                    ]
-                };
+                if (!response.ok) {
+                    throw new Error('Weather data not available');
+                }
                 
-                updateWeatherUI(mockData);
+                const data = await response.json();
+                updateWeatherUI(data);
             } catch (error) {
                 console.error('Error fetching weather data:', error);
                 // Fallback to default values if API fails
